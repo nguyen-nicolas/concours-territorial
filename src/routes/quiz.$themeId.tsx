@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 import {
   ArrowLeft,
   ArrowRight,
@@ -38,6 +40,18 @@ function QuizPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const { session } = useSession();
+  const enregistre = useRef(false);
+  const total = theme?.questions.length ?? 0;
+
+  useEffect(() => {
+    if (!finished || !session || enregistre.current || total === 0) return;
+    enregistre.current = true;
+    void supabase
+      .from("quiz_resultats")
+      .insert({ user_id: session.user.id, theme_id: themeId, score, total });
+  }, [finished, session, score, total, themeId]);
+
 
   if (!theme) {
     return (
@@ -100,6 +114,7 @@ function QuizPage() {
                 setSelected(null);
                 setScore(0);
                 setFinished(false);
+                enregistre.current = false;
               }}
               className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
             >
@@ -114,6 +129,22 @@ function QuizPage() {
               Autres thèmes
             </Link>
           </div>
+          {session ? (
+            <p className="text-muted-foreground mt-6 text-center text-sm">
+              Résultat enregistré dans{" "}
+              <Link to="/mon-espace" className="text-primary font-semibold underline-offset-4 hover:underline">
+                votre espace
+              </Link>
+              .
+            </p>
+          ) : (
+            <p className="text-muted-foreground mt-6 text-center text-sm">
+              <Link to="/auth" className="text-primary font-semibold underline-offset-4 hover:underline">
+                Créez votre compte
+              </Link>{" "}
+              pour conserver vos scores et suivre votre progression.
+            </p>
+          )}
         </main>
       </div>
     );

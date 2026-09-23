@@ -10,6 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
@@ -18,6 +21,20 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedMonEspaceRoute = AuthenticatedMonEspaceRouteImport.update({
+  id: '/mon-espace',
+  path: '/mon-espace',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ConcoursIndexRoute = ConcoursIndexRouteImport.update({
   id: '/concours/',
@@ -37,12 +54,16 @@ const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours': typeof ConcoursIndexRoute
@@ -50,21 +71,45 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/mon-espace'
+    | '/concours/$concoursId'
+    | '/quiz/$themeId'
+    | '/concours/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours'
+  to:
+    | '/'
+    | '/auth'
+    | '/mon-espace'
+    | '/concours/$concoursId'
+    | '/quiz/$themeId'
+    | '/concours'
   id:
-    '__root__' | '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours/'
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/mon-espace'
+    | '/concours/$concoursId'
+    | '/quiz/$themeId'
+    | '/concours/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
@@ -78,6 +123,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/mon-espace': {
+      id: '/_authenticated/mon-espace'
+      path: '/mon-espace'
+      fullPath: '/mon-espace'
+      preLoaderRoute: typeof AuthenticatedMonEspaceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/concours/': {
       id: '/concours/'
@@ -103,8 +169,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedMonEspaceRoute: typeof AuthenticatedMonEspaceRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedMonEspaceRoute: AuthenticatedMonEspaceRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
