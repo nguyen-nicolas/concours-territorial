@@ -212,6 +212,8 @@ function traduire(message: string) {
     return "Un compte existe déjà avec cette adresse. Connectez-vous.";
   if (message.includes("Email not confirmed"))
     return "Votre adresse n'est pas encore confirmée : cliquez sur le lien reçu par e-mail.";
+  if (message.includes("not allowed") || message.includes("Placeholder"))
+    return "Cette adresse e-mail n'est pas acceptée. Utilisez une adresse réelle capable de recevoir le message de confirmation.";
   if (message.includes("known to be weak") || message.includes("easy to guess"))
     return "Ce mot de passe est trop courant et a déjà fuité sur Internet : choisissez-en un autre, plus personnel.";
   if (message.toLowerCase().includes("password"))
