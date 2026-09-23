@@ -10,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { getTheme, quizThemes } from "@/lib/quizData";
+import { TAILLE_SESSION, tirerSession } from "@/lib/quizSession";
 
 export const Route = createFileRoute("/quiz/$themeId")({
   head: ({ params }) => {
@@ -42,7 +43,10 @@ function QuizPage() {
   const [finished, setFinished] = useState(false);
   const { session } = useSession();
   const enregistre = useRef(false);
-  const total = theme?.questions.length ?? 0;
+  const [questions, setQuestions] = useState(() =>
+    theme ? tirerSession(theme, TAILLE_SESSION) : [],
+  );
+  const total = questions.length;
 
   useEffect(() => {
     if (!finished || !session || enregistre.current || total === 0) return;
