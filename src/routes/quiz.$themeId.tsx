@@ -129,7 +129,7 @@ function QuizPage() {
               className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
             >
               <RotateCcw className="h-4 w-4" />
-              Refaire ce quiz
+              Nouvelle série de questions
             </button>
             <Link
               to="/"
