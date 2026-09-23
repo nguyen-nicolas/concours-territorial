@@ -33,7 +33,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : exercices de français — orthographe, grammaire, vocabulaire",
       "Admission : entretien avec le jury sur la motivation et l'aptitude au poste",
     ],
-    themeIds: ["culture-generale", "statut-fpt"],
+    themeIds: ["culture-generale", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Orthographe et grammaire", "Dictée", "Compréhension de texte"],
   },
   {
@@ -48,7 +48,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : questionnaire à choix multiples sur les missions de l'ATSEM et la petite enfance",
       "Admission : entretien sur la motivation et les situations professionnelles",
     ],
-    themeIds: ["culture-generale", "statut-fpt"],
+    themeIds: ["culture-generale", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Petite enfance et hygiène", "Situations professionnelles"],
   },
   {
@@ -63,7 +63,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : questionnaire portant sur la spécialité choisie",
       "Admission : entretien professionnel avec le jury",
     ],
-    themeIds: ["culture-generale", "statut-fpt"],
+    themeIds: ["culture-generale", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Hygiène et sécurité au travail", "Questions par spécialité"],
   },
   {
@@ -78,7 +78,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : réponses à des questions techniques dans la spécialité",
       "Admission : entretien portant sur l'encadrement d'équipe et l'environnement territorial",
     ],
-    themeIds: ["culture-generale", "statut-fpt", "gestion-comptabilite"],
+    themeIds: ["culture-generale", "statut-fpt", "gestion-comptabilite", "orthographe", "grammaire"],
     aVenir: ["Encadrement d'équipe", "Hygiène et sécurité"],
   },
   {
@@ -93,7 +93,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : explication de texte relatif à un problème de société",
       "Admission : épreuves physiques et entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "droit-public", "statut-fpt"],
+    themeIds: ["culture-generale", "droit-public", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Pouvoirs de police du maire", "Explication de texte"],
   },
   {
@@ -109,13 +109,11 @@ export const concoursList: Concours[] = [
       "Admissibilité : réponses à des questions sur des problèmes concrets (droit public ou finances publiques)",
       "Admission : entretien avec le jury",
     ],
-    themeIds: [
-      "culture-generale",
+    themeIds: ["culture-generale",
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite",
-    ],
+      "gestion-comptabilite",, "orthographe", "grammaire"],
     aVenir: ["Méthode de la note administrative", "Orthographe et grammaire"],
   },
   {
@@ -131,7 +129,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : note ou projet à partir d'un dossier",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt"],
+    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Politiques jeunesse", "Méthode de projet"],
   },
   {
@@ -146,7 +144,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : rapport technique avec propositions opérationnelles à partir d'un dossier",
       "Admission : entretien avec le jury sur les compétences techniques",
     ],
-    themeIds: ["culture-generale", "cgct", "gestion-comptabilite"],
+    themeIds: ["culture-generale", "cgct", "gestion-comptabilite", "orthographe", "grammaire"],
     aVenir: ["Méthode du rapport technique", "Commande publique"],
   },
   {
@@ -162,7 +160,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : questions sur les politiques culturelles",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt"],
+    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Politiques culturelles", "Méthode de la note"],
   },
   {
@@ -178,13 +176,11 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse ou note administrative dans la spécialité",
       "Admission : entretien avec le jury sur les motivations et les compétences",
     ],
-    themeIds: [
-      "culture-generale",
+    themeIds: ["culture-generale",
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite",
-    ],
+      "gestion-comptabilite",, "orthographe", "grammaire"],
     aVenir: ["Note de synthèse", "Dissertation de culture générale"],
   },
   {
@@ -200,7 +196,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse à partir d'un dossier technique",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "gestion-comptabilite"],
+    themeIds: ["culture-generale", "cgct", "gestion-comptabilite", "orthographe", "grammaire"],
     aVenir: ["Commande publique", "Transition écologique"],
   },
   {
@@ -216,7 +212,7 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse sur les bibliothèques et la lecture publique",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt"],
+    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire"],
     aVenir: ["Lecture publique", "Note de synthèse"],
   },
 ];
