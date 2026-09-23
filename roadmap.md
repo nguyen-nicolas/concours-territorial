@@ -6,6 +6,6 @@
 - [x] Épreuves de français : orthographe, grammaire, dictées
 - [x] Cours de mathématiques : 5 niveaux (bases → ingénieur en chef), 11 cours, 25 questions
 - [x] Cours de méthode : note administrative, note de synthèse, rapport technique
-- [ ] Méthode « répondre quand on ne sait pas » (oral et écrit)
+- [x] Méthode « répondre quand on ne sait pas » (oral et écrit)
 - [ ] Culture générale approfondie (dossiers thématiques)
 - [ ] Génération de nouvelles questions par l'IA (banque de questions en base, pas de répétition)
