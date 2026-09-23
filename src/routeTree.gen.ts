@@ -17,6 +17,8 @@ import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
 import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as MathsIndexRouteImport } from './routes/maths.index'
+import { Route as MethodeIndexRouteImport } from './routes/methode.index'
+import { Route as MethodeMethodeIdRouteImport } from './routes/methode.$methodeId'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
 import { Route as FrancaisDicteeDicteeIdRouteImport } from './routes/francais.dictee.$dicteeId'
 import { Route as MathsCoursCoursIdRouteImport } from './routes/maths.cours.$coursId'
@@ -60,6 +62,16 @@ const MathsIndexRoute = MathsIndexRouteImport.update({
   path: '/maths/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MethodeIndexRoute = MethodeIndexRouteImport.update({
+  id: '/methode/',
+  path: '/methode/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodeMethodeIdRoute = MethodeMethodeIdRouteImport.update({
+  id: '/methode/$methodeId',
+  path: '/methode/$methodeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
   id: '/quiz/$themeId',
   path: '/quiz/$themeId',
@@ -81,10 +93,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
+  '/methode/': typeof MethodeIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -93,10 +107,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours': typeof ConcoursIndexRoute
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
+  '/methode': typeof MethodeIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -107,10 +123,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
+  '/methode/': typeof MethodeIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -121,10 +139,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/concours/'
     | '/francais/'
     | '/maths/'
+    | '/methode/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   fileRoutesByTo: FileRoutesByTo
@@ -133,10 +153,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/concours'
     | '/francais'
     | '/maths'
+    | '/methode'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   id:
@@ -146,10 +168,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
+    | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/concours/'
     | '/francais/'
     | '/maths/'
+    | '/methode/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   fileRoutesById: FileRoutesById
@@ -159,10 +183,12 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
+  MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
+  MethodeIndexRoute: typeof MethodeIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
   MathsCoursCoursIdRoute: typeof MathsCoursCoursIdRoute
 }
@@ -225,6 +251,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MathsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/methode/': {
+      id: '/methode/'
+      path: '/methode'
+      fullPath: '/methode/'
+      preLoaderRoute: typeof MethodeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/methode/$methodeId': {
+      id: '/methode/$methodeId'
+      path: '/methode/$methodeId'
+      fullPath: '/methode/$methodeId'
+      preLoaderRoute: typeof MethodeMethodeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quiz/$themeId': {
       id: '/quiz/$themeId'
       path: '/quiz/$themeId'
@@ -265,10 +305,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
+  MethodeMethodeIdRoute: MethodeMethodeIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
+  MethodeIndexRoute: MethodeIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,
   MathsCoursCoursIdRoute: MathsCoursCoursIdRoute,
 }
