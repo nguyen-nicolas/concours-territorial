@@ -7,7 +7,7 @@ export const Route = createFileRoute("/savoir-repondre/")({
   head: () => {
     const description =
       "Méthode pour répondre quand on ne connaît pas la réponse, à l'écrit comme à l'oral des concours de la fonction publique territoriale : techniques, formulations et réflexes.";
-    const title = "Répondre quand on ne sait pas | Prépa Territoriale";
+    const title = "Face à l'inconnu | Prépa Territoriale";
     return {
       meta: [
         { title },
@@ -31,7 +31,7 @@ function SavoirRepondreIndex() {
           Méthode transversale
         </p>
         <h1 className="text-foreground font-display mt-3 text-3xl sm:text-4xl">
-          Répondre quand on ne sait pas
+          Face à l'inconnu
         </h1>
         <p className="text-muted-foreground mt-3 font-sans text-lg">
           Aucun candidat ne connaît tout. Ce qui distingue les admis, c'est la
