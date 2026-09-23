@@ -19,7 +19,7 @@ export const Route = createFileRoute("/savoir-repondre/")({
       ],
     };
   },
-  component: SavoirRepondreIndex;
+  component: SavoirRepondreIndex,
 });
 
 function SavoirRepondreIndex() {
