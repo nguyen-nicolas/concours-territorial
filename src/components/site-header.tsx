@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Landmark, GraduationCap } from "lucide-react";
+import { Landmark, GraduationCap, UserRound } from "lucide-react";
+import { useSession } from "@/hooks/useSession";
 
 export function SiteHeader({ dark = false }: { dark?: boolean }) {
+  const { session } = useSession();
   return (
     <header
       className={
