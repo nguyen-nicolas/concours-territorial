@@ -89,6 +89,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             }
           >
             Mathématiques
+          </Link>
           <Link
             to="/concours"
             className={
