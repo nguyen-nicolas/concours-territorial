@@ -1,3 +1,5 @@
+import { francaisThemes } from "./francaisQuiz";
+
 export interface QuizQuestion {
   question: string;
   options: string[];
