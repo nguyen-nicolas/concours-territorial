@@ -119,6 +119,7 @@ function QuizPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <button
               onClick={() => {
+                setQuestions(tirerSession(theme, TAILLE_SESSION));
                 setCurrentIndex(0);
                 setSelected(null);
                 setScore(0);
