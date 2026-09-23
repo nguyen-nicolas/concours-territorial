@@ -10,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { getTheme, quizThemes } from "@/lib/quizData";
+import { TAILLE_SESSION, tirerSession } from "@/lib/quizSession";
 
 export const Route = createFileRoute("/quiz/$themeId")({
   head: ({ params }) => {
@@ -42,7 +43,10 @@ function QuizPage() {
   const [finished, setFinished] = useState(false);
   const { session } = useSession();
   const enregistre = useRef(false);
-  const total = theme?.questions.length ?? 0;
+  const [questions, setQuestions] = useState(() =>
+    theme ? tirerSession(theme, TAILLE_SESSION) : [],
+  );
+  const total = questions.length;
 
   useEffect(() => {
     if (!finished || !session || enregistre.current || total === 0) return;
@@ -79,7 +83,6 @@ function QuizPage() {
     );
   }
 
-  const questions = theme.questions;
   const current = questions[currentIndex];
   const isLast = currentIndex === questions.length - 1;
 
@@ -116,6 +119,7 @@ function QuizPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <button
               onClick={() => {
+                setQuestions(tirerSession(theme, TAILLE_SESSION));
                 setCurrentIndex(0);
                 setSelected(null);
                 setScore(0);
@@ -125,7 +129,7 @@ function QuizPage() {
               className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
             >
               <RotateCcw className="h-4 w-4" />
-              Refaire ce quiz
+              Nouvelle série de questions
             </button>
             <Link
               to="/"
