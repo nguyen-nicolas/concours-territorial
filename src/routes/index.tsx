@@ -128,8 +128,9 @@ function Index() {
                 Choisissez votre thème d'entraînement
               </h2>
               <p className="text-muted-foreground mt-2 max-w-xl">
-                Chaque quiz comporte {quizThemes[0].questions.length} questions
-                avec correction détaillée et explication du texte de référence.
+                Chaque quiz comporte {quizThemes[0]?.questions.length ?? 0}{" "}
+                questions avec correction détaillée et explication du texte de
+                référence.
               </p>
             </div>
           </div>
