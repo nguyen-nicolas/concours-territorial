@@ -118,8 +118,10 @@ function ConcoursIndex() {
           ))}
         </div>
 
-        <p className="text-muted-foreground mt-10 text-sm">
-          {categorieLabels[filtre === "tous" ? "B" : filtre]}
+        <p className="text-muted-foreground mt-10 max-w-2xl text-sm leading-relaxed">
+          {filtre === "tous"
+            ? "Catégorie C : exécution et proximité · Catégorie B : application et encadrement intermédiaire · Catégorie A : conception et direction."
+            : categorieLabels[filtre]}
         </p>
       </section>
     </div>
