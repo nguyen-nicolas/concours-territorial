@@ -20,6 +20,8 @@ import { Route as MathsIndexRouteImport } from './routes/maths.index'
 import { Route as MethodeIndexRouteImport } from './routes/methode.index'
 import { Route as MethodeMethodeIdRouteImport } from './routes/methode.$methodeId'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
+import { Route as SavoirRepondreIndexRouteImport } from './routes/savoir-repondre.index'
+import { Route as SavoirRepondreFicheIdRouteImport } from './routes/savoir-repondre.$ficheId'
 import { Route as FrancaisDicteeDicteeIdRouteImport } from './routes/francais.dictee.$dicteeId'
 import { Route as MathsCoursCoursIdRouteImport } from './routes/maths.cours.$coursId'
 
@@ -77,6 +79,16 @@ const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
   path: '/quiz/$themeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SavoirRepondreIndexRoute = SavoirRepondreIndexRouteImport.update({
+  id: '/savoir-repondre/',
+  path: '/savoir-repondre/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavoirRepondreFicheIdRoute = SavoirRepondreFicheIdRouteImport.update({
+  id: '/savoir-repondre/$ficheId',
+  path: '/savoir-repondre/$ficheId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FrancaisDicteeDicteeIdRoute = FrancaisDicteeDicteeIdRouteImport.update({
   id: '/francais/dictee/$dicteeId',
   path: '/francais/dictee/$dicteeId',
@@ -95,10 +107,12 @@ export interface FileRoutesByFullPath {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/methode/': typeof MethodeIndexRoute
+  '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -109,10 +123,12 @@ export interface FileRoutesByTo {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours': typeof ConcoursIndexRoute
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
   '/methode': typeof MethodeIndexRoute
+  '/savoir-repondre': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -125,10 +141,12 @@ export interface FileRoutesById {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/methode/': typeof MethodeIndexRoute
+  '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
@@ -141,10 +159,12 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
+    | '/savoir-repondre/$ficheId'
     | '/concours/'
     | '/francais/'
     | '/maths/'
     | '/methode/'
+    | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   fileRoutesByTo: FileRoutesByTo
@@ -155,10 +175,12 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
+    | '/savoir-repondre/$ficheId'
     | '/concours'
     | '/francais'
     | '/maths'
     | '/methode'
+    | '/savoir-repondre'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   id:
@@ -170,10 +192,12 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
+    | '/savoir-repondre/$ficheId'
     | '/concours/'
     | '/francais/'
     | '/maths/'
     | '/methode/'
+    | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
   fileRoutesById: FileRoutesById
@@ -185,10 +209,12 @@ export interface RootRouteChildren {
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
+  SavoirRepondreFicheIdRoute: typeof SavoirRepondreFicheIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
   MethodeIndexRoute: typeof MethodeIndexRoute
+  SavoirRepondreIndexRoute: typeof SavoirRepondreIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
   MathsCoursCoursIdRoute: typeof MathsCoursCoursIdRoute
 }
@@ -272,6 +298,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizThemeIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/savoir-repondre/': {
+      id: '/savoir-repondre/'
+      path: '/savoir-repondre'
+      fullPath: '/savoir-repondre/'
+      preLoaderRoute: typeof SavoirRepondreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/savoir-repondre/$ficheId': {
+      id: '/savoir-repondre/$ficheId'
+      path: '/savoir-repondre/$ficheId'
+      fullPath: '/savoir-repondre/$ficheId'
+      preLoaderRoute: typeof SavoirRepondreFicheIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/francais/dictee/$dicteeId': {
       id: '/francais/dictee/$dicteeId'
       path: '/francais/dictee/$dicteeId'
@@ -307,10 +347,12 @@ const rootRouteChildren: RootRouteChildren = {
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   MethodeMethodeIdRoute: MethodeMethodeIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
+  SavoirRepondreFicheIdRoute: SavoirRepondreFicheIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
   MethodeIndexRoute: MethodeIndexRoute,
+  SavoirRepondreIndexRoute: SavoirRepondreIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,
   MathsCoursCoursIdRoute: MathsCoursCoursIdRoute,
 }
