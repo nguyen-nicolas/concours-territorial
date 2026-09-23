@@ -603,6 +603,7 @@ export const quizThemes: QuizTheme[] = [
       },
     ],
   },
+  ...francaisThemes,
 ];
 
 export function getTheme(id: string | undefined): QuizTheme | undefined {
