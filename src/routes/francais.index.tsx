@@ -63,7 +63,7 @@ function FrancaisPage() {
                   {theme.description}
                 </p>
                 <p className="mt-4 font-sans text-xs uppercase tracking-wider text-muted-foreground">
-                  {theme.level} · {theme.questions.length} questions
+                  {theme.level} · {theme.questions.length} questions en banque
                 </p>
               </Link>
             ))}

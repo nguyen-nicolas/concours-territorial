@@ -130,9 +130,9 @@ function Index() {
                 Choisissez votre thème d'entraînement
               </h2>
               <p className="text-muted-foreground mt-2 max-w-xl">
-                Chaque quiz comporte {quizThemes[0]?.questions.length ?? 0}{" "}
-                questions avec correction détaillée et explication du texte de
-                référence.
+                Chaque série tire 10 questions au hasard dans la banque du
+                thème, dans un ordre différent à chaque fois, avec correction
+                détaillée.
               </p>
             </div>
             <Link
@@ -165,7 +165,8 @@ function Index() {
                   </p>
                   <div className="border-border mt-4 flex items-center justify-between border-t pt-4">
                     <span className="text-muted-foreground text-xs font-medium">
-                      {theme.questions.length} questions · {theme.level}
+                      {theme.questions.length} questions en banque ·{" "}
+                      {theme.level}
                     </span>
                     <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold">
                       Réviser
