@@ -110,9 +110,11 @@ function Index() {
             </div>
             <div>
               <dt className="text-muted-foreground text-xs tracking-wide uppercase">
-                Accès
+                Concours
               </dt>
-              <dd className="font-display mt-1 text-3xl font-bold">Gratuit</dd>
+              <dd className="font-display mt-1 text-3xl font-bold">
+                {concoursList.length}
+              </dd>
             </div>
           </dl>
         </div>
@@ -132,6 +134,13 @@ function Index() {
                 référence.
               </p>
             </div>
+            <Link
+              to="/concours"
+              className="border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
+            >
+              Voir par concours
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {quizThemes.map((theme) => {
