@@ -10,9 +10,10 @@ import { createDonCheckout } from "@/lib/dons.functions";
 import { useSession } from "@/hooks/useSession";
 
 export const Route = createFileRoute("/soutenir")({
-  validateSearch: (search: Record<string, unknown>): { session_id?: string } => ({
-    session_id: typeof search.session_id === "string" ? search.session_id : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { session_id?: string } => {
+    const sid = search["session_id"];
+    return typeof sid === "string" ? { session_id: sid } : {};
+  },
   head: () => ({
     meta: [
       { title: "Soutenir le projet — Prépa Territoriale" },
@@ -61,10 +62,11 @@ function SoutenirPage() {
   const checkoutOptions = useMemo(
     () => ({
       fetchClientSecret: async (): Promise<string> => {
+        const email = session?.user?.email;
         const result = await createDonCheckout({
           data: {
             amountInCents: montantEffectif,
-            customerEmail: session?.user?.email ?? undefined,
+            ...(email ? { customerEmail: email } : {}),
             returnUrl: `${window.location.origin}/soutenir?session_id={CHECKOUT_SESSION_ID}`,
             environment: getStripeEnvironment(),
           },
