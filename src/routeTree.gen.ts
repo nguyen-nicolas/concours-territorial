@@ -19,6 +19,7 @@ import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as MathsIndexRouteImport } from './routes/maths.index'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
 import { Route as FrancaisDicteeDicteeIdRouteImport } from './routes/francais.dictee.$dicteeId'
+import { Route as MathsCoursCoursIdRouteImport } from './routes/maths.cours.$coursId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -69,6 +70,11 @@ const FrancaisDicteeDicteeIdRoute = FrancaisDicteeDicteeIdRouteImport.update({
   path: '/francais/dictee/$dicteeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MathsCoursCoursIdRoute = MathsCoursCoursIdRouteImport.update({
+  id: '/maths/cours/$coursId',
+  path: '/maths/cours/$coursId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
+  '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
+  '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
+  '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/francais/'
     | '/maths/'
     | '/francais/dictee/$dicteeId'
+    | '/maths/cours/$coursId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/francais'
     | '/maths'
     | '/francais/dictee/$dicteeId'
+    | '/maths/cours/$coursId'
   id:
     | '__root__'
     | '/'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/francais/'
     | '/maths/'
     | '/francais/dictee/$dicteeId'
+    | '/maths/cours/$coursId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
+  MathsCoursCoursIdRoute: typeof MathsCoursCoursIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FrancaisDicteeDicteeIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/maths/cours/$coursId': {
+      id: '/maths/cours/$coursId'
+      path: '/maths/cours/$coursId'
+      fullPath: '/maths/cours/$coursId'
+      preLoaderRoute: typeof MathsCoursCoursIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -250,6 +270,7 @@ const rootRouteChildren: RootRouteChildren = {
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,
+  MathsCoursCoursIdRoute: MathsCoursCoursIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
