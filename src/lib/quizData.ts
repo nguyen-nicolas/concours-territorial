@@ -1,3 +1,5 @@
+import { banqueFrancais } from "./banqueFrancais";
+import { banqueTerritoriale } from "./banqueTerritoriale";
 import { francaisThemes } from "./francaisQuiz";
 import { mathsThemes } from "./mathsQuiz";
 
@@ -18,7 +20,7 @@ export interface QuizTheme {
   questions: QuizQuestion[];
 }
 
-export const quizThemes: QuizTheme[] = [
+const themesDeBase: QuizTheme[] = [
   {
     id: "culture-generale",
     title: "Culture générale territoriale",
@@ -609,6 +611,15 @@ export const quizThemes: QuizTheme[] = [
   ...francaisThemes,
   ...mathsThemes,
 ];
+
+/** Banque complète : questions d'origine + questions supplémentaires. */
+export const quizThemes: QuizTheme[] = themesDeBase.map((theme) => {
+  const extra =
+    banqueTerritoriale[theme.id] ?? banqueFrancais[theme.id] ?? [];
+  return extra.length
+    ? { ...theme, questions: [...theme.questions, ...extra] }
+    : theme;
+});
 
 export function getTheme(id: string | undefined): QuizTheme | undefined {
   return quizThemes.find((t) => t.id === id);
