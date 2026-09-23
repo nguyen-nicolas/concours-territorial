@@ -213,23 +213,49 @@ function QuizPage() {
                   : "border-destructive/40 bg-destructive/5"
               }`}
             >
-              <p className="flex items-center gap-2 text-sm font-semibold">
-                {isCorrect ? (
-                  <>
+              {isCorrect ? (
+                <>
+                  <p className="text-success flex items-center gap-2 text-sm font-semibold">
                     <CheckCircle2 className="text-success h-4 w-4" />
                     Bonne réponse !
-                  </>
-                ) : (
-                  <>
+                  </p>
+                  <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                    {current.explanation}
+                  </p>
+                </>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-destructive flex items-center gap-2 text-sm font-semibold">
                     <XCircle className="text-destructive h-4 w-4" />
-                    Réponse : {String.fromCharCode(65 + current.answerIndex)} —{" "}
-                    {current.options[current.answerIndex]}
-                  </>
-                )}
-              </p>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-                {current.explanation}
-              </p>
+                    Ce n'était pas la bonne réponse
+                  </p>
+                  <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3">
+                    <p className="text-destructive text-xs font-semibold tracking-wide uppercase">
+                      Votre réponse — {String.fromCharCode(65 + (selected ?? 0))}
+                    </p>
+                    <p className="mt-1 text-sm font-medium">
+                      {current.options[selected ?? 0]}
+                    </p>
+                    {current.optionNotes[selected ?? 0] && (
+                      <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
+                        {current.optionNotes[selected ?? 0]}
+                      </p>
+                    )}
+                  </div>
+                  <div className="rounded-lg border border-success/30 bg-success/10 p-3">
+                    <p className="text-success text-xs font-semibold tracking-wide uppercase">
+                      La bonne réponse —{" "}
+                      {String.fromCharCode(65 + current.answerIndex)}
+                    </p>
+                    <p className="mt-1 text-sm font-medium">
+                      {current.options[current.answerIndex]}
+                    </p>
+                    <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
+                      {current.explanation}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
