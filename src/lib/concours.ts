@@ -113,7 +113,7 @@ export const concoursList: Concours[] = [
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite",, "orthographe", "grammaire"],
+      "gestion-comptabilite", "orthographe", "grammaire"],
     aVenir: ["Méthode de la note administrative", "Orthographe et grammaire"],
   },
   {
@@ -180,7 +180,7 @@ export const concoursList: Concours[] = [
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite",, "orthographe", "grammaire"],
+      "gestion-comptabilite", "orthographe", "grammaire"],
     aVenir: ["Note de synthèse", "Dissertation de culture générale"],
   },
   {
