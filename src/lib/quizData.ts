@@ -1,4 +1,5 @@
 import { francaisThemes } from "./francaisQuiz";
+import { mathsThemes } from "./mathsQuiz";
 
 export interface QuizQuestion {
   question: string;
@@ -606,6 +607,7 @@ export const quizThemes: QuizTheme[] = [
     ],
   },
   ...francaisThemes,
+  ...mathsThemes,
 ];
 
 export function getTheme(id: string | undefined): QuizTheme | undefined {

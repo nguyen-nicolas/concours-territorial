@@ -190,7 +190,7 @@ export const mathsThemes: QuizTheme[] = [
         explanation:
           "C'(q) = 2q − 18 s'annule en q = 9, en passant du négatif au positif : c'est bien un minimum, de valeur C(9) = 39.",
         optionNotes: [
-          "",
+          null,
           "18 est le coefficient b, pas le point d'annulation : celui-ci est −b/2a = 9.",
           "En 0 la dérivée vaut −18, la fonction décroît encore : ce n'est pas un minimum.",
           "120 est l'ordonnée à l'origine (coût fixe), pas un volume optimal.",
