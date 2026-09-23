@@ -212,7 +212,9 @@ function traduire(message: string) {
     return "Un compte existe déjà avec cette adresse. Connectez-vous.";
   if (message.includes("Email not confirmed"))
     return "Votre adresse n'est pas encore confirmée : cliquez sur le lien reçu par e-mail.";
-  if (message.includes("Password"))
+  if (message.includes("known to be weak") || message.includes("easy to guess"))
+    return "Ce mot de passe est trop courant et a déjà fuité sur Internet : choisissez-en un autre, plus personnel.";
+  if (message.toLowerCase().includes("password"))
     return "Mot de passe trop court : 8 caractères minimum.";
   return "Une erreur est survenue. Réessayez dans un instant.";
 }
