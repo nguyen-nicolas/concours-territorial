@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { quizThemes } from "@/lib/quizData";
+import { concoursList } from "@/lib/concours";
 
 export const Route = createFileRoute("/")({
   head: () => ({
