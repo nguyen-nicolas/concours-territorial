@@ -40,6 +40,18 @@ function QuizPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const { session } = useSession();
+  const enregistre = useRef(false);
+  const total = theme?.questions.length ?? 0;
+
+  useEffect(() => {
+    if (!finished || !session || enregistre.current || total === 0) return;
+    enregistre.current = true;
+    void supabase
+      .from("quiz_resultats")
+      .insert({ user_id: session.user.id, theme_id: themeId, score, total });
+  }, [finished, session, score, total, themeId]);
+
 
   if (!theme) {
     return (
