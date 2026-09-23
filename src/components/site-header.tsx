@@ -48,6 +48,16 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             Accueil
           </Link>
           <Link
+            to="/concours"
+            className={
+              dark
+                ? "hover:bg-primary-foreground/10 hidden rounded-md px-3 py-2 text-sm transition-colors sm:block"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden rounded-md px-3 py-2 text-sm transition-colors sm:block"
+            }
+          >
+            Les concours
+          </Link>
+          <Link
             to="/"
             hash="themes"
             className={
@@ -59,8 +69,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             Les thèmes
           </Link>
           <Link
-            to="/"
-            hash="themes"
+            to="/concours"
             className={
               dark
                 ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"

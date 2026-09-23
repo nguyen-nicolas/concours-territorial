@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
+import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConcoursIndexRoute = ConcoursIndexRouteImport.update({
+  id: '/concours/',
+  path: '/concours/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConcoursConcoursIdRoute = ConcoursConcoursIdRouteImport.update({
+  id: '/concours/$concoursId',
+  path: '/concours/$concoursId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
@@ -25,28 +37,37 @@ const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/concours/': typeof ConcoursIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/concours': typeof ConcoursIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
+  '/concours/': typeof ConcoursIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/quiz/$themeId'
+  fullPaths: '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quiz/$themeId'
-  id: '__root__' | '/' | '/quiz/$themeId'
+  to: '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours'
+  id:
+    '__root__' | '/' | '/concours/$concoursId' | '/quiz/$themeId' | '/concours/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
+  ConcoursIndexRoute: typeof ConcoursIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -56,6 +77,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concours/': {
+      id: '/concours/'
+      path: '/concours'
+      fullPath: '/concours/'
+      preLoaderRoute: typeof ConcoursIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concours/$concoursId': {
+      id: '/concours/$concoursId'
+      path: '/concours/$concoursId'
+      fullPath: '/concours/$concoursId'
+      preLoaderRoute: typeof ConcoursConcoursIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz/$themeId': {
@@ -70,7 +105,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
+  ConcoursIndexRoute: ConcoursIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
