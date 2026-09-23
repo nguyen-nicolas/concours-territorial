@@ -63,6 +63,10 @@ function QuizPage() {
   const current = questions[currentIndex];
   const isLast = currentIndex === questions.length - 1;
 
+  if (!current) {
+    return null;
+  }
+
   if (finished) {
     const percentage = Math.round((score / questions.length) * 100);
     let verdict: string;
