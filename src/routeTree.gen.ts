@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as SoutenirRouteImport } from './routes/soutenir'
 import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
@@ -39,6 +40,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoutenirRoute = SoutenirRouteImport.update({
+  id: '/soutenir',
+  path: '/soutenir',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedMonEspaceRoute = AuthenticatedMonEspaceRouteImport.update({
@@ -115,6 +121,7 @@ const MathsCoursCoursIdRoute = MathsCoursCoursIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/soutenir': typeof SoutenirRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
@@ -133,6 +140,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/soutenir': typeof SoutenirRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/soutenir': typeof SoutenirRoute
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/soutenir'
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/soutenir'
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/soutenir'
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  SoutenirRoute: typeof SoutenirRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   CultureDossierIdRoute: typeof CultureDossierIdRoute
   MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
@@ -266,6 +279,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soutenir': {
+      id: '/soutenir'
+      path: '/soutenir'
+      fullPath: '/soutenir'
+      preLoaderRoute: typeof SoutenirRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/mon-espace': {
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  SoutenirRoute: SoutenirRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   CultureDossierIdRoute: CultureDossierIdRoute,
   MethodeMethodeIdRoute: MethodeMethodeIdRoute,
