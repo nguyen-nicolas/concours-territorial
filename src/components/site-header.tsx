@@ -74,12 +74,23 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             to="/concours"
             className={
               dark
-                ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"
-                : "bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"
+                ? "hover:bg-primary-foreground/10 hidden rounded-md px-3 py-2 text-sm transition-colors sm:inline-flex sm:items-center sm:gap-2"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden rounded-md px-3 py-2 text-sm transition-colors sm:inline-flex sm:items-center sm:gap-2"
             }
           >
             <GraduationCap className="h-4 w-4" />
             S'entraîner
+          </Link>
+          <Link
+            to={session ? "/mon-espace" : "/auth"}
+            className={
+              dark
+                ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"
+                : "bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"
+            }
+          >
+            <UserRound className="h-4 w-4" />
+            {session ? "Mon espace" : "Se connecter"}
           </Link>
         </nav>
       </div>
