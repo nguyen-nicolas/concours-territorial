@@ -47,9 +47,15 @@ function QuizPage() {
   useEffect(() => {
     if (!finished || !session || enregistre.current || total === 0) return;
     enregistre.current = true;
-    void supabase
+    supabase
       .from("quiz_resultats")
-      .insert({ user_id: session.user.id, theme_id: themeId, score, total });
+      .insert({ user_id: session.user.id, theme_id: themeId, score, total })
+      .then(({ error }) => {
+        if (error) {
+          enregistre.current = false;
+          console.error(error);
+        }
+      });
   }, [finished, session, score, total, themeId]);
 
 

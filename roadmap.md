@@ -2,7 +2,7 @@
 
 - [x] Quiz QCM par thème avec correction détaillée (5 thèmes, 30 questions)
 - [x] Choix du concours : catalogue des concours territoriaux (A/B/C), page détail, thèmes filtrés
-- [ ] Comptes utilisateurs (Lovable Cloud) + sauvegarde du concours choisi et de la progression
+- [x] Comptes utilisateurs (Lovable Cloud) + sauvegarde du concours choisi et de la progression
 - [ ] Épreuves de français : orthographe, grammaire, dictées
 - [ ] Cours de méthode : note administrative, note de synthèse, rapport technique
 - [ ] Méthode « répondre quand on ne sait pas » (oral et écrit)
