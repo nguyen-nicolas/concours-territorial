@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
+import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -46,6 +47,11 @@ const ConcoursConcoursIdRoute = ConcoursConcoursIdRouteImport.update({
   path: '/concours/$concoursId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FrancaisIndexRoute = FrancaisIndexRouteImport.update({
+  id: '/francais/',
+  path: '/francais/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizThemeIdRoute = QuizThemeIdRouteImport.update({
   id: '/quiz/$themeId',
   path: '/quiz/$themeId',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/francais/': typeof FrancaisIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours': typeof ConcoursIndexRoute
+  '/francais': typeof FrancaisIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/francais/': typeof FrancaisIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/quiz/$themeId'
     | '/concours/'
+    | '/francais/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/quiz/$themeId'
     | '/concours'
+    | '/francais'
   id:
     | '__root__'
     | '/'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/concours/$concoursId'
     | '/quiz/$themeId'
     | '/concours/'
+    | '/francais/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -113,6 +125,7 @@ export interface RootRouteChildren {
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
+  FrancaisIndexRoute: typeof FrancaisIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -159,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConcoursConcoursIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/francais/': {
+      id: '/francais/'
+      path: '/francais'
+      fullPath: '/francais/'
+      preLoaderRoute: typeof FrancaisIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quiz/$themeId': {
       id: '/quiz/$themeId'
       path: '/quiz/$themeId'
@@ -187,6 +207,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
+  FrancaisIndexRoute: FrancaisIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
