@@ -108,7 +108,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
                 : "text-muted-foreground hover:text-foreground hover:bg-accent hidden rounded-md px-3 py-2 text-sm transition-colors lg:block"
             }
           >
-            Si je ne sais pas
+            Face à l'inconnu
           </Link>
           <Link
             to="/culture"
