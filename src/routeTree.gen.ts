@@ -20,6 +20,8 @@ import { Route as CultureIndexRouteImport } from './routes/culture.index'
 import { Route as CultureDossierIdRouteImport } from './routes/culture.$dossierId'
 import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as MathsIndexRouteImport } from './routes/maths.index'
+import { Route as MemoIndexRouteImport } from './routes/memo.index'
+import { Route as MemoFicheIdRouteImport } from './routes/memo.$ficheId'
 import { Route as MethodeIndexRouteImport } from './routes/methode.index'
 import { Route as MethodeMethodeIdRouteImport } from './routes/methode.$methodeId'
 import { Route as QuizThemeIdRouteImport } from './routes/quiz.$themeId'
@@ -82,6 +84,16 @@ const MathsIndexRoute = MathsIndexRouteImport.update({
   path: '/maths/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MemoIndexRoute = MemoIndexRouteImport.update({
+  id: '/memo/',
+  path: '/memo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoFicheIdRoute = MemoFicheIdRouteImport.update({
+  id: '/memo/$ficheId',
+  path: '/memo/$ficheId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MethodeIndexRoute = MethodeIndexRouteImport.update({
   id: '/methode/',
   path: '/methode/',
@@ -125,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
@@ -132,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/culture/': typeof CultureIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
+  '/memo/': typeof MemoIndexRoute
   '/methode/': typeof MethodeIndexRoute
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
@@ -144,6 +158,7 @@ export interface FileRoutesByTo {
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
@@ -151,6 +166,7 @@ export interface FileRoutesByTo {
   '/culture': typeof CultureIndexRoute
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
+  '/memo': typeof MemoIndexRoute
   '/methode': typeof MethodeIndexRoute
   '/savoir-repondre': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
@@ -165,6 +181,7 @@ export interface FileRoutesById {
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
@@ -172,6 +189,7 @@ export interface FileRoutesById {
   '/culture/': typeof CultureIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
+  '/memo/': typeof MemoIndexRoute
   '/methode/': typeof MethodeIndexRoute
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
@@ -186,6 +204,7 @@ export interface FileRouteTypes {
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
@@ -193,6 +212,7 @@ export interface FileRouteTypes {
     | '/culture/'
     | '/francais/'
     | '/maths/'
+    | '/memo/'
     | '/methode/'
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
@@ -205,6 +225,7 @@ export interface FileRouteTypes {
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
@@ -212,6 +233,7 @@ export interface FileRouteTypes {
     | '/culture'
     | '/francais'
     | '/maths'
+    | '/memo'
     | '/methode'
     | '/savoir-repondre'
     | '/francais/dictee/$dicteeId'
@@ -225,6 +247,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
@@ -232,6 +255,7 @@ export interface FileRouteTypes {
     | '/culture/'
     | '/francais/'
     | '/maths/'
+    | '/memo/'
     | '/methode/'
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
@@ -245,6 +269,7 @@ export interface RootRouteChildren {
   SoutenirRoute: typeof SoutenirRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   CultureDossierIdRoute: typeof CultureDossierIdRoute
+  MemoFicheIdRoute: typeof MemoFicheIdRoute
   MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   SavoirRepondreFicheIdRoute: typeof SavoirRepondreFicheIdRoute
@@ -252,6 +277,7 @@ export interface RootRouteChildren {
   CultureIndexRoute: typeof CultureIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
+  MemoIndexRoute: typeof MemoIndexRoute
   MethodeIndexRoute: typeof MethodeIndexRoute
   SavoirRepondreIndexRoute: typeof SavoirRepondreIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
@@ -337,6 +363,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MathsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/memo/': {
+      id: '/memo/'
+      path: '/memo'
+      fullPath: '/memo/'
+      preLoaderRoute: typeof MemoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memo/$ficheId': {
+      id: '/memo/$ficheId'
+      path: '/memo/$ficheId'
+      fullPath: '/memo/$ficheId'
+      preLoaderRoute: typeof MemoFicheIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/methode/': {
       id: '/methode/'
       path: '/methode'
@@ -407,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   SoutenirRoute: SoutenirRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   CultureDossierIdRoute: CultureDossierIdRoute,
+  MemoFicheIdRoute: MemoFicheIdRoute,
   MethodeMethodeIdRoute: MethodeMethodeIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   SavoirRepondreFicheIdRoute: SavoirRepondreFicheIdRoute,
@@ -414,6 +455,7 @@ const rootRouteChildren: RootRouteChildren = {
   CultureIndexRoute: CultureIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
+  MemoIndexRoute: MemoIndexRoute,
   MethodeIndexRoute: MethodeIndexRoute,
   SavoirRepondreIndexRoute: SavoirRepondreIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,

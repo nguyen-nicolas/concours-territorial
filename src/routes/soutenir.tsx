@@ -5,7 +5,7 @@ import { Heart, ShieldCheck, Sparkles, BookOpenCheck, CircleCheck } from "lucide
 
 import { SiteHeader } from "@/components/site-header";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
-import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+import { getStripe, getStripeEnvironment, paiementsDisponibles } from "@/lib/stripe";
 import { createDonCheckout } from "@/lib/dons.functions";
 import { useSession } from "@/hooks/useSession";
 
@@ -152,7 +152,19 @@ function SoutenirPage() {
               </div>
             </div>
 
-            {!lance ? (
+            {!paiementsDisponibles() ? (
+              <div className="border-border bg-card mt-10 rounded-xl border p-6 text-center shadow-sm sm:p-8">
+                <Heart className="text-primary mx-auto h-8 w-8" />
+                <h2 className="font-display text-foreground mt-3 text-xl font-bold">
+                  Les dons sont momentanément indisponibles
+                </h2>
+                <p className="text-muted-foreground mx-auto mt-3 max-w-xl text-sm leading-relaxed">
+                  Le service de paiement n'est pas actif pour le moment. Vous
+                  pouvez déjà nous aider en partageant la plateforme autour de
+                  vous et en nous signalant les contenus à améliorer.
+                </p>
+              </div>
+            ) : !lance ? (
               <div className="border-border bg-card mt-10 rounded-xl border p-6 shadow-sm sm:p-8">
                 <h2 className="font-display text-foreground text-xl font-bold">
                   Choisissez un montant

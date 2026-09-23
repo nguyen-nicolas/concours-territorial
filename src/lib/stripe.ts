@@ -25,3 +25,11 @@ export function getStripe(): Promise<Stripe | null> {
 export function getStripeEnvironment(): StripeEnv {
   return paymentsEnvironment();
 }
+
+/** Vrai si un moyen de paiement est configuré pour cette version de l'application. */
+export function paiementsDisponibles(): boolean {
+  return (
+    clientToken?.startsWith("pk_test_") === true ||
+    clientToken?.startsWith("pk_live_") === true
+  );
+}
