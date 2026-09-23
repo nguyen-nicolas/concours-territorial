@@ -111,6 +111,16 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             Si je ne sais pas
           </Link>
           <Link
+            to="/culture"
+            className={
+              dark
+                ? "hover:bg-primary-foreground/10 hidden rounded-md px-3 py-2 text-sm transition-colors lg:block"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden rounded-md px-3 py-2 text-sm transition-colors lg:block"
+            }
+          >
+            Culture générale
+          </Link>
+          <Link
             to="/concours"
             className={
               dark

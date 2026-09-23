@@ -15,6 +15,8 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
+import { Route as CultureIndexRouteImport } from './routes/culture.index'
+import { Route as CultureDossierIdRouteImport } from './routes/culture.$dossierId'
 import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as MathsIndexRouteImport } from './routes/maths.index'
 import { Route as MethodeIndexRouteImport } from './routes/methode.index'
@@ -52,6 +54,16 @@ const ConcoursIndexRoute = ConcoursIndexRouteImport.update({
 const ConcoursConcoursIdRoute = ConcoursConcoursIdRouteImport.update({
   id: '/concours/$concoursId',
   path: '/concours/$concoursId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CultureIndexRoute = CultureIndexRouteImport.update({
+  id: '/culture/',
+  path: '/culture/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CultureDossierIdRoute = CultureDossierIdRouteImport.update({
+  id: '/culture/$dossierId',
+  path: '/culture/$dossierId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FrancaisIndexRoute = FrancaisIndexRouteImport.update({
@@ -105,10 +117,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/culture/$dossierId': typeof CultureDossierIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/culture/': typeof CultureIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/methode/': typeof MethodeIndexRoute
@@ -121,10 +135,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/culture/$dossierId': typeof CultureDossierIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours': typeof ConcoursIndexRoute
+  '/culture': typeof CultureIndexRoute
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
   '/methode': typeof MethodeIndexRoute
@@ -139,10 +155,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/culture/$dossierId': typeof CultureDossierIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/culture/': typeof CultureIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/methode/': typeof MethodeIndexRoute
@@ -157,10 +175,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/culture/$dossierId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
+    | '/culture/'
     | '/francais/'
     | '/maths/'
     | '/methode/'
@@ -173,10 +193,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/culture/$dossierId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours'
+    | '/culture'
     | '/francais'
     | '/maths'
     | '/methode'
@@ -190,10 +212,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
+    | '/culture/$dossierId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
+    | '/culture/'
     | '/francais/'
     | '/maths/'
     | '/methode/'
@@ -207,10 +231,12 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
+  CultureDossierIdRoute: typeof CultureDossierIdRoute
   MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   SavoirRepondreFicheIdRoute: typeof SavoirRepondreFicheIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
+  CultureIndexRoute: typeof CultureIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
   MethodeIndexRoute: typeof MethodeIndexRoute
@@ -261,6 +287,20 @@ declare module '@tanstack/react-router' {
       path: '/concours/$concoursId'
       fullPath: '/concours/$concoursId'
       preLoaderRoute: typeof ConcoursConcoursIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/culture/': {
+      id: '/culture/'
+      path: '/culture'
+      fullPath: '/culture/'
+      preLoaderRoute: typeof CultureIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/culture/$dossierId': {
+      id: '/culture/$dossierId'
+      path: '/culture/$dossierId'
+      fullPath: '/culture/$dossierId'
+      preLoaderRoute: typeof CultureDossierIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/francais/': {
@@ -345,10 +385,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
+  CultureDossierIdRoute: CultureDossierIdRoute,
   MethodeMethodeIdRoute: MethodeMethodeIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   SavoirRepondreFicheIdRoute: SavoirRepondreFicheIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
+  CultureIndexRoute: CultureIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
   MethodeIndexRoute: MethodeIndexRoute,
