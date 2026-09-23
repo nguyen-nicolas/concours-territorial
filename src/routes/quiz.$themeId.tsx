@@ -83,7 +83,6 @@ function QuizPage() {
     );
   }
 
-  const questions = theme.questions;
   const current = questions[currentIndex];
   const isLast = currentIndex === questions.length - 1;
 
