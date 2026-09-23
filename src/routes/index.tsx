@@ -34,7 +34,6 @@ export const Route = createFileRoute("/")({
         content:
           "Quiz d'entraînement gratuits pour préparer les concours de la fonction publique territoriale : culture générale, droit public, CGCT, statut, gestion budgétaire.",
       },
-acity_placeholder_removed: true,
     ],
   }),
   component: Index,
