@@ -4,6 +4,7 @@
 - [x] Choix du concours : catalogue des concours territoriaux (A/B/C), page détail, thèmes filtrés
 - [x] Comptes utilisateurs (Lovable Cloud) + sauvegarde du concours choisi et de la progression
 - [x] Épreuves de français : orthographe, grammaire, dictées
+- [x] Cours de mathématiques : 5 niveaux (bases → ingénieur en chef), 11 cours, 25 questions
 - [ ] Cours de méthode : note administrative, note de synthèse, rapport technique
 - [ ] Méthode « répondre quand on ne sait pas » (oral et écrit)
 - [ ] Culture générale approfondie (dossiers thématiques)

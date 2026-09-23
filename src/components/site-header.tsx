@@ -81,6 +81,16 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             Français
           </Link>
           <Link
+            to="/maths"
+            className={
+              dark
+                ? "hover:bg-primary-foreground/10 hidden rounded-md px-3 py-2 text-sm transition-colors sm:block"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden rounded-md px-3 py-2 text-sm transition-colors sm:block"
+            }
+          >
+            Mathématiques
+          </Link>
+          <Link
             to="/concours"
             className={
               dark
