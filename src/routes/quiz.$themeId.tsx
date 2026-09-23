@@ -129,6 +129,22 @@ function QuizPage() {
               Autres thèmes
             </Link>
           </div>
+          {session ? (
+            <p className="text-muted-foreground mt-6 text-center text-sm">
+              Résultat enregistré dans{" "}
+              <Link to="/mon-espace" className="text-primary font-semibold underline-offset-4 hover:underline">
+                votre espace
+              </Link>
+              .
+            </p>
+          ) : (
+            <p className="text-muted-foreground mt-6 text-center text-sm">
+              <Link to="/auth" className="text-primary font-semibold underline-offset-4 hover:underline">
+                Créez votre compte
+              </Link>{" "}
+              pour conserver vos scores et suivre votre progression.
+            </p>
+          )}
         </main>
       </div>
     );
