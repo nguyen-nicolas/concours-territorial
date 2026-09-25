@@ -1,4 +1,9 @@
 import type { FicheMemo } from "./memoTypes";
+import { fichesFondamentaux } from "./memo/fondamentaux";
+import { fichesOrganisation } from "./memo/organisation";
+import { fichesRessourcesHumaines } from "./memo/ressourcesHumaines";
+import { fichesFinances } from "./memo/finances";
+import { fichesEnjeux } from "./memo/enjeux";
 
 export type { FicheMemo, MemoSection, QuestionJury } from "./memoTypes";
 
@@ -27,7 +32,7 @@ export const memoThemes = [
   "Méthode et expression",
 ] as const;
 
-export const fichesMemo: FicheMemo[] = [
+const fichesDeBase: FicheMemo[] = [
   {
     id: "organisation-collectivites",
     title: "Les collectivités territoriales et leurs compétences",
@@ -941,6 +946,15 @@ export const fichesMemo: FicheMemo[] = [
       "N'inventez pas une donnée chiffrée : le jury vérifie.",
     ],
   },
+];
+
+export const fichesMemo: FicheMemo[] = [
+  ...fichesDeBase,
+  ...fichesFondamentaux,
+  ...fichesOrganisation,
+  ...fichesRessourcesHumaines,
+  ...fichesFinances,
+  ...fichesEnjeux,
 ];
 
 export function getFicheMemo(id: string): FicheMemo | undefined {
