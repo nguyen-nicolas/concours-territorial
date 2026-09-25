@@ -948,6 +948,15 @@ const fichesDeBase: FicheMemo[] = [
   },
 ];
 
+export const fichesMemo: FicheMemo[] = [
+  ...fichesDeBase,
+  ...fichesFondamentaux,
+  ...fichesOrganisation,
+  ...fichesRessourcesHumaines,
+  ...fichesFinances,
+  ...fichesEnjeux,
+];
+
 export function getFicheMemo(id: string): FicheMemo | undefined {
   return fichesMemo.find((f) => f.id === id);
 }
