@@ -992,7 +992,6 @@ export const banqueAnnalesGestion: Record<string, QuizQuestion[]> = {
       answerIndex: 0,
       explanation:
         "Le principe d'universalité impose que la totalité des recettes et des dépenses figure au budget, sans contraction entre elles (non-compensation) et sans affectation d'une recette à une dépense particulière, sauf exception prévue par les textes.",
-      antml_placeholder: null,
       optionNotes: [
         null,
         "C'est au contraire le principe d'universalité qui s'oppose, en règle générale, à l'affectation d'une recette précise à une dépense précise.",
