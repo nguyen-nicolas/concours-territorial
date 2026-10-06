@@ -1,5 +1,7 @@
 import { banqueFrancais } from "./banqueFrancais";
 import { banqueTerritoriale } from "./banqueTerritoriale";
+import { banqueAnnalesFrancais } from "./banqueAnnales/francais";
+import { banqueAnnalesGestion } from "./banqueAnnales/gestion";
 import { francaisThemes } from "./francaisQuiz";
 import { mathsThemes } from "./mathsQuiz";
 
@@ -614,8 +616,12 @@ const themesDeBase: QuizTheme[] = [
 
 /** Banque complète : questions d'origine + questions supplémentaires. */
 export const quizThemes: QuizTheme[] = themesDeBase.map((theme) => {
-  const extra =
-    banqueTerritoriale[theme.id] ?? banqueFrancais[theme.id] ?? [];
+  const extra = [
+    ...(banqueTerritoriale[theme.id] ?? []),
+    ...(banqueFrancais[theme.id] ?? []),
+    ...(banqueAnnalesFrancais[theme.id] ?? []),
+    ...(banqueAnnalesGestion[theme.id] ?? []),
+  ];
   return extra.length
     ? { ...theme, questions: [...theme.questions, ...extra] }
     : theme;
