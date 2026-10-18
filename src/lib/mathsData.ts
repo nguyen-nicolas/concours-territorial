@@ -566,6 +566,7 @@ export const mathCours: MathCours[] = [
         titre: "Valeurs et vecteurs propres",
         paragraphes: [
           "Un vecteur propre est une direction que la matrice ne fait qu'étirer : A·v = λ·v. Les λ, valeurs propres, se trouvent en résolvant det(A − λI) = 0.",
+          "Exemple chiffré : pour A = [[4, 1], [2, 3]], on développe det(A − λI) = (4 − λ)(3 − λ) − 1×2 = λ² − 7λ + 10. Les racines sont λ = 2 et λ = 5. Le vecteur v = (1, −2) vérifie bien A·v = (4−2, 2−6) = (2, −4) = 2·v : il n'est que multiplié par 2, pas changé de direction.",
           "Applications territoriales : modes propres d'une structure (vibration d'un ouvrage), régimes stationnaires d'un réseau, analyse en composantes principales sur des données.",
         ],
         formules: ["det(A − λI) = 0"],
@@ -576,10 +577,23 @@ export const mathCours: MathCours[] = [
         enonce: "Résoudre 2x + y = 7 et x − 3y = −7.",
         etapes: [
           "Matrice A = [[2, 1], [1, −3]], det(A) = 2×(−3) − 1×1 = −7 ≠ 0 : solution unique.",
-          "Combinaison : L1 × 3 + L2 donne 7x = 21 − 7 + … soit x = 2 après réduction.",
+          "Combinaison : L1 × 3 + L2 donne 7x = 21 − 7 = 14, donc x = 2.",
           "Report : 2×2 + y = 7, donc y = 3.",
         ],
         resultat: "x = 2 et y = 3.",
+      },
+      {
+        enonce:
+          "Trouver les valeurs propres de A = [[4, 1], [2, 3]], puis un vecteur propre associé à λ = 2.",
+        etapes: [
+          "Équation aux valeurs propres : det(A − λI) = (4 − λ)(3 − λ) − 1×2 = λ² − 7λ + 10 = 0.",
+          "Factorisation : λ² − 7λ + 10 = (λ − 2)(λ − 5), donc les valeurs propres sont λ = 2 et λ = 5.",
+          "Vecteur propre pour λ = 2 : on résout (A − 2I)·v = 0, soit 2x + y = 0, donc y = −2x. Prenons v = (1, −2).",
+          "Vérification avec la formule A·v = λ·v : A·v = (4×1 + 1×(−2), 2×1 + 3×(−2)) = (2, −4) = 2×(1, −2). Le résultat est bien 2 fois le vecteur de départ.",
+          "Même méthode pour λ = 5 : −x + y = 0 donne v = (1, 1), et A·v = (5, 5) = 5×(1, 1).",
+        ],
+        resultat:
+          "Valeurs propres : λ = 2 et λ = 5. Vecteurs propres associés : (1, −2) pour 2, (1, 1) pour 5.",
       },
     ],
     aRetenir: [
