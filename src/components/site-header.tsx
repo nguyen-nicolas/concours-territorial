@@ -22,6 +22,7 @@ const NAV: NavLink[] = [
   { to: "/", label: "Accueil" },
   { to: "/concours", label: "Les concours" },
   { to: "/", label: "Les thèmes", hash: "themes" },
+  { to: "/epreuves-blanches", label: "Épreuves blanches" },
   { to: "/memo", label: "Fiches mémo" },
   { to: "/francais", label: "Français" },
   { to: "/maths", label: "Mathématiques" },
