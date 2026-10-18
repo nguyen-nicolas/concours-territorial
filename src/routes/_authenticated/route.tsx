@@ -6,6 +6,18 @@ export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth" });
+
+    // Vérification de l'approbation du compte
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_approved")
+      .eq("id", data.user.id)
+      .single();
+
+    if (!profile || profile.is_approved !== true) {
+      throw redirect({ to: "/en-attente" });
+    }
+
     return { user: data.user };
   },
   component: () => <Outlet />,
