@@ -1,3 +1,4 @@
+import { Route as EpreuvesBlanchesIndexRouteImport } from './routes/epreuves-blanches.index'
 /* eslint-disable */
 
 // @ts-nocheck
