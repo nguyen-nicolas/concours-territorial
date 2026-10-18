@@ -295,7 +295,7 @@ function EpreuveBlanchePage() {
                     {q.question}
                   </p>
                   <div className="mt-4 space-y-2">
-                    {choisie !== null && !correcte && (
+                    {choisie !== null && choisie !== undefined && !correcte && (
                       <p className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm">
                         <span className="text-destructive text-xs font-semibold tracking-wide uppercase">
                           Votre réponse
