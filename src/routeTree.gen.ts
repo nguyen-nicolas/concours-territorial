@@ -18,6 +18,8 @@ import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
 import { Route as CultureIndexRouteImport } from './routes/culture.index'
 import { Route as CultureDossierIdRouteImport } from './routes/culture.$dossierId'
+import { Route as EpreuvesBlanchesIndexRouteImport } from './routes/epreuves-blanches.index'
+import { Route as EpreuvesBlanchesEpreuveIdRouteImport } from './routes/epreuves-blanches.$epreuveId'
 import { Route as FrancaisIndexRouteImport } from './routes/francais.index'
 import { Route as MathsIndexRouteImport } from './routes/maths.index'
 import { Route as MemoIndexRouteImport } from './routes/memo.index'
@@ -29,8 +31,6 @@ import { Route as SavoirRepondreIndexRouteImport } from './routes/savoir-repondr
 import { Route as SavoirRepondreFicheIdRouteImport } from './routes/savoir-repondre.$ficheId'
 import { Route as FrancaisDicteeDicteeIdRouteImport } from './routes/francais.dictee.$dicteeId'
 import { Route as MathsCoursCoursIdRouteImport } from './routes/maths.cours.$coursId'
-import { Route as EpreuvesBlanchesIndexRouteImport } from './routes/epreuves-blanches.index'
-import { Route as EpreuvesBlanchesEpreuveIdRouteImport } from './routes/epreuves-blanches.$epreuveId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +76,17 @@ const CultureDossierIdRoute = CultureDossierIdRouteImport.update({
   path: '/culture/$dossierId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EpreuvesBlanchesIndexRoute = EpreuvesBlanchesIndexRouteImport.update({
+  id: '/epreuves-blanches/',
+  path: '/epreuves-blanches/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EpreuvesBlanchesEpreuveIdRoute =
+  EpreuvesBlanchesEpreuveIdRouteImport.update({
+    id: '/epreuves-blanches/$epreuveId',
+    path: '/epreuves-blanches/$epreuveId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const FrancaisIndexRoute = FrancaisIndexRouteImport.update({
   id: '/francais/',
   path: '/francais/',
@@ -131,16 +142,6 @@ const MathsCoursCoursIdRoute = MathsCoursCoursIdRouteImport.update({
   path: '/maths/cours/$coursId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EpreuvesBlanchesIndexRoute = EpreuvesBlanchesIndexRouteImport.update({
-  id: '/epreuves-blanches/',
-  path: '/epreuves-blanches/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EpreuvesBlanchesEpreuveIdRoute = EpreuvesBlanchesEpreuveIdRouteImport.update({
-  id: '/epreuves-blanches/$epreuveId',
-  path: '/epreuves-blanches/$epreuveId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -149,12 +150,14 @@ export interface FileRoutesByFullPath {
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/culture/': typeof CultureIndexRoute
+  '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/memo/': typeof MemoIndexRoute
@@ -162,8 +165,6 @@ export interface FileRoutesByFullPath {
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
-  '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
-  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -172,12 +173,14 @@ export interface FileRoutesByTo {
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours': typeof ConcoursIndexRoute
   '/culture': typeof CultureIndexRoute
+  '/epreuves-blanches': typeof EpreuvesBlanchesIndexRoute
   '/francais': typeof FrancaisIndexRoute
   '/maths': typeof MathsIndexRoute
   '/memo': typeof MemoIndexRoute
@@ -185,8 +188,6 @@ export interface FileRoutesByTo {
   '/savoir-repondre': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
-  '/epreuves-blanches': typeof EpreuvesBlanchesIndexRoute
-  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,12 +198,14 @@ export interface FileRoutesById {
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
+  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
   '/methode/$methodeId': typeof MethodeMethodeIdRoute
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
   '/culture/': typeof CultureIndexRoute
+  '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
   '/francais/': typeof FrancaisIndexRoute
   '/maths/': typeof MathsIndexRoute
   '/memo/': typeof MemoIndexRoute
@@ -210,8 +213,6 @@ export interface FileRoutesById {
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
-  '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
-  '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -222,12 +223,14 @@ export interface FileRouteTypes {
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
     | '/culture/'
+    | '/epreuves-blanches/'
     | '/francais/'
     | '/maths/'
     | '/memo/'
@@ -235,8 +238,6 @@ export interface FileRouteTypes {
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
-    | '/epreuves-blanches/'
-    | '/epreuves-blanches/$epreuveId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -245,12 +246,14 @@ export interface FileRouteTypes {
     | '/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours'
     | '/culture'
+    | '/epreuves-blanches'
     | '/francais'
     | '/maths'
     | '/memo'
@@ -258,8 +261,6 @@ export interface FileRouteTypes {
     | '/savoir-repondre'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
-    | '/epreuves-blanches'
-    | '/epreuves-blanches/$epreuveId'
   id:
     | '__root__'
     | '/'
@@ -269,12 +270,14 @@ export interface FileRouteTypes {
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
     | '/culture/$dossierId'
+    | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
     | '/methode/$methodeId'
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
     | '/culture/'
+    | '/epreuves-blanches/'
     | '/francais/'
     | '/maths/'
     | '/memo/'
@@ -282,8 +285,6 @@ export interface FileRouteTypes {
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
-    | '/epreuves-blanches/'
-    | '/epreuves-blanches/$epreuveId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -293,12 +294,14 @@ export interface RootRouteChildren {
   SoutenirRoute: typeof SoutenirRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   CultureDossierIdRoute: typeof CultureDossierIdRoute
+  EpreuvesBlanchesEpreuveIdRoute: typeof EpreuvesBlanchesEpreuveIdRoute
   MemoFicheIdRoute: typeof MemoFicheIdRoute
   MethodeMethodeIdRoute: typeof MethodeMethodeIdRoute
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   SavoirRepondreFicheIdRoute: typeof SavoirRepondreFicheIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
   CultureIndexRoute: typeof CultureIndexRoute
+  EpreuvesBlanchesIndexRoute: typeof EpreuvesBlanchesIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
   MathsIndexRoute: typeof MathsIndexRoute
   MemoIndexRoute: typeof MemoIndexRoute
@@ -306,8 +309,6 @@ export interface RootRouteChildren {
   SavoirRepondreIndexRoute: typeof SavoirRepondreIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
   MathsCoursCoursIdRoute: typeof MathsCoursCoursIdRoute
-  EpreuvesBlanchesIndexRoute: typeof EpreuvesBlanchesIndexRoute
-  EpreuvesBlanchesEpreuveIdRoute: typeof EpreuvesBlanchesEpreuveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -373,6 +374,20 @@ declare module '@tanstack/react-router' {
       path: '/culture/$dossierId'
       fullPath: '/culture/$dossierId'
       preLoaderRoute: typeof CultureDossierIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/epreuves-blanches/': {
+      id: '/epreuves-blanches/'
+      path: '/epreuves-blanches'
+      fullPath: '/epreuves-blanches/'
+      preLoaderRoute: typeof EpreuvesBlanchesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/epreuves-blanches/$epreuveId': {
+      id: '/epreuves-blanches/$epreuveId'
+      path: '/epreuves-blanches/$epreuveId'
+      fullPath: '/epreuves-blanches/$epreuveId'
+      preLoaderRoute: typeof EpreuvesBlanchesEpreuveIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/francais/': {
@@ -452,20 +467,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MathsCoursCoursIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/epreuves-blanches/': {
-      id: '/epreuves-blanches/'
-      path: '/epreuves-blanches'
-      fullPath: '/epreuves-blanches/'
-      preLoaderRoute: typeof EpreuvesBlanchesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/epreuves-blanches/$epreuveId': {
-      id: '/epreuves-blanches/$epreuveId'
-      path: '/epreuves-blanches/$epreuveId'
-      fullPath: '/epreuves-blanches/$epreuveId'
-      preLoaderRoute: typeof EpreuvesBlanchesEpreuveIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -487,12 +488,14 @@ const rootRouteChildren: RootRouteChildren = {
   SoutenirRoute: SoutenirRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   CultureDossierIdRoute: CultureDossierIdRoute,
+  EpreuvesBlanchesEpreuveIdRoute: EpreuvesBlanchesEpreuveIdRoute,
   MemoFicheIdRoute: MemoFicheIdRoute,
   MethodeMethodeIdRoute: MethodeMethodeIdRoute,
   QuizThemeIdRoute: QuizThemeIdRoute,
   SavoirRepondreFicheIdRoute: SavoirRepondreFicheIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
   CultureIndexRoute: CultureIndexRoute,
+  EpreuvesBlanchesIndexRoute: EpreuvesBlanchesIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
   MathsIndexRoute: MathsIndexRoute,
   MemoIndexRoute: MemoIndexRoute,
@@ -500,8 +503,6 @@ const rootRouteChildren: RootRouteChildren = {
   SavoirRepondreIndexRoute: SavoirRepondreIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,
   MathsCoursCoursIdRoute: MathsCoursCoursIdRoute,
-  EpreuvesBlanchesIndexRoute: EpreuvesBlanchesIndexRoute,
-  EpreuvesBlanchesEpreuveIdRoute: EpreuvesBlanchesEpreuveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
