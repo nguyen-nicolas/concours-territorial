@@ -180,6 +180,43 @@ function Index() {
         </div>
       </section>
 
+      {/* Épreuves blanches */}
+      <section id="epreuves-blanches" className="scroll-mt-20 pb-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="bg-card hover:border-primary/40 group relative overflow-hidden rounded-3xl border p-8 shadow-sm transition-all sm:p-10">
+            <div
+              className="absolute inset-0 -z-10 opacity-[0.06]"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 80% 20%, var(--color-primary) 0, transparent 50%)",
+              }}
+            />
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="text-primary text-xs font-semibold tracking-wide uppercase">
+                  Conditions d'examen
+                </p>
+                <h2 className="font-display mt-3 max-w-xl text-3xl font-bold">
+                  Passez les épreuves blanches chronométrées
+                </h2>
+                <p className="text-muted-foreground mt-3 max-w-xl leading-relaxed">
+                  Trois sujets complets, un temps imparti, aucune correction
+                  pendant l'épreuve : le vrai test pour savoir si vous êtes
+                  prêt(e), avec le corrigé détaillé à la fin.
+                </p>
+              </div>
+              <Link
+                to="/epreuves-blanches"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-lg transition-colors"
+              >
+                Découvrir l'espace
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Méthode */}
       <section id="methode" className="bg-primary text-primary-foreground scroll-mt-20">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
