@@ -11,14 +11,18 @@ import {
   Wallet,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import { quizThemes } from "@/lib/quizData";
+import { quizThemes, type QuizTheme } from "@/lib/quizData";
+import { francaisThemes } from "@/lib/francaisQuiz";
+import { mathsThemes } from "@/lib/mathsQuiz";
+import { themesAgentMaitrise } from "@/lib/banqueAgentMaitrise";
 import { concoursList } from "@/lib/concours";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "Prépa Territoriale — Entraînement aux concours de la fonction publique territoriale",
+        title:
+          "Prépa Territoriale — Entraînement aux concours de la fonction publique territoriale",
       },
       {
         name: "description",
@@ -50,6 +54,67 @@ const themeIcons: Record<string, typeof Landmark> = {
 
 const totalQuestions = quizThemes.reduce((sum, t) => sum + t.questions.length, 0);
 
+/**
+ * Regroupement des thèmes de l'accueil. Les thèmes de français, de maths et d'agent de maîtrise
+ * sont repris automatiquement de leurs fichiers ; tous les autres forment le socle commun.
+ */
+const idsFrancais = new Set(francaisThemes.map((t) => t.id));
+const idsMaths = new Set(mathsThemes.map((t) => t.id));
+const idsAgentMaitrise = new Set(themesAgentMaitrise.map((t) => t.id));
+
+const GROUPES_THEMES: { titre: string; description: string; themes: QuizTheme[] }[] = [
+  {
+    titre: "Socle commun",
+    description: "Culture générale, institutions, statut et finances locales.",
+    themes: quizThemes.filter(
+      (t) => !idsFrancais.has(t.id) && !idsMaths.has(t.id) && !idsAgentMaitrise.has(t.id),
+    ),
+  },
+  {
+    titre: "Français",
+    description: "Orthographe, grammaire et conjugaison.",
+    themes: quizThemes.filter((t) => idsFrancais.has(t.id)),
+  },
+  {
+    titre: "Mathématiques",
+    description: "Du niveau catégorie C au concours d'ingénieur en chef.",
+    themes: quizThemes.filter((t) => idsMaths.has(t.id)),
+  },
+  {
+    titre: "Agent de maîtrise",
+    description: "Hygiène et sécurité, encadrement, techniques BTP et VRD.",
+    themes: quizThemes.filter((t) => idsAgentMaitrise.has(t.id)),
+  },
+];
+
+function CarteTheme({ theme }: { theme: QuizTheme }) {
+  const Icon = themeIcons[theme.id] ?? ListChecks;
+  return (
+    <Link
+      to="/quiz/$themeId"
+      params={{ themeId: theme.id }}
+      className="group bg-card hover:border-primary/40 relative flex flex-col rounded-2xl border p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+    >
+      <span className="bg-secondary text-secondary-foreground flex h-11 w-11 items-center justify-center rounded-xl">
+        <Icon className="h-5 w-5" />
+      </span>
+      <h4 className="font-display mt-4 text-lg leading-snug font-bold">{theme.title}</h4>
+      <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">
+        {theme.description}
+      </p>
+      <div className="border-border mt-4 flex items-center justify-between border-t pt-4">
+        <span className="text-muted-foreground text-xs font-medium">
+          {theme.questions.length} questions en banque · {theme.level}
+        </span>
+        <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold">
+          Réviser
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 function Index() {
   return (
     <div className="bg-background min-h-screen">
@@ -73,9 +138,9 @@ function Index() {
             Préparez vos concours territoriaux, question par question.
           </h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg leading-relaxed">
-            Fonctionnaire ou contractuel, révisez à votre rythme avec des quiz
-            courts et concrets : chaque réponse est corrigée et expliquée, pour
-            ancrer durablement les connaissances attendues le jour de l'épreuve.
+            Fonctionnaire ou contractuel, révisez à votre rythme avec des quiz courts et concrets :
+            chaque réponse est corrigée et expliquée, pour ancrer durablement les connaissances
+            attendues le jour de l'épreuve.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
@@ -94,28 +159,16 @@ function Index() {
           </div>
           <dl className="border-border mt-14 grid grid-cols-3 gap-6 border-t pt-8 sm:max-w-lg">
             <div>
-              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
-                Thèmes
-              </dt>
-              <dd className="font-display mt-1 text-3xl font-bold">
-                {quizThemes.length}
-              </dd>
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">Thèmes</dt>
+              <dd className="font-display mt-1 text-3xl font-bold">{quizThemes.length}</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
-                Questions
-              </dt>
-              <dd className="font-display mt-1 text-3xl font-bold">
-                {totalQuestions}
-              </dd>
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">Questions</dt>
+              <dd className="font-display mt-1 text-3xl font-bold">{totalQuestions}</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground text-xs tracking-wide uppercase">
-                Concours
-              </dt>
-              <dd className="font-display mt-1 text-3xl font-bold">
-                {concoursList.length}
-              </dd>
+              <dt className="text-muted-foreground text-xs tracking-wide uppercase">Concours</dt>
+              <dd className="font-display mt-1 text-3xl font-bold">{concoursList.length}</dd>
             </div>
           </dl>
         </div>
@@ -130,9 +183,8 @@ function Index() {
                 Choisissez votre thème d'entraînement
               </h2>
               <p className="text-muted-foreground mt-2 max-w-xl">
-                Chaque série tire 10 questions au hasard dans la banque du
-                thème, dans un ordre différent à chaque fois, avec correction
-                détaillée.
+                Chaque série tire 10 questions au hasard dans la banque du thème, dans un ordre
+                différent à chaque fois, avec correction détaillée.
               </p>
             </div>
             <Link
@@ -143,39 +195,20 @@ function Index() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {quizThemes.map((theme) => {
-              const Icon =
-                themeIcons[theme.id] ?? ListChecks;
-              return (
-                <Link
-                  key={theme.id}
-                  to="/quiz/$themeId"
-                  params={{ themeId: theme.id }}
-                  className="group bg-card hover:border-primary/40 relative flex flex-col rounded-2xl border p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <span className="bg-secondary text-secondary-foreground flex h-11 w-11 items-center justify-center rounded-xl">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-display mt-4 text-lg leading-snug font-bold">
-                    {theme.title}
-                  </h3>
-                  <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">
-                    {theme.description}
-                  </p>
-                  <div className="border-border mt-4 flex items-center justify-between border-t pt-4">
-                    <span className="text-muted-foreground text-xs font-medium">
-                      {theme.questions.length} questions en banque ·{" "}
-                      {theme.level}
-                    </span>
-                    <span className="text-primary inline-flex items-center gap-1 text-sm font-semibold">
-                      Réviser
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+          <div className="mt-10 space-y-12">
+            {GROUPES_THEMES.filter((groupe) => groupe.themes.length > 0).map((groupe) => (
+              <div key={groupe.titre}>
+                <div className="border-border flex flex-wrap items-baseline justify-between gap-2 border-b pb-3">
+                  <h3 className="font-display text-xl font-bold">{groupe.titre}</h3>
+                  <p className="text-muted-foreground text-sm">{groupe.description}</p>
+                </div>
+                <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {groupe.themes.map((theme) => (
+                    <CarteTheme key={theme.id} theme={theme} />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -200,9 +233,8 @@ function Index() {
                   Passez les épreuves blanches chronométrées
                 </h2>
                 <p className="text-muted-foreground mt-3 max-w-xl leading-relaxed">
-                  Trois sujets complets, un temps imparti, aucune correction
-                  pendant l'épreuve : le vrai test pour savoir si vous êtes
-                  prêt(e), avec le corrigé détaillé à la fin.
+                  Trois sujets complets, un temps imparti, aucune correction pendant l'épreuve : le
+                  vrai test pour savoir si vous êtes prêt(e), avec le corrigé détaillé à la fin.
                 </p>
               </div>
               <Link
@@ -245,12 +277,8 @@ function Index() {
                 <span className="bg-primary-foreground/10 flex h-12 w-12 items-center justify-center rounded-xl">
                   <step.icon className="h-6 w-6" />
                 </span>
-                <h3 className="font-display mt-4 text-lg font-bold">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed opacity-80">
-                  {step.text}
-                </p>
+                <h3 className="font-display mt-4 text-lg font-bold">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed opacity-80">{step.text}</p>
               </div>
             ))}
           </div>
@@ -268,7 +296,15 @@ function Index() {
       <footer className="border-border border-t">
         <div className="text-muted-foreground mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm sm:flex-row sm:px-6">
           <p>Prépa Territoriale — s'informer, se former, réussir.</p>
-          <p>Contenus d'entraînement, sans valeur réglementaire.</p>
+          <div className="flex flex-col items-center gap-1 sm:items-end">
+            <p>Contenus d'entraînement, sans valeur réglementaire.</p>
+            <Link
+              to="/soutenir"
+              className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+            >
+              Soutenir le projet
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
