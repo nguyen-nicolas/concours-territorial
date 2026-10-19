@@ -21,10 +21,10 @@ export const infosLegales = {
   adresse: "",
 
   /** Adresse e-mail de contact, affichée sur le site. */
-  email: "nc",
+  email: "prepa.territoriale@proton.me",
 
   /** Personne responsable des contenus publiés (en général, l'éditeur lui-même). */
-  directeurPublication: "IA",
+  directeurPublication: "Nguyen Nicolas",
 
   /** Date de dernière mise à jour des pages légales. */
   miseAJour: "19 octobre 2026",
