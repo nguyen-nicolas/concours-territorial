@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EnAttenteRouteImport } from './routes/en-attente'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as SoutenirRouteImport } from './routes/soutenir'
 import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
@@ -47,9 +50,24 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnAttenteRoute = EnAttenteRouteImport.update({
   id: '/en-attente',
   path: '/en-attente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SoutenirRoute = SoutenirRouteImport.update({
@@ -152,7 +170,10 @@ const MathsCoursCoursIdRoute = MathsCoursCoursIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
   '/en-attente': typeof EnAttenteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
@@ -176,7 +197,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
   '/en-attente': typeof EnAttenteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
@@ -202,7 +226,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
   '/en-attente': typeof EnAttenteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
@@ -228,7 +255,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/confidentialite'
+    | '/contact'
     | '/en-attente'
+    | '/mentions-legales'
     | '/soutenir'
     | '/mon-espace'
     | '/concours/$concoursId'
@@ -252,7 +282,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/confidentialite'
+    | '/contact'
     | '/en-attente'
+    | '/mentions-legales'
     | '/soutenir'
     | '/mon-espace'
     | '/concours/$concoursId'
@@ -277,7 +310,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/confidentialite'
+    | '/contact'
     | '/en-attente'
+    | '/mentions-legales'
     | '/soutenir'
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
@@ -303,7 +339,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
+  ContactRoute: typeof ContactRoute
   EnAttenteRoute: typeof EnAttenteRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
   SoutenirRoute: typeof SoutenirRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
   CultureDossierIdRoute: typeof CultureDossierIdRoute
@@ -347,11 +386,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en-attente': {
       id: '/en-attente'
       path: '/en-attente'
       fullPath: '/en-attente'
       preLoaderRoute: typeof EnAttenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/soutenir': {
@@ -505,7 +565,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
+  ContactRoute: ContactRoute,
   EnAttenteRoute: EnAttenteRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
   SoutenirRoute: SoutenirRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
   CultureDossierIdRoute: CultureDossierIdRoute,
