@@ -1,48 +1,74 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import {
-  Landmark,
-  GraduationCap,
-  UserRound,
-  Heart,
-  Menu,
-} from "lucide-react";
+import { Landmark, GraduationCap, UserRound, Heart, Menu, ChevronDown } from "lucide-react";
 import { useSession } from "@/hooks/useSession";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+type Lien = { to: string; label: string; hash?: string; description?: string };
+type Groupe = { label: string; liens: Lien[] };
 
 /**
- * `visible` : à partir de quelle largeur d'écran le lien apparaît directement dans la barre.
- * Sans `visible`, le lien n'est accessible que dans le menu (bouton ☰), présent à toutes les tailles.
+ * Navigation organisée en deux intentions : s'entraîner (tester ses connaissances)
+ * et réviser (apprendre). Les mêmes groupes servent au menu d'ordinateur et au menu mobile.
  */
-type NavLink = { to: string; label: string; hash?: string; visible?: "lg" | "xl" };
-
-const NAV: NavLink[] = [
-  { to: "/", label: "Accueil" },
-  { to: "/concours", label: "Les concours", visible: "lg" },
-  { to: "/", label: "Les thèmes", hash: "themes" },
-  { to: "/epreuves-blanches", label: "Épreuves blanches", visible: "lg" },
-  { to: "/memo", label: "Fiches mémo", visible: "lg" },
-  { to: "/francais", label: "Français" },
-  { to: "/maths", label: "Mathématiques" },
-  { to: "/methode", label: "Méthode", visible: "xl" },
-  { to: "/savoir-repondre", label: "Face à l'inconnu" },
-  { to: "/culture", label: "Culture générale", visible: "xl" },
-  { to: "/soutenir", label: "Faire un don" },
+const GROUPES: Groupe[] = [
+  {
+    label: "S'entraîner",
+    liens: [
+      {
+        to: "/concours",
+        label: "Choisir mon concours",
+        description: "Les quiz adaptés à votre concours",
+      },
+      {
+        to: "/",
+        hash: "themes",
+        label: "Tous les quiz",
+        description: "Toutes les matières, par thème",
+      },
+      {
+        to: "/epreuves-blanches",
+        label: "Épreuves blanches",
+        description: "Sujets complets et chronométrés",
+      },
+    ],
+  },
+  {
+    label: "Réviser",
+    liens: [
+      { to: "/memo", label: "Fiches mémo", description: "L'essentiel à retenir, par concours" },
+      { to: "/methode", label: "Méthode", description: "Note, synthèse, rapport : les techniques" },
+      {
+        to: "/culture",
+        label: "Culture générale",
+        description: "Dossiers thématiques approfondis",
+      },
+      { to: "/francais", label: "Français", description: "Orthographe, grammaire, dictées" },
+      { to: "/maths", label: "Mathématiques", description: "Cours du niveau de base à l'expert" },
+      {
+        to: "/savoir-repondre",
+        label: "Répondre quand on ne sait pas",
+        description: "Garder ses moyens à l'écrit et à l'oral",
+      },
+    ],
+  },
 ];
+
+const LIEN_DON: Lien = { to: "/soutenir", label: "Soutenir le projet" };
 
 export function SiteHeader({ dark = false }: { dark?: boolean }) {
   const { session } = useSession();
   const [open, setOpen] = useState(false);
 
-  const linkClass = dark
-    ? "hover:bg-primary-foreground/10 whitespace-nowrap rounded-md px-2.5 py-2 text-sm transition-colors"
-    : "text-muted-foreground hover:text-foreground hover:bg-accent whitespace-nowrap rounded-md px-2.5 py-2 text-sm transition-colors";
+  const triggerClass = dark
+    ? "hover:bg-primary-foreground/10 data-[state=open]:bg-primary-foreground/10 inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors"
+    : "text-muted-foreground hover:text-foreground hover:bg-accent data-[state=open]:bg-accent data-[state=open]:text-foreground inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors";
 
   return (
     <header
@@ -79,17 +105,33 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
           </span>
         </Link>
 
-        {/* Liens principaux visibles dès les écrans d'ordinateur portable ; le reste est dans le menu ☰ */}
-        <nav aria-label="Navigation principale" className="hidden min-w-0 items-center gap-1 lg:flex">
-          {NAV.filter((item) => item.visible).map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              {...(item.hash ? { hash: item.hash } : {})}
-              className={`${linkClass} ${item.visible === "xl" ? "hidden xl:inline-flex" : "inline-flex"}`}
-            >
-              {item.label}
-            </Link>
+        {/* Ordinateur : deux menus déroulants, « S'entraîner » et « Réviser » */}
+        <nav aria-label="Navigation principale" className="hidden items-center gap-1 lg:flex">
+          {GROUPES.map((groupe) => (
+            <DropdownMenu key={groupe.label} modal={false}>
+              <DropdownMenuTrigger className={triggerClass}>
+                {groupe.label}
+                <ChevronDown className="h-4 w-4 opacity-70" aria-hidden="true" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-72 p-1.5">
+                {groupe.liens.map((lien) => (
+                  <DropdownMenuItem
+                    key={lien.label}
+                    asChild
+                    className="cursor-pointer rounded-md px-3 py-2"
+                  >
+                    <Link to={lien.to} {...(lien.hash ? { hash: lien.hash } : {})}>
+                      <span className="flex flex-col gap-0.5">
+                        <span className="text-foreground text-sm font-medium">{lien.label}</span>
+                        {lien.description && (
+                          <span className="text-muted-foreground text-xs">{lien.description}</span>
+                        )}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           ))}
         </nav>
 
@@ -116,49 +158,59 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             }
           >
             <UserRound className="h-4 w-4" />
-            <span className="hidden sm:inline">
-              {session ? "Mon espace" : "Se connecter"}
-            </span>
+            <span className="hidden sm:inline">{session ? "Mon espace" : "Se connecter"}</span>
           </Link>
 
-          {/* Menu complet, accessible à toutes les tailles d'écran */}
+          {/* Mobile et tablette : menu latéral avec les mêmes groupes */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               aria-label="Ouvrir le menu"
               className={
                 dark
-                  ? "hover:bg-primary-foreground/10 inline-flex items-center justify-center rounded-md p-2.5 transition-colors"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center justify-center rounded-md p-2.5 transition-colors"
+                  ? "hover:bg-primary-foreground/10 inline-flex items-center justify-center rounded-md p-2.5 transition-colors lg:hidden"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center justify-center rounded-md p-2.5 transition-colors lg:hidden"
               }
             >
               <Menu className="h-5 w-5" />
             </SheetTrigger>
             <SheetContent side="right" className="w-[min(20rem,90vw)] overflow-y-auto">
               <SheetHeader>
-                <SheetTitle className="font-display text-left text-lg">
-                  Navigation
-                </SheetTitle>
+                <SheetTitle className="font-display text-left text-lg">Menu</SheetTitle>
               </SheetHeader>
-              <nav className="mt-4 flex flex-col gap-1 px-4 pb-8">
-                {NAV.map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    {...(item.hash ? { hash: item.hash } : {})}
-                    onClick={() => setOpen(false)}
-                    className="text-foreground hover:bg-accent inline-flex items-center gap-1.5 rounded-lg px-3 py-3 font-sans text-sm transition-colors"
-                  >
-                    {item.label === "Faire un don" && <Heart className="h-4 w-4" />}
-                    {item.label}
-                  </Link>
+              <nav aria-label="Menu" className="mt-2 flex flex-col px-4 pb-8">
+                {GROUPES.map((groupe) => (
+                  <div key={groupe.label} className="mt-4 first:mt-0">
+                    <p className="text-muted-foreground px-3 pb-1 text-xs font-semibold tracking-wide uppercase">
+                      {groupe.label}
+                    </p>
+                    {groupe.liens.map((lien) => (
+                      <Link
+                        key={lien.label}
+                        to={lien.to}
+                        {...(lien.hash ? { hash: lien.hash } : {})}
+                        onClick={() => setOpen(false)}
+                        className="text-foreground hover:bg-accent block rounded-lg px-3 py-2.5 font-sans text-sm transition-colors"
+                      >
+                        {lien.label}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
                 <Link
                   to={session ? "/mon-espace" : "/auth"}
                   onClick={() => setOpen(false)}
-                  className="bg-primary text-primary-foreground mt-3 inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold"
+                  className="bg-primary text-primary-foreground mt-6 inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-sans text-sm font-semibold"
                 >
                   <UserRound className="h-4 w-4" />
                   {session ? "Mon espace" : "Se connecter"}
+                </Link>
+                <Link
+                  to={LIEN_DON.to}
+                  onClick={() => setOpen(false)}
+                  className="text-muted-foreground hover:text-foreground mt-4 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs transition-colors"
+                >
+                  <Heart className="h-3.5 w-3.5" />
+                  {LIEN_DON.label}
                 </Link>
               </nav>
             </SheetContent>
