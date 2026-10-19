@@ -19,6 +19,7 @@ export type Database = {
           concours_id: string | null
           created_at: string
           id: string
+          is_approved: boolean
           prenom: string
           updated_at: string
         }
@@ -26,6 +27,7 @@ export type Database = {
           concours_id?: string | null
           created_at?: string
           id: string
+          is_approved?: boolean
           prenom?: string
           updated_at?: string
         }
@@ -33,6 +35,7 @@ export type Database = {
           concours_id?: string | null
           created_at?: string
           id?: string
+          is_approved?: boolean
           prenom?: string
           updated_at?: string
         }
