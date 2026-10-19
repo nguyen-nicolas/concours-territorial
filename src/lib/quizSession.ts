@@ -27,10 +27,7 @@ function melangerOptions(q: QuizQuestion): QuizQuestion {
  * Tire une série de questions au hasard dans la banque du thème,
  * dans un ordre différent à chaque fois, propositions mélangées.
  */
-export function tirerSession(
-  theme: QuizTheme,
-  taille: number = TAILLE_SESSION,
-): QuizQuestion[] {
+export function tirerSession(theme: QuizTheme, taille: number = TAILLE_SESSION): QuizQuestion[] {
   return melanger(theme.questions)
     .slice(0, Math.min(taille, theme.questions.length))
     .map(melangerOptions);
@@ -39,4 +36,12 @@ export function tirerSession(
 /** Nombre de séries distinctes possibles (indicatif, pour l'affichage). */
 export function nombreDeSeries(theme: QuizTheme, taille = TAILLE_SESSION): number {
   return Math.max(1, Math.floor(theme.questions.length / taille));
+}
+
+/**
+ * Remélange une série déjà tirée (ordre des questions et des propositions),
+ * par exemple pour rejouer uniquement les questions ratées.
+ */
+export function melangerSerie(questions: QuizQuestion[]): QuizQuestion[] {
+  return melanger(questions).map(melangerOptions);
 }
