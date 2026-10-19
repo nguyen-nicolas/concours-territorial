@@ -70,7 +70,7 @@ function FichePage() {
           className="text-muted-foreground hover:text-primary inline-flex items-center gap-2 font-sans text-sm transition"
         >
           <ArrowLeft className="size-4" />
-          Face à l'inconnu
+          Répondre quand on ne sait pas
         </Link>
 
         <p className="text-primary mt-8 font-sans text-sm font-semibold tracking-[0.2em] uppercase">
