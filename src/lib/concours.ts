@@ -78,8 +78,8 @@ export const concoursList: Concours[] = [
       "Admissibilité : réponses à des questions techniques dans la spécialité",
       "Admission : entretien portant sur l'encadrement d'équipe et l'environnement territorial",
     ],
-    themeIds: ["culture-generale", "statut-fpt", "gestion-comptabilite", "orthographe", "grammaire", "maths-fondamentaux"],
-    aVenir: ["Encadrement d'équipe", "Hygiène et sécurité"],
+    themeIds: ["am-btp-vrd", "am-hygiene-securite", "am-encadrement", "culture-generale", "statut-fpt", "gestion-comptabilite", "orthographe", "grammaire", "maths-fondamentaux"],
+    aVenir: [],
   },
   {
     id: "gardien-brigadier",

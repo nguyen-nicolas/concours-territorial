@@ -4,6 +4,7 @@ import { banqueAnnalesFrancais } from "./banqueAnnales/francais";
 import { banqueAnnalesGestion } from "./banqueAnnales/gestion";
 import { francaisThemes } from "./francaisQuiz";
 import { mathsThemes } from "./mathsQuiz";
+import { themesAgentMaitrise } from "./banqueAgentMaitrise";
 
 export interface QuizQuestion {
   question: string;
@@ -612,6 +613,7 @@ const themesDeBase: QuizTheme[] = [
   },
   ...francaisThemes,
   ...mathsThemes,
+  ...themesAgentMaitrise,
 ];
 
 /** Banque complète : questions d'origine + questions supplémentaires. */
