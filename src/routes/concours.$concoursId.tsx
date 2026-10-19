@@ -11,6 +11,7 @@ import {
   Target,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { getConcours, type Concours } from "@/lib/concours";
 import { quizThemes } from "@/lib/quizData";
 import { fichesMemo } from "@/lib/memoData";
@@ -222,20 +223,7 @@ function ConcoursDetail() {
         </div>
       </section>
 
-      <footer className="border-border border-t">
-        <div className="text-muted-foreground mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm sm:flex-row sm:px-6">
-          <p>Prépa Territoriale — s'informer, se former, réussir.</p>
-          <div className="flex flex-col items-center gap-1 sm:items-end">
-            <p>Contenus d'entraînement, sans valeur réglementaire.</p>
-            <Link
-              to="/soutenir"
-              className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-            >
-              Soutenir le projet
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter largeur="max-w-5xl" />
     </div>
   );
 }
