@@ -2,17 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  RotateCcw,
-  XCircle,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, RotateCcw, XCircle } from "lucide-react";
 import { getTheme, quizThemes } from "@/lib/quizData";
 import { TAILLE_SESSION, tirerSession } from "@/lib/quizSession";
+import { getConcours } from "@/lib/concours";
+import { useConcoursChoisi } from "@/hooks/useConcoursChoisi";
 
 export const Route = createFileRoute("/quiz/$themeId")({
+  // ?concours=<id> : le quiz a été ouvert depuis la page d'un concours, on y ramène l'utilisateur.
+  validateSearch: (search: Record<string, unknown>): { concours?: string } => {
+    const concours = search["concours"];
+    return typeof concours === "string" ? { concours } : {};
+  },
   head: ({ params }) => {
     const theme = getTheme(params.themeId);
     const title = theme
@@ -36,6 +37,16 @@ export const Route = createFileRoute("/quiz/$themeId")({
 function QuizPage() {
   const { themeId } = Route.useParams();
   const theme = getTheme(themeId);
+  const { concours: concoursDepuis } = Route.useSearch();
+  const { concoursId: concoursChoisi } = useConcoursChoisi();
+
+  // Concours de rattachement pour les liens de retour : celui d'où l'on vient,
+  // sinon celui que l'utilisateur prépare (si ce thème en fait partie).
+  const concoursRetour =
+    getConcours(concoursDepuis ?? "") ??
+    (concoursChoisi && getConcours(concoursChoisi)?.themeIds.includes(themeId)
+      ? getConcours(concoursChoisi)
+      : undefined);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -61,7 +72,6 @@ function QuizPage() {
         }
       });
   }, [finished, session, score, total, themeId]);
-
 
   if (!theme) {
     return (
@@ -110,9 +120,7 @@ function QuizPage() {
           <span className="bg-secondary text-secondary-foreground font-display flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold">
             {score}/{questions.length}
           </span>
-          <h1 className="font-display mt-6 text-3xl font-bold">
-            {percentage}% de bonnes réponses
-          </h1>
+          <h1 className="font-display mt-6 text-3xl font-bold">{percentage}% de bonnes réponses</h1>
           <p className="text-muted-foreground mt-3 max-w-md text-center leading-relaxed">
             {verdict}
           </p>
@@ -131,25 +139,42 @@ function QuizPage() {
               <RotateCcw className="h-4 w-4" />
               Nouvelle série de questions
             </button>
-            <Link
-              to="/"
-              hash="themes"
-              className="border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
-            >
-              Autres thèmes
-            </Link>
+            {concoursRetour ? (
+              <Link
+                to="/concours/$concoursId"
+                params={{ concoursId: concoursRetour.id }}
+                className="border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
+              >
+                Autres thèmes de ce concours
+              </Link>
+            ) : (
+              <Link
+                to="/"
+                hash="themes"
+                className="border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
+              >
+                Autres thèmes
+              </Link>
+            )}
           </div>
           {session ? (
             <p className="text-muted-foreground mt-6 text-center text-sm">
               Résultat enregistré dans{" "}
-              <Link to="/mon-espace" className="text-primary font-semibold underline-offset-4 hover:underline">
+              <Link
+                to="/mon-espace"
+                className="text-primary font-semibold underline-offset-4 hover:underline"
+              >
                 votre espace
               </Link>
               .
             </p>
           ) : (
             <p className="text-muted-foreground mt-6 text-center text-sm">
-              <Link to="/auth" search={{ mode: "inscription" }} className="text-primary font-semibold underline-offset-4 hover:underline">
+              <Link
+                to="/auth"
+                search={{ mode: "inscription" }}
+                className="text-primary font-semibold underline-offset-4 hover:underline"
+              >
                 Créez votre compte
               </Link>{" "}
               pour conserver vos scores et suivre votre progression.
@@ -166,13 +191,25 @@ function QuizPage() {
   return (
     <div className="bg-background flex min-h-screen flex-col">
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:py-14">
-        <Link
-          to="/"
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Tous les thèmes
-        </Link>
+        {concoursRetour ? (
+          <Link
+            to="/concours/$concoursId"
+            params={{ concoursId: concoursRetour.id }}
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {concoursRetour.title}
+          </Link>
+        ) : (
+          <Link
+            to="/"
+            hash="themes"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Tous les quiz
+          </Link>
+        )}
 
         <div className="mt-6">
           <p className="text-primary text-xs font-semibold tracking-wide uppercase">
@@ -182,9 +219,7 @@ function QuizPage() {
             <p className="text-muted-foreground text-sm font-medium">
               Question {currentIndex + 1} sur {questions.length}
             </p>
-            <p className="text-muted-foreground text-sm font-medium">
-              Score : {score}
-            </p>
+            <p className="text-muted-foreground text-sm font-medium">Score : {score}</p>
           </div>
           <div className="bg-muted mt-2 h-2 overflow-hidden rounded-full">
             <div
@@ -205,13 +240,11 @@ function QuizPage() {
             {current.options.map((option, index) => {
               const isSelected = selected === index;
               const isAnswer = index === current.answerIndex;
-              let optionClass =
-                "border-border hover:border-primary/50 hover:bg-accent/50";
+              let optionClass = "border-border hover:border-primary/50 hover:bg-accent/50";
 
               if (answered) {
                 if (isAnswer) {
-                  optionClass =
-                    "border-success/60 bg-success/10 text-foreground";
+                  optionClass = "border-success/60 bg-success/10 text-foreground";
                 } else if (isSelected) {
                   optionClass = "border-destructive/60 bg-destructive/10";
                 } else {
@@ -274,9 +307,7 @@ function QuizPage() {
                     <p className="text-destructive text-xs font-semibold tracking-wide uppercase">
                       Votre réponse — {String.fromCharCode(65 + (selected ?? 0))}
                     </p>
-                    <p className="mt-1 text-sm font-medium">
-                      {current.options[selected ?? 0]}
-                    </p>
+                    <p className="mt-1 text-sm font-medium">{current.options[selected ?? 0]}</p>
                     {current.optionNotes[selected ?? 0] && (
                       <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
                         {current.optionNotes[selected ?? 0]}
@@ -285,8 +316,7 @@ function QuizPage() {
                   </div>
                   <div className="rounded-lg border border-success/30 bg-success/10 p-3">
                     <p className="text-success text-xs font-semibold tracking-wide uppercase">
-                      La bonne réponse —{" "}
-                      {String.fromCharCode(65 + current.answerIndex)}
+                      La bonne réponse — {String.fromCharCode(65 + current.answerIndex)}
                     </p>
                     <p className="mt-1 text-sm font-medium">
                       {current.options[current.answerIndex]}
