@@ -6,7 +6,14 @@ import { lovable } from "@/integrations/lovable/index";
 import { SiteHeader } from "@/components/site-header";
 import { useSession } from "@/hooks/useSession";
 
+type ModeAuth = "connexion" | "inscription";
+
 export const Route = createFileRoute("/auth")({
+  // ?mode=inscription ouvre le formulaire de création ; par défaut, la page s'ouvre en connexion.
+  validateSearch: (search: Record<string, unknown>): { mode?: ModeAuth } => {
+    const mode = search["mode"];
+    return mode === "inscription" || mode === "connexion" ? { mode } : {};
+  },
   head: () => {
     const title = "Créer un compte ou se connecter | Prépa Territoriale";
     const description =
@@ -26,7 +33,15 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { session, loading } = useSession();
-  const [mode, setMode] = useState<"connexion" | "inscription">("inscription");
+  const { mode: modeDemande } = Route.useSearch();
+  const [mode, setMode] = useState<ModeAuth>(modeDemande ?? "connexion");
+
+  // Suit les changements d'URL (ex. clic sur « Se connecter » alors qu'on est déjà sur la page).
+  useEffect(() => {
+    setMode(modeDemande ?? "connexion");
+    setErreur(null);
+    setMessage(null);
+  }, [modeDemande]);
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,7 +74,7 @@ function AuthPage() {
         setErreur(traduire(error.message));
       } else if (!data.session) {
         setMessage(
-          "Compte créé. Ouvrez votre boîte mail et cliquez sur le lien de confirmation pour activer votre espace.",
+          "Compte créé ! Ouvrez votre boîte mail et cliquez sur le lien de confirmation. Votre accès sera ensuite validé sous 24 heures : en attendant, tous les quiz sont déjà ouverts.",
         );
       }
     } else {
