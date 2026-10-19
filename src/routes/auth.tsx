@@ -112,8 +112,8 @@ function AuthPage() {
           {mode === "inscription" ? "Créer votre compte" : "Se connecter"}
         </h1>
         <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-          Votre progression, vos scores et le concours que vous préparez sont enregistrés
-          et vous suivent sur tous vos appareils.
+          Votre progression, vos scores et le concours que vous préparez sont enregistrés et vous
+          suivent sur tous vos appareils.
         </p>
 
         <button
@@ -201,6 +201,20 @@ function AuthPage() {
           </button>
         </form>
 
+        {mode === "inscription" && (
+          <p className="text-muted-foreground mt-4 text-center text-xs leading-relaxed">
+            Vos données servent uniquement à gérer votre compte et votre progression. Détails dans
+            la{" "}
+            <Link
+              to="/confidentialite"
+              className="underline underline-offset-4 hover:text-foreground"
+            >
+              politique de confidentialité
+            </Link>
+            .
+          </p>
+        )}
+
         <p className="text-muted-foreground mt-6 text-center text-sm">
           {mode === "inscription" ? "Vous avez déjà un compte ?" : "Pas encore de compte ?"}{" "}
           <button
@@ -222,8 +236,7 @@ function AuthPage() {
 
 function traduire(message: string) {
   console.error("[Auth] erreur Supabase :", message);
-  if (message.includes("Invalid login credentials"))
-    return "E-mail ou mot de passe incorrect.";
+  if (message.includes("Invalid login credentials")) return "E-mail ou mot de passe incorrect.";
   if (message.includes("already registered"))
     return "Un compte existe déjà avec cette adresse. Connectez-vous.";
   if (message.includes("Email not confirmed"))
