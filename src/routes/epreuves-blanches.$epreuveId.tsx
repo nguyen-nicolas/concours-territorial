@@ -10,11 +10,9 @@ import {
   XCircle,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import {
-  composerSujet,
-  getEpreuve,
-  type QuestionEpreuve,
-} from "@/lib/epreuvesBlanches";
+import { VerrouContenu } from "@/components/acces-limite";
+import { useAcces } from "@/hooks/useAcces";
+import { composerSujet, getEpreuve, type QuestionEpreuve } from "@/lib/epreuvesBlanches";
 
 export const Route = createFileRoute("/epreuves-blanches/$epreuveId")({
   head: ({ params }) => {
@@ -45,6 +43,7 @@ function formatTemps(secondes: number): string {
 function EpreuveBlanchePage() {
   const { epreuveId } = Route.useParams();
   const epreuve = getEpreuve(epreuveId);
+  const acces = useAcces();
 
   const [sujet, setSujet] = useState<QuestionEpreuve[]>([]);
   const [demarre, setDemarre] = useState(false);
@@ -84,11 +83,7 @@ function EpreuveBlanchePage() {
   }, [demarre, rendu]);
 
   const score = useMemo(
-    () =>
-      sujet.reduce(
-        (n, q, i) => (reponses[i] === q.answerIndex ? n + 1 : n),
-        0,
-      ),
+    () => sujet.reduce((n, q, i) => (reponses[i] === q.answerIndex ? n + 1 : n), 0),
     [sujet, reponses],
   );
 
@@ -96,9 +91,7 @@ function EpreuveBlanchePage() {
     return (
       <div className="bg-background flex min-h-screen items-center justify-center px-4">
         <div className="max-w-md text-center">
-          <h1 className="font-display text-2xl font-bold">
-            Épreuve introuvable
-          </h1>
+          <h1 className="font-display text-2xl font-bold">Épreuve introuvable</h1>
           <p className="text-muted-foreground mt-3 text-sm">
             Cette épreuve blanche n'existe pas (ou plus).
           </p>
@@ -140,61 +133,57 @@ function EpreuveBlanchePage() {
           <p className="text-primary mt-6 text-xs font-semibold tracking-wide uppercase">
             {epreuve.niveau}
           </p>
-          <h1 className="font-display mt-2 text-3xl font-bold sm:text-4xl">
-            {epreuve.titre}
-          </h1>
-          <p className="text-muted-foreground mt-4 leading-relaxed">
-            {epreuve.description}
-          </p>
+          <h1 className="font-display mt-2 text-3xl font-bold sm:text-4xl">{epreuve.titre}</h1>
+          <p className="text-muted-foreground mt-4 leading-relaxed">{epreuve.description}</p>
 
           <div className="bg-card mt-8 rounded-2xl border p-6 shadow-sm">
             <div className="grid grid-cols-3 gap-4 border-b pb-5 text-center">
               <div>
-                <p className="font-display text-2xl font-bold">
-                  {sujet.length || "…"}
-                </p>
-                <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                  Questions
-                </p>
+                <p className="font-display text-2xl font-bold">{sujet.length || "…"}</p>
+                <p className="text-muted-foreground text-xs tracking-wide uppercase">Questions</p>
               </div>
               <div>
-                <p className="font-display text-2xl font-bold">
-                  {epreuve.dureeMinutes} min
-                </p>
+                <p className="font-display text-2xl font-bold">{epreuve.dureeMinutes} min</p>
                 <p className="text-muted-foreground text-xs tracking-wide uppercase">
                   Temps imparti
                 </p>
               </div>
               <div>
                 <p className="font-display text-2xl font-bold">QCM</p>
-                <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                  Format
-                </p>
+                <p className="text-muted-foreground text-xs tracking-wide uppercase">Format</p>
               </div>
             </div>
             <ul className="text-muted-foreground space-y-2.5 pt-5 text-sm leading-relaxed">
               <li>
-                • Le chronomètre démarre dès que vous cliquez sur « Commencer »,
-                sans possibilité de le mettre en pause.
+                • Le chronomètre démarre dès que vous cliquez sur « Commencer », sans possibilité de
+                le mettre en pause.
               </li>
               <li>
-                • Aucune correction pendant l'épreuve : vous pouvez changer vos
-                réponses et naviguer librement entre les questions.
+                • Aucune correction pendant l'épreuve : vous pouvez changer vos réponses et naviguer
+                librement entre les questions.
               </li>
               <li>
-                • À la fin du temps imparti — ou quand vous rendez la copie — le
-                corrigé détaillé s'affiche question par question.
+                • À la fin du temps imparti — ou quand vous rendez la copie — le corrigé détaillé
+                s'affiche question par question.
               </li>
             </ul>
-            <button
-              onClick={() => sujet.length > 0 && setDemarre(true)}
-              disabled={sujet.length === 0}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors disabled:opacity-60"
-            >
-              <AlarmClock className="h-4 w-4" />
-              Commencer l'épreuve
-            </button>
+            {acces === "valide" ? (
+              <button
+                onClick={() => sujet.length > 0 && setDemarre(true)}
+                disabled={sujet.length === 0}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors disabled:opacity-60"
+              >
+                <AlarmClock className="h-4 w-4" />
+                Commencer l'épreuve
+              </button>
+            ) : acces === "chargement" ? (
+              <p className="text-muted-foreground mt-6 text-center text-sm">Chargement…</p>
+            ) : null}
           </div>
+          <VerrouContenu
+            statut={acces}
+            message="toutes les épreuves blanches chronométrées et à leur corrigé détaillé"
+          />
         </main>
       </div>
     );
@@ -227,9 +216,7 @@ function EpreuveBlanchePage() {
             <h1 className="font-display mt-6 text-3xl font-bold">
               {pourcentage}% de bonnes réponses
             </h1>
-            <p className="text-muted-foreground mt-3 max-w-lg mx-auto leading-relaxed">
-              {verdict}
-            </p>
+            <p className="text-muted-foreground mt-3 max-w-lg mx-auto leading-relaxed">{verdict}</p>
             {sansReponse > 0 && (
               <p className="text-muted-foreground mt-2 text-sm">
                 {sansReponse} question{sansReponse > 1 ? "s" : ""} sans réponse.
@@ -252,9 +239,7 @@ function EpreuveBlanchePage() {
             </div>
           </div>
 
-          <h2 className="font-display mt-14 text-2xl font-bold">
-            Corrigé détaillé
-          </h2>
+          <h2 className="font-display mt-14 text-2xl font-bold">Corrigé détaillé</h2>
           <div className="mt-6 space-y-5">
             {sujet.map((q, i) => {
               const choisie = reponses[i];
@@ -291,9 +276,7 @@ function EpreuveBlanchePage() {
                       </span>
                     )}
                   </div>
-                  <p className="font-display mt-2 text-base leading-snug font-bold">
-                    {q.question}
-                  </p>
+                  <p className="font-display mt-2 text-base leading-snug font-bold">{q.question}</p>
                   <div className="mt-4 space-y-2">
                     {choisie !== null && choisie !== undefined && !correcte && (
                       <p className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm">
@@ -339,9 +322,7 @@ function EpreuveBlanchePage() {
       {/* Bandeau chronomètre */}
       <div
         className={`sticky top-0 z-20 border-b backdrop-blur ${
-          danger
-            ? "bg-destructive/10 border-destructive/30"
-            : "bg-background/90 border-border"
+          danger ? "bg-destructive/10 border-destructive/30" : "bg-background/90 border-border"
         }`}
       >
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
@@ -402,9 +383,7 @@ function EpreuveBlanchePage() {
                 return (
                   <button
                     key={i}
-                    onClick={() =>
-                      setReponses((r) => r.map((v, j) => (j === index ? i : v)))
-                    }
+                    onClick={() => setReponses((r) => r.map((v, j) => (j === index ? i : v)))}
                     className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3.5 text-left text-sm leading-relaxed transition-colors ${
                       choisie
                         ? "border-primary bg-primary/10 text-foreground"
