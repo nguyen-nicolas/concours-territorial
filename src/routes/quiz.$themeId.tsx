@@ -149,7 +149,7 @@ function QuizPage() {
             </p>
           ) : (
             <p className="text-muted-foreground mt-6 text-center text-sm">
-              <Link to="/auth" className="text-primary font-semibold underline-offset-4 hover:underline">
+              <Link to="/auth" search={{ mode: "inscription" }} className="text-primary font-semibold underline-offset-4 hover:underline">
                 Créez votre compte
               </Link>{" "}
               pour conserver vos scores et suivre votre progression.
