@@ -29,15 +29,30 @@ function EnAttentePage() {
           Votre compte est en attente de validation
         </h1>
         <p className="text-muted-foreground mt-4 leading-relaxed">
-          Merci pour votre inscription&nbsp;! Un administrateur doit valider
-          votre accès avant que vous puissiez entrer dans votre espace
-          personnel. Vous recevrez un accès dès que votre compte sera
-          validé — cela prend généralement moins de 24&nbsp;heures.
+          Merci pour votre inscription&nbsp;! Votre espace personnel sera
+          accessible dès que votre compte aura été validé, généralement en
+          moins de 24&nbsp;heures. Revenez simplement vous connecter un peu
+          plus tard.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="bg-card mt-8 w-full rounded-2xl border p-6 text-left shadow-sm">
+          <p className="font-display text-lg font-bold">
+            En attendant, commencez à réviser
+          </p>
+          <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+            Les quiz, les fiches mémo et les épreuves blanches sont déjà
+            ouverts : choisissez votre concours pour trouver les bons thèmes.
+          </p>
+          <Link
+            to="/concours"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors sm:w-auto"
+          >
+            Choisir mon concours
+          </Link>
+        </div>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             to="/"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+            className="border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors"
           >
             Retour à l'accueil
           </Link>
