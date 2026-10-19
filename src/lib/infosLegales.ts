@@ -6,13 +6,13 @@
  */
 export const infosLegales = {
   /** Nom et prénom de la personne qui édite le site (ou raison sociale de l'entreprise). */
-  editeur: "À compléter : prénom et nom",
+  editeur: "Nicolas Nguyen,
 
   /**
    * Statut de l'éditeur, par exemple « Particulier » tant que rien n'est vendu,
    * puis « Entrepreneur individuel (micro-entreprise) » quand les abonnements seront lancés.
    */
-  statut: "À compléter : statut",
+  statut: "Particulier",
 
   /** Numéro SIRET : obligatoire dès que l'activité est commerciale. Laisser "" s'il n'y en a pas encore. */
   siret: "",
@@ -21,10 +21,10 @@ export const infosLegales = {
   adresse: "",
 
   /** Adresse e-mail de contact, affichée sur le site. */
-  email: "À compléter : adresse e-mail de contact",
+  email: "nc",
 
   /** Personne responsable des contenus publiés (en général, l'éditeur lui-même). */
-  directeurPublication: "À compléter : prénom et nom",
+  directeurPublication: "IA",
 
   /** Date de dernière mise à jour des pages légales. */
   miseAJour: "19 octobre 2026",
