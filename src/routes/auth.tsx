@@ -206,6 +206,7 @@ function AuthPage() {
 }
 
 function traduire(message: string) {
+  console.error("[Auth] erreur Supabase :", message);
   if (message.includes("Invalid login credentials"))
     return "E-mail ou mot de passe incorrect.";
   if (message.includes("already registered"))
