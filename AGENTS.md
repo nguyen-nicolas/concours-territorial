@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Rules
+- Public backend settings (VITE_SUPABASE_*) have literal fallbacks in `vite.config.ts` `define`: `.env` is gitignored, so the published build otherwise ships without them and shows a blank screen.
