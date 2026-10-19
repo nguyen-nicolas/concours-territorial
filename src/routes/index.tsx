@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   BookOpenCheck,
+  GraduationCap,
   CircleCheckBig,
   Landmark,
   LineChart,
@@ -15,7 +16,8 @@ import { quizThemes, type QuizTheme } from "@/lib/quizData";
 import { francaisThemes } from "@/lib/francaisQuiz";
 import { mathsThemes } from "@/lib/mathsQuiz";
 import { themesAgentMaitrise } from "@/lib/banqueAgentMaitrise";
-import { concoursList } from "@/lib/concours";
+import { concoursList, getConcours } from "@/lib/concours";
+import { useConcoursChoisi } from "@/hooks/useConcoursChoisi";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -174,6 +176,8 @@ function Index() {
         </div>
       </section>
 
+      <BandeauMonConcours />
+
       {/* Thèmes */}
       <section id="themes" className="scroll-mt-20 pb-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -308,5 +312,83 @@ function Index() {
         </div>
       </footer>
     </div>
+  );
+}
+
+/**
+ * Bandeau personnalisé pour l'utilisateur connecté : reprend son concours,
+ * ou l'invite à en choisir un. Rien ne s'affiche pour un visiteur non connecté.
+ */
+function BandeauMonConcours() {
+  const { connecte, chargement, concoursId } = useConcoursChoisi();
+  if (!connecte || chargement) return null;
+
+  const concours = concoursId ? getConcours(concoursId) : undefined;
+  const themes = concours
+    ? concours.themeIds
+        .map((id) => quizThemes.find((t) => t.id === id))
+        .filter((t): t is QuizTheme => Boolean(t))
+        .slice(0, 3)
+    : [];
+
+  return (
+    <section aria-label="Mon concours" className="pb-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="bg-card rounded-2xl border p-6 shadow-sm sm:p-8">
+          {concours ? (
+            <>
+              <p className="text-primary text-xs font-semibold tracking-wide uppercase">
+                Votre concours
+              </p>
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-4">
+                <h2 className="font-display text-2xl font-bold">{concours.title}</h2>
+                <Link
+                  to="/concours/$concoursId"
+                  params={{ concoursId: concours.id }}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                >
+                  Reprendre mes entraînements
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+              {themes.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {themes.map((theme) => (
+                    <Link
+                      key={theme.id}
+                      to="/quiz/$themeId"
+                      params={{ themeId: theme.id }}
+                      search={{ concours: concours.id }}
+                      className="border-border hover:border-primary/40 hover:bg-accent rounded-full border px-4 py-2 text-sm transition-colors"
+                    >
+                      {theme.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <GraduationCap className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <div>
+                  <h2 className="font-display text-xl font-bold">Quel concours préparez-vous ?</h2>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    Choisissez-le pour retrouver vos thèmes dès l'accueil.
+                  </p>
+                </div>
+              </div>
+              <Link
+                to="/concours"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+              >
+                Choisir mon concours
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
