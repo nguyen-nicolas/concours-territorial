@@ -1,8 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Clock, ListChecks, Target } from "lucide-react";
+import { useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Check,
+  Clock,
+  ListChecks,
+  Loader2,
+  Target,
+} from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import { getConcours } from "@/lib/concours";
+import { getConcours, type Concours } from "@/lib/concours";
 import { quizThemes } from "@/lib/quizData";
+import { fichesMemo } from "@/lib/memoData";
+import { useConcoursChoisi } from "@/hooks/useConcoursChoisi";
 
 export const Route = createFileRoute("/concours/$concoursId")({
   head: ({ params }) => {
@@ -36,9 +48,7 @@ function ConcoursDetail() {
       <div className="bg-background min-h-screen">
         <SiteHeader />
         <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
-          <h1 className="font-display text-3xl font-bold">
-            Concours introuvable
-          </h1>
+          <h1 className="font-display text-3xl font-bold">Concours introuvable</h1>
           <p className="text-muted-foreground mt-3">
             Ce concours n'existe pas encore dans le catalogue.
           </p>
@@ -56,6 +66,8 @@ function ConcoursDetail() {
   const themes = concours.themeIds
     .map((id) => quizThemes.find((t) => t.id === id))
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
+
+  const fiches = fichesMemo.filter((f) => f.concoursIds.includes(concours.id));
 
   return (
     <div className="bg-background min-h-screen">
@@ -76,9 +88,8 @@ function ConcoursDetail() {
           <h1 className="font-display mt-3 text-3xl font-bold text-balance sm:text-4xl">
             {concours.title}
           </h1>
-          <p className="mt-4 max-w-2xl leading-relaxed opacity-90">
-            {concours.description}
-          </p>
+          <p className="mt-4 max-w-2xl leading-relaxed opacity-90">{concours.description}</p>
+          <ChoixConcours concours={concours} />
         </div>
       </section>
 
@@ -90,8 +101,7 @@ function ConcoursDetail() {
               Vos entraînements
             </h2>
             <p className="text-muted-foreground mt-2 text-sm">
-              Les thèmes les plus utiles pour ce concours, corrigés question par
-              question.
+              Les thèmes les plus utiles pour ce concours, corrigés question par question.
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {themes.map((theme) => (
@@ -99,11 +109,10 @@ function ConcoursDetail() {
                   key={theme.id}
                   to="/quiz/$themeId"
                   params={{ themeId: theme.id }}
+                  search={{ concours: concours.id }}
                   className="group bg-card hover:border-primary/40 flex flex-col rounded-2xl border p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <h3 className="font-display text-base leading-snug font-bold">
-                    {theme.title}
-                  </h3>
+                  <h3 className="font-display text-base leading-snug font-bold">{theme.title}</h3>
                   <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">
                     {theme.description}
                   </p>
@@ -147,16 +156,67 @@ function ConcoursDetail() {
                     <span className="bg-secondary text-secondary-foreground mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold">
                       {i + 1}
                     </span>
-                    <span className="text-muted-foreground text-sm leading-relaxed">
-                      {epreuve}
-                    </span>
+                    <span className="text-muted-foreground text-sm leading-relaxed">{epreuve}</span>
                   </li>
                 ))}
               </ol>
               <p className="text-muted-foreground mt-6 text-xs leading-relaxed">
-                Informations indicatives : vérifiez toujours l'arrêté
-                d'ouverture du centre de gestion organisateur.
+                Informations indicatives : vérifiez toujours l'arrêté d'ouverture du centre de
+                gestion organisateur.
               </p>
+            </div>
+
+            <div className="bg-card mt-6 rounded-2xl border p-6 shadow-sm">
+              <h2 className="font-display flex items-center gap-2 text-lg font-bold">
+                <BookOpen className="text-primary h-5 w-5" />
+                Pour réviser
+              </h2>
+              {fiches.length > 0 && (
+                <>
+                  <p className="text-muted-foreground mt-2 text-sm">
+                    {fiches.length} fiche{fiches.length > 1 ? "s" : ""} mémo pour ce concours :
+                  </p>
+                  <ul className="mt-3 space-y-1">
+                    {fiches.slice(0, 5).map((fiche) => (
+                      <li key={fiche.id}>
+                        <Link
+                          to="/memo/$ficheId"
+                          params={{ ficheId: fiche.id }}
+                          className="text-foreground hover:text-primary text-sm underline-offset-4 hover:underline"
+                        >
+                          {fiche.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  {fiches.length > 5 && (
+                    <Link
+                      to="/memo"
+                      search={{ concours: concours.id }}
+                      className="text-primary mt-3 inline-flex items-center gap-1 text-sm font-semibold"
+                    >
+                      Voir les {fiches.length} fiches
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  )}
+                </>
+              )}
+              <div className="border-border mt-4 flex flex-col gap-2 border-t pt-4 text-sm">
+                <Link
+                  to="/epreuves-blanches"
+                  className="text-primary inline-flex items-center gap-1 font-semibold"
+                >
+                  Passer une épreuve blanche
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/methode"
+                  className="text-primary inline-flex items-center gap-1 font-semibold"
+                >
+                  Méthodes des épreuves écrites
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </aside>
         </div>
@@ -167,12 +227,70 @@ function ConcoursDetail() {
           <p>Prépa Territoriale — s'informer, se former, réussir.</p>
           <div className="flex flex-col items-center gap-1 sm:items-end">
             <p>Contenus d'entraînement, sans valeur réglementaire.</p>
-            <Link to="/soutenir" className="hover:text-foreground underline-offset-4 transition-colors hover:underline">
+            <Link
+              to="/soutenir"
+              className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+            >
               Soutenir le projet
             </Link>
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+/** Permet à l'utilisateur connecté d'enregistrer ce concours comme celui qu'il prépare. */
+function ChoixConcours({ concours }: { concours: Concours }) {
+  const { connecte, chargement, concoursId, choisir } = useConcoursChoisi();
+  const [enCours, setEnCours] = useState(false);
+  const [erreur, setErreur] = useState(false);
+
+  if (chargement) return null;
+
+  if (!connecte) {
+    return (
+      <Link
+        to="/auth"
+        search={{ mode: "inscription" }}
+        className="mt-6 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 opacity-90 hover:opacity-100"
+      >
+        Créez un compte pour suivre ce concours et vos progrès
+      </Link>
+    );
+  }
+
+  if (concoursId === concours.id) {
+    return (
+      <p className="bg-primary-foreground/15 mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold">
+        <Check className="h-4 w-4" />
+        C'est le concours que vous préparez
+      </p>
+    );
+  }
+
+  return (
+    <div className="mt-6">
+      <button
+        type="button"
+        disabled={enCours}
+        onClick={async () => {
+          setEnCours(true);
+          setErreur(false);
+          const ok = await choisir(concours.id);
+          setErreur(!ok);
+          setEnCours(false);
+        }}
+        className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:opacity-70"
+      >
+        {enCours ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+        {concoursId ? "Préparer ce concours à la place" : "Je prépare ce concours"}
+      </button>
+      {erreur && (
+        <p role="alert" className="mt-2 text-sm opacity-90">
+          L'enregistrement n'a pas abouti. Réessayez dans un instant.
+        </p>
+      )}
     </div>
   );
 }
