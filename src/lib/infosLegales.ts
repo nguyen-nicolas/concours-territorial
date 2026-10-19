@@ -6,7 +6,7 @@
  */
 export const infosLegales = {
   /** Nom et prénom de la personne qui édite le site (ou raison sociale de l'entreprise). */
-  editeur: "Nicolas Nguyen,
+  editeur: "Nicolas Nguyen",
 
   /**
    * Statut de l'éditeur, par exemple « Particulier » tant que rien n'est vendu,
