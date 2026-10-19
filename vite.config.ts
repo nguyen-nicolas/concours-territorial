@@ -10,10 +10,10 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Fallback used when the build environment has no .env file (the published build
 // previously shipped without them, leaving a blank screen).
 const PUBLIC_BACKEND_URL =
-  process.env.VITE_SUPABASE_URL || "https://iqnlxsvjwrhgjxldiplm.supabase.co";
+  process.env["VITE_SUPABASE_URL"] || "https://iqnlxsvjwrhgjxldiplm.supabase.co";
 const PUBLIC_BACKEND_KEY =
-  process.env.VITE_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_6S2kGqmnifo6KKMAHgNaPA_2eRTOqfT";
-const PUBLIC_BACKEND_PROJECT_ID = process.env.VITE_SUPABASE_PROJECT_ID || "iqnlxsvjwrhgjxldiplm";
+  process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] || "sb_publishable_6S2kGqmnifo6KKMAHgNaPA_2eRTOqfT";
+const PUBLIC_BACKEND_PROJECT_ID = process.env["VITE_SUPABASE_PROJECT_ID"] || "iqnlxsvjwrhgjxldiplm";
 
 export default defineConfig({
   tanstackStart: {
