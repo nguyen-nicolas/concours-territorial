@@ -12,6 +12,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { quizThemes, type QuizTheme } from "@/lib/quizData";
 import { francaisThemes } from "@/lib/francaisQuiz";
 import { mathsThemes } from "@/lib/mathsQuiz";
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Quiz d'entraînement gratuits pour préparer les concours de la fonction publique territoriale : culture générale, droit public, CGCT, statut, gestion budgétaire.",
+          "Quiz corrigés, fiches mémo et épreuves blanches pour préparer les concours de la fonction publique territoriale : socle commun, français, maths et spécialités techniques.",
       },
       {
         property: "og:title",
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Quiz d'entraînement gratuits pour préparer les concours de la fonction publique territoriale : culture générale, droit public, CGCT, statut, gestion budgétaire.",
+          "Quiz corrigés, fiches mémo et épreuves blanches pour préparer les concours de la fonction publique territoriale : socle commun, français, maths et spécialités techniques.",
       },
     ],
   }),
@@ -263,18 +264,18 @@ function Index() {
             {[
               {
                 icon: ListChecks,
-                title: "1. Choisissez un thème",
-                text: "Culture générale, droit public, CGCT, statut ou gestion : ciblez la matière où vous vous sentez le moins à l'aise.",
+                title: "1. Choisissez votre concours",
+                text: "Vous retrouvez les thèmes utiles à votre épreuve : socle commun, français, maths ou spécialité technique. Commencez par celui où vous vous sentez le moins à l'aise.",
               },
               {
                 icon: CircleCheckBig,
                 title: "2. Répondez et apprenez",
-                text: "Chaque question est corrigée immédiatement, avec l'explication du texte de référence (Constitution, CGCT, lois statutaires).",
+                text: "Chaque question est corrigée immédiatement : pourquoi la bonne réponse est la bonne, et pourquoi les autres sont fausses.",
               },
               {
                 icon: LineChart,
                 title: "3. Mesurez vos progrès",
-                text: "À la fin de chaque quiz, votre score vous dit où vous en êtes — et sur quelles notions revenir.",
+                text: "En fin de série, retrouvez vos erreurs corrigées et rejouez-les jusqu'à les maîtriser. Avec un compte, votre progression est enregistrée.",
               },
             ].map((step) => (
               <div key={step.title}>
@@ -287,30 +288,16 @@ function Index() {
             ))}
           </div>
           <Link
-            to="/"
-            hash="themes"
+            to="/concours"
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 mt-12 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors"
           >
-            Voir les thèmes
+            Choisir mon concours
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
 
-      <footer className="border-border border-t">
-        <div className="text-muted-foreground mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm sm:flex-row sm:px-6">
-          <p>Prépa Territoriale — s'informer, se former, réussir.</p>
-          <div className="flex flex-col items-center gap-1 sm:items-end">
-            <p>Contenus d'entraînement, sans valeur réglementaire.</p>
-            <Link
-              to="/soutenir"
-              className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-            >
-              Soutenir le projet
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter largeur="max-w-6xl" />
     </div>
   );
 }
