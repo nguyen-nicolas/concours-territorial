@@ -16,19 +16,23 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-type NavLink = { to: string; label: string; hash?: string };
+/**
+ * `visible` : à partir de quelle largeur d'écran le lien apparaît directement dans la barre.
+ * Sans `visible`, le lien n'est accessible que dans le menu (bouton ☰), présent à toutes les tailles.
+ */
+type NavLink = { to: string; label: string; hash?: string; visible?: "lg" | "xl" };
 
 const NAV: NavLink[] = [
   { to: "/", label: "Accueil" },
-  { to: "/concours", label: "Les concours" },
+  { to: "/concours", label: "Les concours", visible: "lg" },
   { to: "/", label: "Les thèmes", hash: "themes" },
-  { to: "/epreuves-blanches", label: "Épreuves blanches" },
-  { to: "/memo", label: "Fiches mémo" },
+  { to: "/epreuves-blanches", label: "Épreuves blanches", visible: "lg" },
+  { to: "/memo", label: "Fiches mémo", visible: "lg" },
   { to: "/francais", label: "Français" },
   { to: "/maths", label: "Mathématiques" },
-  { to: "/methode", label: "Méthode" },
+  { to: "/methode", label: "Méthode", visible: "xl" },
   { to: "/savoir-repondre", label: "Face à l'inconnu" },
-  { to: "/culture", label: "Culture générale" },
+  { to: "/culture", label: "Culture générale", visible: "xl" },
   { to: "/soutenir", label: "Faire un don" },
 ];
 
@@ -75,23 +79,16 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
           </span>
         </Link>
 
-        {/* Navigation complète : uniquement sur très grands écrans */}
-        <nav className="hidden min-w-0 items-center gap-1 overflow-hidden 2xl:flex">
-          {NAV.map((item) => (
+        {/* Liens principaux visibles dès les écrans d'ordinateur portable ; le reste est dans le menu ☰ */}
+        <nav aria-label="Navigation principale" className="hidden min-w-0 items-center gap-1 lg:flex">
+          {NAV.filter((item) => item.visible).map((item) => (
             <Link
               key={item.label}
               to={item.to}
               {...(item.hash ? { hash: item.hash } : {})}
-              className={linkClass}
+              className={`${linkClass} ${item.visible === "xl" ? "hidden xl:inline-flex" : "inline-flex"}`}
             >
-              {item.label === "Faire un don" ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <Heart className="h-4 w-4" />
-                  {item.label}
-                </span>
-              ) : (
-                item.label
-              )}
+              {item.label}
             </Link>
           ))}
         </nav>
@@ -101,8 +98,8 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             to="/concours"
             className={
               dark
-                ? "hover:bg-primary-foreground/10 hidden items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors md:inline-flex 2xl:hidden"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors md:inline-flex 2xl:hidden"
+                ? "hover:bg-primary-foreground/10 hidden items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors md:inline-flex lg:hidden"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent hidden items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors md:inline-flex lg:hidden"
             }
           >
             <GraduationCap className="h-4 w-4" />
@@ -124,14 +121,14 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
             </span>
           </Link>
 
-          {/* Menu complet accessible sur toutes les tailles sous xl */}
+          {/* Menu complet, accessible à toutes les tailles d'écran */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               aria-label="Ouvrir le menu"
               className={
                 dark
-                  ? "hover:bg-primary-foreground/10 inline-flex items-center justify-center rounded-md p-2.5 transition-colors 2xl:hidden"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center justify-center rounded-md p-2.5 transition-colors 2xl:hidden"
+                  ? "hover:bg-primary-foreground/10 inline-flex items-center justify-center rounded-md p-2.5 transition-colors"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center justify-center rounded-md p-2.5 transition-colors"
               }
             >
               <Menu className="h-5 w-5" />
@@ -149,8 +146,9 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
                     to={item.to}
                     {...(item.hash ? { hash: item.hash } : {})}
                     onClick={() => setOpen(false)}
-                    className="text-foreground hover:bg-accent rounded-lg px-3 py-3 font-sans text-sm transition-colors"
+                    className="text-foreground hover:bg-accent inline-flex items-center gap-1.5 rounded-lg px-3 py-3 font-sans text-sm transition-colors"
                   >
+                    {item.label === "Faire un don" && <Heart className="h-4 w-4" />}
                     {item.label}
                   </Link>
                 ))}
