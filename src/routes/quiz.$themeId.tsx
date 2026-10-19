@@ -7,6 +7,8 @@ import { getTheme } from "@/lib/quizData";
 import { TAILLE_SESSION, melangerSerie, tirerSession } from "@/lib/quizSession";
 import { getConcours } from "@/lib/concours";
 import { useConcoursChoisi } from "@/hooks/useConcoursChoisi";
+import { useAcces } from "@/hooks/useAcces";
+import { VerrouContenu } from "@/components/acces-limite";
 
 export const Route = createFileRoute("/quiz/$themeId")({
   // ?concours=<id> : le quiz a été ouvert depuis la page d'un concours, on y ramène l'utilisateur.
@@ -34,7 +36,11 @@ export const Route = createFileRoute("/quiz/$themeId")({
   component: QuizPage,
 });
 
-type ModeSerie = "serie" | "erreurs";
+/** "apercu" : 3 questions fixes pour les visiteurs et les comptes non validés. */
+type ModeSerie = "apercu" | "serie" | "erreurs";
+
+/** Nombre de questions de l'aperçu gratuit. */
+const TAILLE_APERCU = 3;
 
 const LETTRES = ["a", "b", "c", "d", "e", "f"];
 
@@ -59,15 +65,18 @@ function QuizPage() {
       : undefined);
 
   const { session } = useSession();
+  const acces = useAcces();
+  // Tout le monde démarre sur l'aperçu (toujours les mêmes questions, pour qu'un rechargement
+  // ne donne pas accès à d'autres) ; un compte validé passe ensuite à une vraie série.
   const [questions, setQuestions] = useState(() =>
-    theme ? tirerSession(theme, TAILLE_SESSION) : [],
+    theme ? melangerSerie(theme.questions.slice(0, TAILLE_APERCU)) : [],
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   /** Réponse choisie pour chaque question de la série (même ordre que `questions`). */
   const [reponses, setReponses] = useState<(number | null)[]>([]);
   const [finished, setFinished] = useState(false);
-  const [mode, setMode] = useState<ModeSerie>("serie");
+  const [mode, setMode] = useState<ModeSerie>("apercu");
   const enregistre = useRef(false);
 
   const titreQuestionRef = useRef<HTMLHeadingElement>(null);
@@ -135,6 +144,14 @@ function QuizPage() {
     setMode(nouveauMode);
     enregistre.current = false;
   }
+
+  // Compte validé : on remplace l'aperçu par une vraie série, tant qu'aucune réponse n'a été donnée.
+  useEffect(() => {
+    if (acces === "valide" && mode === "apercu" && reponses.length === 0 && theme) {
+      setQuestions(tirerSession(theme, TAILLE_SESSION));
+      setMode("serie");
+    }
+  }, [acces, mode, reponses.length, theme]);
 
   // Après une réponse : la correction est annoncée (zone aria-live), le focus passe sur
   // « Question suivante » et, sur petit écran, la page défile jusqu'à la correction.
@@ -213,10 +230,15 @@ function QuizPage() {
   const lienRetourClass =
     "border-border hover:bg-accent inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors";
 
+  // Aperçu terminé par un visiteur ou un compte non validé : on invite à s'inscrire.
+  const apercuBloque = mode === "apercu" && acces !== "valide";
+
   if (finished) {
     const percentage = Math.round((score / total) * 100);
     let verdict: string;
-    if (mode === "erreurs") {
+    if (apercuBloque) {
+      verdict = `Aperçu terminé ! Ce thème compte ${theme.questions.length} questions corrigées : la série complète vous attend.`;
+    } else if (mode === "erreurs") {
       verdict =
         erreurs.length === 0
           ? "Toutes vos erreurs sont corrigées : ces notions sont acquises."
@@ -238,6 +260,7 @@ function QuizPage() {
             <p className="text-primary text-xs font-semibold tracking-wide uppercase">
               {theme.title}
               {mode === "erreurs" && " · révision des erreurs"}
+              {apercuBloque && " · aperçu gratuit"}
             </p>
             <span className="bg-secondary text-secondary-foreground font-display mt-4 flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold">
               {score}/{total}
@@ -251,45 +274,71 @@ function QuizPage() {
             </h1>
             <p className="text-muted-foreground mt-3 max-w-md leading-relaxed">{verdict}</p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              {erreurs.length > 0 && (
+            {apercuBloque ? (
+              <div className="w-full">
+                <VerrouContenu
+                  statut={acces}
+                  message={`toutes les questions de ce thème, aux séries complètes et à la révision de vos erreurs`}
+                />
+                <div className="mt-4 flex justify-center">
+                  {concoursRetour ? (
+                    <Link
+                      to="/concours/$concoursId"
+                      params={{ concoursId: concoursRetour.id }}
+                      className={lienRetourClass}
+                    >
+                      Autres thèmes de ce concours
+                    </Link>
+                  ) : (
+                    <Link to="/" hash="themes" className={lienRetourClass}>
+                      Autres thèmes
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                {erreurs.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      demarrer(melangerSerie(erreurs.map((e) => e.question)), "erreurs")
+                    }
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                  >
+                    <RefreshCw className="h-4 w-4" />
+                    Rejouer mes {erreurs.length} erreur{erreurs.length > 1 ? "s" : ""}
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={() => demarrer(melangerSerie(erreurs.map((e) => e.question)), "erreurs")}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                  onClick={() => demarrer(tirerSession(theme, TAILLE_SESSION), "serie")}
+                  className={
+                    erreurs.length > 0
+                      ? lienRetourClass
+                      : "bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                  }
                 >
-                  <RefreshCw className="h-4 w-4" />
-                  Rejouer mes {erreurs.length} erreur{erreurs.length > 1 ? "s" : ""}
+                  <RotateCcw className="h-4 w-4" />
+                  Nouvelle série de questions
                 </button>
-              )}
-              <button
-                type="button"
-                onClick={() => demarrer(tirerSession(theme, TAILLE_SESSION), "serie")}
-                className={
-                  erreurs.length > 0
-                    ? lienRetourClass
-                    : "bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
-                }
-              >
-                <RotateCcw className="h-4 w-4" />
-                Nouvelle série de questions
-              </button>
-              {concoursRetour ? (
-                <Link
-                  to="/concours/$concoursId"
-                  params={{ concoursId: concoursRetour.id }}
-                  className={lienRetourClass}
-                >
-                  Autres thèmes de ce concours
-                </Link>
-              ) : (
-                <Link to="/" hash="themes" className={lienRetourClass}>
-                  Autres thèmes
-                </Link>
-              )}
-            </div>
+                {concoursRetour ? (
+                  <Link
+                    to="/concours/$concoursId"
+                    params={{ concoursId: concoursRetour.id }}
+                    className={lienRetourClass}
+                  >
+                    Autres thèmes de ce concours
+                  </Link>
+                ) : (
+                  <Link to="/" hash="themes" className={lienRetourClass}>
+                    Autres thèmes
+                  </Link>
+                )}
+              </div>
+            )}
 
-            {mode === "erreurs" ? (
+            {mode === "apercu" ? null : mode === "erreurs" ? (
               <p className="text-muted-foreground mt-6 text-sm">
                 Les séries de révision des erreurs ne sont pas comptées dans votre progression.
               </p>
@@ -391,6 +440,7 @@ function QuizPage() {
           <p className="text-primary text-xs font-semibold tracking-wide uppercase">
             {theme.title}
             {mode === "erreurs" && " · révision des erreurs"}
+            {apercuBloque && ` · aperçu gratuit de ${TAILLE_APERCU} questions`}
           </p>
           <div className="mt-3 flex items-center justify-between gap-4">
             <p className="text-muted-foreground text-sm font-medium">
