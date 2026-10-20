@@ -12,5 +12,4 @@
 - [x] Menu de navigation adaptatif (toutes tailles d écran)
 - [ ] Génération de nouvelles questions par l'IA (banque de questions en base, pas de répétition)
 - [x] Enrichir les fiches mémo avec les 96 notions des 5 packs PDF (rédaction originale, phrase pour le jury, questions fréquentes, mémo court)
-- [x] Paiement déconnecté : page « Faire un don » adaptée, sans formulaire de paiement
-- [ ] Conserver les dons ponctuels et ajouter leur paiement : bloqué par l’interdiction des dons sans contrepartie chez Paddle ; accord utilisateur requis pour changer de prestataire.
+- [x] Dons ponctuels avec paiement Stripe (environnements test et live, sans abonnement)
