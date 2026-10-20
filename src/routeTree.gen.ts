@@ -35,6 +35,7 @@ import { Route as SavoirRepondreIndexRouteImport } from './routes/savoir-repondr
 import { Route as SavoirRepondreFicheIdRouteImport } from './routes/savoir-repondre.$ficheId'
 import { Route as FrancaisDicteeDicteeIdRouteImport } from './routes/francais.dictee.$dicteeId'
 import { Route as MathsCoursCoursIdRouteImport } from './routes/maths.cours.$coursId'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -166,6 +167,12 @@ const MathsCoursCoursIdRoute = MathsCoursCoursIdRouteImport.update({
   path: '/maths/cours/$coursId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -220,6 +228,7 @@ export interface FileRoutesByTo {
   '/savoir-repondre': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -249,6 +258,7 @@ export interface FileRoutesById {
   '/savoir-repondre/': typeof SavoirRepondreIndexRoute
   '/francais/dictee/$dicteeId': typeof FrancaisDicteeDicteeIdRoute
   '/maths/cours/$coursId': typeof MathsCoursCoursIdRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/savoir-repondre'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -333,6 +345,7 @@ export interface FileRouteTypes {
     | '/savoir-repondre/'
     | '/francais/dictee/$dicteeId'
     | '/maths/cours/$coursId'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -361,6 +374,7 @@ export interface RootRouteChildren {
   SavoirRepondreIndexRoute: typeof SavoirRepondreIndexRoute
   FrancaisDicteeDicteeIdRoute: typeof FrancaisDicteeDicteeIdRoute
   MathsCoursCoursIdRoute: typeof MathsCoursCoursIdRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -547,6 +561,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MathsCoursCoursIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -587,6 +608,7 @@ const rootRouteChildren: RootRouteChildren = {
   SavoirRepondreIndexRoute: SavoirRepondreIndexRoute,
   FrancaisDicteeDicteeIdRoute: FrancaisDicteeDicteeIdRoute,
   MathsCoursCoursIdRoute: MathsCoursCoursIdRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
