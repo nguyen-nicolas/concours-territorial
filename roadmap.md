@@ -13,3 +13,4 @@
 - [ ] Génération de nouvelles questions par l'IA (banque de questions en base, pas de répétition)
 - [x] Enrichir les fiches mémo avec les 96 notions des 5 packs PDF (rédaction originale, phrase pour le jury, questions fréquentes, mémo court)
 - [x] Paiement déconnecté : page « Faire un don » adaptée, sans formulaire de paiement
+- [ ] Conserver les dons ponctuels et ajouter leur paiement : vérifier l’admissibilité des dons sans contrepartie auprès du prestataire.
