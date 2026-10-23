@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Landmark, GraduationCap, UserRound, Heart, Menu, ChevronDown } from "lucide-react";
 import { useSession } from "@/hooks/useSession";
+import { useSignalerSiEnAttente } from "@/hooks/useAcces";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -65,6 +66,7 @@ const LIEN_DON: Lien = { to: "/soutenir", label: "Soutenir le projet" };
 export function SiteHeader({ dark = false }: { dark?: boolean }) {
   const { session } = useSession();
   const [open, setOpen] = useState(false);
+  useSignalerSiEnAttente();
 
   const triggerClass = dark
     ? "hover:bg-primary-foreground/10 data-[state=open]:bg-primary-foreground/10 inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors"
