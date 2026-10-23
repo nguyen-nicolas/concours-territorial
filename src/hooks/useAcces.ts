@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useSession";
+import { signalerInscription } from "@/lib/inscriptions.functions";
 
 /**
  * Niveau d'accès au contenu :
@@ -33,4 +35,22 @@ export function useAcces(): StatutAcces {
   if (!userId) return "visiteur";
   if (requete.isLoading) return "chargement";
   return requete.data ? "valide" : "en-attente";
+}
+
+let inscriptionSignalee = false;
+
+/**
+ * Prévient l'administratrice (une seule fois, côté serveur) qu'un compte attend sa validation.
+ * Appelé depuis l'en-tête du site : le signalement part dès la première visite après connexion.
+ */
+export function useSignalerSiEnAttente() {
+  const statut = useAcces();
+  useEffect(() => {
+    if (statut !== "en-attente" || inscriptionSignalee) return;
+    inscriptionSignalee = true;
+    signalerInscription().catch((err: Error) => {
+      inscriptionSignalee = false;
+      console.error("[Inscription] signalement impossible :", err.message);
+    });
+  }, [statut]);
 }
