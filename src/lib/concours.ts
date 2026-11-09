@@ -94,9 +94,14 @@ export const concoursList: Concours[] = [
     aVenir: [],
     telechargements: [
       {
-        titre: "Manuel de préparation BTP / VRD",
+        titre: "Manuel de préparation à l'écrit (BTP / VRD)",
         fichier: "/manuel-agent-de-maitrise-btp-vrd.pdf",
         details: "PDF · 43 pages · cours, exercices, sujet blanc et corrigés",
+      },
+      {
+        titre: "Manuel de préparation à l'oral",
+        fichier: "/manuel-oral-agent-de-maitrise-btp-vrd.pdf",
+        details: "PDF · 33 pages · exposé, questions types, mises en situation, simulations de jury",
       },
     ],
   },
