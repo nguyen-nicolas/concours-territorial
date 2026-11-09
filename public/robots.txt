@@ -1,14 +1,19 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /telechargements/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /telechargements/
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /telechargements/
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /telechargements/
 
 User-agent: *
 Allow: /
+Disallow: /telechargements/
