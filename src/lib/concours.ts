@@ -12,6 +12,8 @@ export interface Concours {
   themeIds: string[];
   /** Matières prévues mais pas encore ouvertes à l'entraînement. */
   aVenir: string[];
+  /** Documents à télécharger, réservés aux comptes validés (fichiers rangés dans /public). */
+  telechargements?: { titre: string; fichier: string; details: string }[];
 }
 
 /**
@@ -78,8 +80,25 @@ export const concoursList: Concours[] = [
       "Admissibilité : réponses à des questions techniques dans la spécialité",
       "Admission : entretien portant sur l'encadrement d'équipe et l'environnement territorial",
     ],
-    themeIds: ["am-btp-vrd", "am-hygiene-securite", "am-encadrement", "culture-generale", "statut-fpt", "gestion-comptabilite", "orthographe", "grammaire", "maths-fondamentaux"],
+    themeIds: [
+      "am-btp-vrd",
+      "am-hygiene-securite",
+      "am-encadrement",
+      "culture-generale",
+      "statut-fpt",
+      "gestion-comptabilite",
+      "orthographe",
+      "grammaire",
+      "maths-fondamentaux",
+    ],
     aVenir: [],
+    telechargements: [
+      {
+        titre: "Manuel de préparation BTP / VRD",
+        fichier: "/telechargements/8dd951a17868ddac/manuel-agent-de-maitrise-btp-vrd.pdf",
+        details: "PDF · 43 pages · cours, exercices, sujet blanc et corrigés",
+      },
+    ],
   },
   {
     id: "gardien-brigadier",
@@ -93,7 +112,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : explication de texte relatif à un problème de société",
       "Admission : épreuves physiques et entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "droit-public", "statut-fpt", "orthographe", "grammaire", "maths-fondamentaux"],
+    themeIds: [
+      "culture-generale",
+      "droit-public",
+      "statut-fpt",
+      "orthographe",
+      "grammaire",
+      "maths-fondamentaux",
+    ],
     aVenir: ["Pouvoirs de police du maire", "Explication de texte"],
   },
   {
@@ -109,11 +135,16 @@ export const concoursList: Concours[] = [
       "Admissibilité : réponses à des questions sur des problèmes concrets (droit public ou finances publiques)",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale",
+    themeIds: [
+      "culture-generale",
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite", "orthographe", "grammaire", "maths-consolidation"],
+      "gestion-comptabilite",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Méthode de la note administrative", "Orthographe et grammaire"],
   },
   {
@@ -129,7 +160,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : note ou projet à partir d'un dossier",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire", "maths-consolidation"],
+    themeIds: [
+      "culture-generale",
+      "cgct",
+      "statut-fpt",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Politiques jeunesse", "Méthode de projet"],
   },
   {
@@ -144,7 +182,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : rapport technique avec propositions opérationnelles à partir d'un dossier",
       "Admission : entretien avec le jury sur les compétences techniques",
     ],
-    themeIds: ["culture-generale", "cgct", "gestion-comptabilite", "orthographe", "grammaire", "maths-consolidation"],
+    themeIds: [
+      "culture-generale",
+      "cgct",
+      "gestion-comptabilite",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Méthode du rapport technique", "Commande publique"],
   },
   {
@@ -160,7 +205,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : questions sur les politiques culturelles",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire", "maths-consolidation"],
+    themeIds: [
+      "culture-generale",
+      "cgct",
+      "statut-fpt",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Politiques culturelles", "Méthode de la note"],
   },
   {
@@ -176,11 +228,16 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse ou note administrative dans la spécialité",
       "Admission : entretien avec le jury sur les motivations et les compétences",
     ],
-    themeIds: ["culture-generale",
+    themeIds: [
+      "culture-generale",
       "droit-public",
       "cgct",
       "statut-fpt",
-      "gestion-comptabilite", "orthographe", "grammaire", "maths-consolidation"],
+      "gestion-comptabilite",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Note de synthèse", "Dissertation de culture générale"],
   },
   {
@@ -196,7 +253,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse à partir d'un dossier technique",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "gestion-comptabilite", "orthographe", "grammaire", "maths-ingenieur"],
+    themeIds: [
+      "culture-generale",
+      "cgct",
+      "gestion-comptabilite",
+      "orthographe",
+      "grammaire",
+      "maths-ingenieur",
+    ],
     aVenir: ["Commande publique", "Transition écologique"],
   },
   {
@@ -212,7 +276,14 @@ export const concoursList: Concours[] = [
       "Admissibilité : note de synthèse sur les bibliothèques et la lecture publique",
       "Admission : entretien avec le jury",
     ],
-    themeIds: ["culture-generale", "cgct", "statut-fpt", "orthographe", "grammaire", "maths-consolidation"],
+    themeIds: [
+      "culture-generale",
+      "cgct",
+      "statut-fpt",
+      "orthographe",
+      "grammaire",
+      "maths-consolidation",
+    ],
     aVenir: ["Lecture publique", "Note de synthèse"],
   },
 ];
