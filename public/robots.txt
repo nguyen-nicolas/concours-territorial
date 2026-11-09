@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /manuel-agent-de-maitrise-btp-vrd.pdf
+Disallow: /manuel-oral-agent-de-maitrise-btp-vrd.pdf
 Disallow: /telechargements/
