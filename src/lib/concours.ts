@@ -95,7 +95,7 @@ export const concoursList: Concours[] = [
     telechargements: [
       {
         titre: "Manuel de préparation BTP / VRD",
-        fichier: "/telechargements/8dd951a17868ddac/manuel-agent-de-maitrise-btp-vrd.pdf",
+        fichier: "/manuel-agent-de-maitrise-btp-vrd.pdf",
         details: "PDF · 43 pages · cours, exercices, sujet blanc et corrigés",
       },
     ],
