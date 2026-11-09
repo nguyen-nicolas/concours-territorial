@@ -5,6 +5,8 @@ import {
   ArrowRight,
   BookOpen,
   Check,
+  Download,
+  Lock,
   Clock,
   ListChecks,
   Loader2,
@@ -16,6 +18,7 @@ import { getConcours, type Concours } from "@/lib/concours";
 import { quizThemes } from "@/lib/quizData";
 import { fichesMemo } from "@/lib/memoData";
 import { useConcoursChoisi } from "@/hooks/useConcoursChoisi";
+import { useAcces } from "@/hooks/useAcces";
 
 export const Route = createFileRoute("/concours/$concoursId")({
   head: ({ params }) => {
@@ -172,6 +175,9 @@ function ConcoursDetail() {
                 <BookOpen className="text-primary h-5 w-5" />
                 Pour réviser
               </h2>
+              {concours.telechargements && concours.telechargements.length > 0 && (
+                <Telechargements documents={concours.telechargements} />
+              )}
               {fiches.length > 0 && (
                 <>
                   <p className="text-muted-foreground mt-2 text-sm">
@@ -280,5 +286,48 @@ function ChoixConcours({ concours }: { concours: Concours }) {
         </p>
       )}
     </div>
+  );
+}
+
+/** Documents téléchargeables : le lien n'apparaît que pour un compte validé. */
+function Telechargements({ documents }: { documents: NonNullable<Concours["telechargements"]> }) {
+  const acces = useAcces();
+  return (
+    <ul className="mt-3 space-y-3">
+      {documents.map((doc) => (
+        <li key={doc.fichier} className="bg-secondary/40 rounded-xl p-3">
+          <p className="text-foreground text-sm font-semibold">{doc.titre}</p>
+          <p className="text-muted-foreground mt-0.5 text-xs">{doc.details}</p>
+          {acces === "valide" ? (
+            <a
+              href={doc.fichier}
+              download
+              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Télécharger
+            </a>
+          ) : acces === "chargement" ? null : (
+            <p className="text-muted-foreground mt-3 flex items-start gap-2 text-xs leading-relaxed">
+              <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              {acces === "en-attente" ? (
+                "Disponible dès la validation de votre compte."
+              ) : (
+                <span>
+                  Réservé aux inscrits.{" "}
+                  <Link
+                    to="/auth"
+                    search={{ mode: "inscription" }}
+                    className="text-primary font-semibold underline-offset-4 hover:underline"
+                  >
+                    Créer un compte gratuit
+                  </Link>
+                </span>
+              )}
+            </p>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
