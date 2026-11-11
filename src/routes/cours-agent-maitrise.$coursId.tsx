@@ -303,6 +303,30 @@ function CoursPage() {
             ) : null}
           </nav>
         </ApercuLimite>
+
+        {cours.ressources?.length ? (
+          <section className="border-border mt-12 rounded-2xl border p-6">
+            <h2 className="font-display text-foreground text-xl">Documents officiels</h2>
+            <p className="text-muted-foreground mt-2 text-sm">
+              Sujets, notes de cadrage et fiches publiés par les centres de gestion et le CNFPT. Ces
+              liens s'ouvrent sur leurs sites.
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {cours.ressources.map((r) => (
+                <li key={r.url} className="text-sm">
+                  <a
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    {r.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </main>
       <SiteFooter largeur="max-w-3xl" />
     </div>
