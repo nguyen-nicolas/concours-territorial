@@ -961,7 +961,7 @@ export const themesAgentMaitriseSuite: QuizTheme[] = [
     id: "am-calculs",
     title: "Calculs de chantier",
     description:
-      "Conversions, surfaces, volumes, masses, pentes, échelles, pourcentages et devis : l'épreuve de problèmes en situation.",
+      "Conversions, surfaces, volumes, masses, pentes, échelles, pourcentages et devis : calculs de l'écrit en situation.",
     level: "Approfondissement",
     questions: [
       Q(
