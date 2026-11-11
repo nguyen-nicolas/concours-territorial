@@ -1,0 +1,1453 @@
+import type { QuizQuestion, QuizTheme } from "./quizData";
+
+/**
+ * Suite de la banque de questions du concours d'agent de maîtrise territorial :
+ * bâtiment, terrassement, voirie, réseaux, calculs de chantier et environnement territorial.
+ * Contenus indicatifs : vérifier les textes en vigueur avant chaque session.
+ */
+
+/** Construit une question : la bonne réponse est insérée à la position demandée. */
+function Q(
+  question: string,
+  bonne: string,
+  mauvaises: [string, string, string],
+  explication: string,
+  notes: [string, string, string],
+  position = 0,
+): QuizQuestion {
+  const options = [...mauvaises];
+  options.splice(position, 0, bonne);
+  const optionNotes: (string | null)[] = [...notes];
+  optionNotes.splice(position, 0, null);
+  return { question, options, answerIndex: position, explanation: explication, optionNotes };
+}
+
+export const themesAgentMaitriseSuite: QuizTheme[] = [
+  {
+    id: "am-batiment",
+    title: "Bâtiment : gros œuvre et second œuvre",
+    description:
+      "Fondations, béton, maçonnerie, toiture, désordres courants, acteurs et garanties : le vocabulaire et les réflexes attendus en bâtiment.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Quelle fondation est continue sous un mur porteur ?",
+        "Une semelle filante",
+        ["Une semelle isolée", "Un radier", "Un pieu"],
+        "La semelle filante court sous toute la longueur du mur. La semelle isolée ne porte qu'un poteau.",
+        [
+          "Elle est ponctuelle : elle se place sous un poteau.",
+          "Le radier est une dalle sous toute la surface du bâtiment, pas sous un seul mur.",
+          "Le pieu est une fondation profonde, utilisée quand le bon sol est loin de la surface.",
+        ],
+      ),
+      Q(
+        "Qu'est-ce qu'un radier ?",
+        "Une dalle de béton armé sous toute la surface du bâtiment",
+        [
+          "Une couche de béton maigre au fond de la fouille",
+          "Un mur de soutènement",
+          "Un espace ventilé sous le premier plancher",
+        ],
+        "Le radier répartit les charges sur toute l'emprise du bâtiment : il est utile quand le sol porte mal.",
+        [
+          "C'est le béton de propreté.",
+          "Un mur de soutènement retient la terre d'un talus.",
+          "C'est le vide sanitaire.",
+        ],
+        1,
+      ),
+      Q(
+        "À quoi sert le béton de propreté coulé au fond d'une fouille ?",
+        "À travailler sur une surface propre et plane avant le ferraillage",
+        [
+          "À remplacer la fondation",
+          "À drainer l'eau de la fouille",
+          "À protéger l'acier de la rouille",
+        ],
+        "C'est une couche de béton maigre, souvent de 5 cm : elle n'a pas de rôle structurel.",
+        [
+          "Il ne porte aucune charge : la fondation est coulée au-dessus.",
+          "Il ne draine rien.",
+          "La protection de l'acier est assurée par l'enrobage.",
+        ],
+        2,
+      ),
+      Q(
+        "Qu'appelle-t-on vide sanitaire ?",
+        "Un espace ventilé entre le sol et le premier plancher",
+        ["Un local réservé aux sanitaires", "Une cave aménagée", "Un regard d'assainissement"],
+        "Il isole le plancher de l'humidité du sol et doit rester ventilé.",
+        [
+          "Le mot « sanitaire » ne désigne pas ici des toilettes.",
+          "Une cave est un niveau enterré et accessible, pas un espace technique ventilé.",
+          "Un regard est un ouvrage d'accès à une canalisation.",
+        ],
+      ),
+      Q(
+        "Quel est le rôle d'une arase étanche en haut des fondations ?",
+        "Bloquer les remontées d'humidité dans les murs",
+        ["Rigidifier les murs", "Porter la toiture", "Évacuer les eaux de pluie"],
+        "Sans arase étanche, ou si elle est rompue, l'eau remonte par capillarité : salpêtre, peinture qui cloque en bas des murs.",
+        [
+          "C'est le rôle du chaînage.",
+          "La toiture est portée par la charpente et les murs.",
+          "Les eaux de pluie sont évacuées par les gouttières et les descentes.",
+        ],
+        3,
+      ),
+      Q(
+        "Dans le béton armé, que fait l'acier ?",
+        "Il reprend les efforts de traction",
+        [
+          "Il reprend les efforts de compression",
+          "Il rend le béton étanche",
+          "Il remplace les gravillons",
+        ],
+        "Le béton résiste bien à la compression, l'acier à la traction : leur association est le principe du béton armé.",
+        [
+          "Le béton résiste déjà bien à la compression.",
+          "L'étanchéité dépend de la qualité du béton et des revêtements.",
+          "Les gravillons font partie de la composition du béton.",
+        ],
+        2,
+      ),
+      Q(
+        "Combien de parpaings de 20 × 20 × 50 cm faut-il, environ, pour 1 m² de mur ?",
+        "10",
+        ["5", "20", "50"],
+        "Un parpaing couvre 0,20 × 0,50 = 0,10 m² de mur : il en faut 10 par m².",
+        [
+          "Cela suppose des blocs couvrant 0,20 m².",
+          "Cela suppose des blocs couvrant 0,05 m².",
+          "Cela suppose des blocs couvrant 0,02 m².",
+        ],
+        1,
+      ),
+      Q(
+        "À quoi sert un linteau ?",
+        "À reprendre les charges au-dessus d'une ouverture",
+        [
+          "À évacuer l'eau d'une fenêtre",
+          "À porter verticalement un plancher",
+          "À protéger l'acier de la rouille",
+        ],
+        "Le linteau est la poutre placée au-dessus d'une porte ou d'une fenêtre.",
+        [
+          "C'est le rôle de l'appui, en pente.",
+          "C'est le rôle d'un poteau ou d'un mur porteur.",
+          "C'est le rôle de l'enrobage du béton.",
+        ],
+      ),
+      Q(
+        "Quel est le rôle d'un chaînage ?",
+        "Ceinturer et rigidifier les murs",
+        [
+          "Isoler thermiquement le bâtiment",
+          "Évacuer les eaux de toiture",
+          "Reprendre les charges au-dessus d'une porte",
+        ],
+        "Le chaînage est une ceinture en béton armé, horizontale ou verticale, qui rigidifie les murs.",
+        [
+          "L'isolation relève d'autres matériaux, comme la laine minérale.",
+          "Ce sont les gouttières et les descentes EP qui évacuent l'eau.",
+          "C'est le linteau.",
+        ],
+        2,
+      ),
+      Q(
+        "Quelle est la différence entre une chape et un ragréage ?",
+        "La chape est une couche de mortier qui donne un sol plan ; le ragréage est une couche fine de finition",
+        [
+          "La chape est une peinture ; le ragréage est un enduit de façade",
+          "Les deux désignent la même couche",
+          "Le ragréage est plus épais que la chape",
+        ],
+        "On coule la chape pour obtenir un sol plan, puis on ragrée en finition avant de poser le revêtement.",
+        [
+          "Ni l'une ni l'autre n'est une peinture.",
+          "Ce sont deux couches distinctes.",
+          "C'est l'inverse : le ragréage est une couche fine.",
+        ],
+        3,
+      ),
+      Q(
+        "Que mesure la résistance thermique R d'un isolant ?",
+        "Sa capacité à freiner la chaleur : plus R est grand, mieux le bâtiment est isolé",
+        ["Sa résistance à la compression", "Sa résistance au feu", "Son poids par m²"],
+        "Un pont thermique est une zone de fuite de chaleur qui affaiblit l'isolation.",
+        [
+          "La compression concerne les matériaux de structure.",
+          "La résistance au feu fait l'objet d'autres classements.",
+          "Le poids n'a aucun rapport avec R.",
+        ],
+      ),
+      Q(
+        "Du salpêtre et une peinture qui cloque en bas des murs révèlent le plus souvent :",
+        "Des remontées capillaires",
+        ["Une condensation", "Une fissure de structure", "Une épaufrure"],
+        "L'absence ou la rupture de l'arase étanche laisse l'eau remonter. On signale et on fait diagnostiquer.",
+        [
+          "La condensation donne buée et moisissures, par manque de ventilation.",
+          "Une fissure est une ouverture dans le mur.",
+          "L'épaufrure est un éclatement du béton qui laisse l'acier visible.",
+        ],
+        1,
+      ),
+      Q(
+        "Une fissure en escalier apparaît dans un mur de classe et semble s'agrandir. Quel est le bon réflexe ?",
+        "Poser des témoins datés, photographier, informer la hiérarchie et proposer un diagnostic",
+        [
+          "La reboucher aussitôt avec un enduit",
+          "Attendre la fin de l'année pour voir si elle évolue",
+          "Repeindre le mur pour la masquer",
+        ],
+        "Une fissure évolutive peut révéler un désordre de structure : on sécurise, on suit l'évolution et on alerte.",
+        [
+          "Reboucher masque l'évolution et empêche tout suivi.",
+          "Dans un bâtiment recevant du public, une fissure évolutive ne se surveille pas passivement.",
+          "Masquer le désordre ne règle rien et retarde l'alerte.",
+        ],
+      ),
+      Q(
+        "Qu'est-ce qui provoque une épaufrure du béton ?",
+        "Un acier qui rouille, gonfle et fait éclater le béton",
+        ["Le gel de la toiture", "Un excès de peinture", "Un manque de lumière"],
+        "Un enrobage insuffisant laisse l'eau atteindre l'acier. Il faut purger, traiter l'acier et reconstituer le béton.",
+        [
+          "Elle concerne le béton armé, pas la toiture.",
+          "La peinture n'est pas en cause.",
+          "La lumière n'a aucun effet sur le béton.",
+        ],
+        2,
+      ),
+      Q(
+        "Quatre ans après la réception d'une salle de sport, la toiture-terrasse fuit et la salle est inutilisable. Quelle garantie peut être mise en jeu ?",
+        "La garantie décennale",
+        [
+          "La garantie de parfait achèvement",
+          "La garantie de bon fonctionnement",
+          "Aucune garantie",
+        ],
+        "Le désordre apparaît dans les dix ans et rend l'ouvrage impropre à sa destination.",
+        [
+          "Elle ne dure qu'un an après la réception.",
+          "Elle dure 2 ans et vise les équipements dissociables.",
+          "Dix ans de garantie couvrent ce type de désordre.",
+        ],
+        3,
+      ),
+      Q(
+        "Que signifie la réception d'un ouvrage ?",
+        "L'acceptation de l'ouvrage par le maître d'ouvrage, avec ou sans réserves",
+        [
+          "La livraison des matériaux sur le chantier",
+          "La signature du devis",
+          "Le contrôle du chantier par l'inspection du travail",
+        ],
+        "La réception marque le point de départ des garanties.",
+        [
+          "C'est la livraison, une étape bien antérieure.",
+          "Le devis précède le chantier.",
+          "L'inspection du travail contrôle la sécurité, elle ne réceptionne pas l'ouvrage.",
+        ],
+      ),
+    ],
+  },
+  {
+    id: "am-terrassement",
+    title: "Terrassement et travaux publics",
+    description:
+      "Vocabulaire du terrassement, sols, compactage, matériaux granulaires, topographie : les bases des travaux publics.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Qu'est-ce que le décapage ?",
+        "L'enlèvement de la terre végétale en surface, que l'on stocke pour la réutiliser",
+        [
+          "Le creusement d'une tranchée",
+          "Le compactage d'un remblai",
+          "Le transport des déblais en décharge",
+        ],
+        "La couche décapée mesure souvent 20 à 30 cm : elle sera réemployée pour les espaces verts.",
+        [
+          "C'est une fouille, pas un décapage.",
+          "Le compactage est l'étape inverse : on tasse un remblai.",
+          "C'est l'évacuation, qui a lieu après le décapage.",
+        ],
+      ),
+      Q(
+        "Qu'appelle-t-on fond de forme ?",
+        "Le fond du terrassement, sur lequel on construit l'ouvrage",
+        ["La forme du coffrage", "La dernière couche d'enrobé", "Le talus d'un remblai"],
+        "C'est le niveau atteint après décaissement, que l'on contrôle avant de poser la structure.",
+        [
+          "Un coffrage est un moule pour le béton.",
+          "L'enrobé est en surface, le fond de forme est en profondeur.",
+          "Un talus est une pente de terre.",
+        ],
+        1,
+      ),
+      Q(
+        "Qu'est-ce qu'un talus ?",
+        "Une pente de terre sur le côté d'un déblai ou d'un remblai",
+        ["Un mur de soutènement", "Un fossé de drainage", "Une couche de forme"],
+        "Tailler les parois en talus (talutage) évite le blindage d'une tranchée.",
+        [
+          "Un mur de soutènement retient la terre : un talus est de la terre en pente.",
+          "Un fossé recueille les eaux de pluie.",
+          "La couche de forme se trouve sous la chaussée.",
+        ],
+        2,
+      ),
+      Q(
+        "Que désigne la cubature ?",
+        "Le calcul des volumes de terre",
+        ["La mesure d'une pente", "Le contrôle de la portance", "La couleur du sol"],
+        "La cubature sert à prévoir les volumes à excaver, évacuer ou apporter.",
+        [
+          "La pente se calcule en divisant le dénivelé par la longueur.",
+          "La portance se mesure par l'essai à la plaque.",
+          "La couleur du sol n'a aucun rapport avec les volumes.",
+        ],
+      ),
+      Q(
+        "Où évacue-t-on les terres non réutilisées sur le chantier ?",
+        "Dans une installation de stockage de déchets inertes (ISDI)",
+        [
+          "Dans le réseau d'eaux pluviales",
+          "Sur la voie publique voisine",
+          "Dans le regard le plus proche",
+        ],
+        "Les terres non réemployées sont des déchets inertes : elles vont en ISDI.",
+        [
+          "Les terres obstrueraient le réseau.",
+          "Le domaine public ne peut pas servir de dépôt sauvage.",
+          "Un regard n'est pas un lieu de stockage et risquerait de boucher le réseau.",
+        ],
+        3,
+      ),
+      Q(
+        "Comment réagit un sol argileux à l'eau ?",
+        "Il gonfle à l'humidité et se rétracte en séchant",
+        [
+          "Il draine parfaitement l'eau",
+          "Il durcit au contact de l'eau",
+          "Il ne varie jamais de volume",
+        ],
+        "Ces variations de volume expliquent des fissures dans les bâtiments lors des sécheresses.",
+        [
+          "C'est le comportement d'un sol sableux ou graveleux.",
+          "L'argile devient plastique ou boueuse, pas plus dure.",
+          "Au contraire : ce sont ses variations de volume qui posent problème.",
+        ],
+      ),
+      Q(
+        "Que fait-on lorsque la nappe phréatique est haute et gêne une fouille ?",
+        "On rabat la nappe par pompage",
+        [
+          "On coule le béton dans l'eau sans précaution",
+          "On remblaie immédiatement avec de la terre végétale",
+          "On ignore la nappe si la tranchée mesure moins de 3 m",
+        ],
+        "Le rabattement permet de travailler au sec et de garantir la stabilité de la fouille.",
+        [
+          "Un béton coulé dans l'eau perd ses qualités.",
+          "Un remblai en terre végétale ne règle pas la présence d'eau.",
+          "La profondeur ne dispense pas de traiter l'eau : elle gêne et déstabilise la fouille.",
+        ],
+        1,
+      ),
+      Q(
+        "À quoi sert un traitement des sols à la chaux ?",
+        "À assécher un sol argileux et à améliorer sa portance",
+        ["À colorer le sol", "À augmenter son volume", "À éliminer les racines"],
+        "On peut aussi traiter au liant hydraulique pour durcir le sol.",
+        [
+          "Aucun effet esthétique n'est recherché.",
+          "On cherche à améliorer le sol, pas à le gonfler.",
+          "Les racines sont retirées au décapage.",
+        ],
+      ),
+      Q(
+        "À quoi sert un géotextile ?",
+        "À séparer, filtrer ou renforcer des couches",
+        [
+          "À isoler thermiquement une dalle",
+          "À colmater les fissures d'un mur",
+          "À remplacer la grave dans une chaussée",
+        ],
+        "Posé sur un sol médiocre, il empêche la grave de se mélanger à la terre.",
+        [
+          "Il n'a pas de fonction d'isolation thermique.",
+          "Les murs se réparent avec des mortiers ou des résines.",
+          "Il accompagne la grave, il ne la remplace pas.",
+        ],
+        2,
+      ),
+      Q(
+        "Par quelle épaisseur de couches compacte-t-on un remblai de tranchée ?",
+        "Par couches de 20 à 30 cm",
+        [
+          "En une seule couche de 1 m",
+          "Par couches de 2 à 3 cm",
+          "Il n'est pas nécessaire de compacter si le sol est sec",
+        ],
+        "Une couche trop épaisse n'est pas compactée en profondeur : le remblai tasse et la tranchée s'affaisse.",
+        [
+          "Le compacteur n'agit pas en profondeur sur une telle épaisseur.",
+          "Des couches si fines ne sont ni pratiques ni nécessaires.",
+          "Le compactage est toujours nécessaire, avec une teneur en eau adaptée.",
+        ],
+      ),
+      Q(
+        "À quoi sert l'essai Proctor ?",
+        "À déterminer la teneur en eau la mieux adaptée au compactage",
+        [
+          "À mesurer la profondeur d'une nappe",
+          "À contrôler la pente d'un collecteur",
+          "À identifier le type de bitume",
+        ],
+        "On cherche la teneur en eau qui donne la meilleure densité du sol compacté.",
+        [
+          "Une nappe se mesure avec un piézomètre.",
+          "Une pente se contrôle au niveau ou au laser.",
+          "Le bitume concerne les enrobés, pas les sols.",
+        ],
+        1,
+      ),
+      Q(
+        "Que signifie « GNT 0/31,5 » ?",
+        "Une grave non traitée dont les grains vont de 0 à 31,5 mm",
+        ["Une grave de 31,5 cm d'épaisseur", "Un béton de classe 31,5", "Une pente de 31,5 %"],
+        "d/D donne la taille minimale et maximale des grains, en mm. On l'utilise notamment en couche de fondation et en remblai de tranchée.",
+        [
+          "31,5 est une taille de grains en mm, pas une épaisseur.",
+          "Une classe de béton s'écrit par exemple C25/30.",
+          "Il s'agit d'une granulométrie, pas d'une pente.",
+        ],
+      ),
+      Q(
+        "Une fouille de 6 m × 0,60 m, profonde de 1,20 m, est évacuée avec un camion de 6 m³ (foisonnement 1,3). Combien de rotations ?",
+        "1 rotation",
+        ["2 rotations", "4 rotations", "6 rotations"],
+        "Volume en place : 6 × 0,60 × 1,20 = 4,32 m³. Foisonné : 4,32 × 1,3 = 5,616 m³. Rotations : 5,616 ÷ 6 = 0,94, arrondi à 1.",
+        [
+          "Le volume foisonné (5,616 m³) tient dans un camion de 6 m³.",
+          "Le calcul du volume ne justifie pas autant de rotations.",
+          "Confusion probable avec la longueur de la fouille (6 m).",
+        ],
+        2,
+      ),
+      Q(
+        "Quelle est la différence entre un profil en long et un profil en travers ?",
+        "Le profil en long est une coupe dans la longueur de l'ouvrage ; le profil en travers, une coupe dans sa largeur",
+        [
+          "Le profil en long est un plan de masse ; le profil en travers, une vue de dessus",
+          "Ils représentent la même coupe à deux échelles",
+          "Le profil en travers montre uniquement les altitudes",
+        ],
+        "On lit les altitudes et les pentes sur le profil en long ; la largeur de chaussée, les trottoirs et le dévers sur le profil en travers.",
+        [
+          "Ce sont deux coupes, pas des vues de dessus.",
+          "Ce sont deux coupes différentes.",
+          "Ce sont les altitudes et les pentes que l'on lit sur le profil en long.",
+        ],
+      ),
+      Q(
+        "Un repère a une altitude de 52,30 m. La lecture arrière sur ce repère est de 1,45 m et la lecture avant sur le point B de 2,10 m. Quelle est l'altitude de B ?",
+        "51,65 m",
+        ["52,95 m", "53,75 m", "50,85 m"],
+        "Hauteur de l'appareil : 52,30 + 1,45 = 53,75 m. Altitude de B : 53,75 − 2,10 = 51,65 m.",
+        [
+          "On obtient 52,95 m en inversant les deux lectures.",
+          "53,75 m est la hauteur de l'appareil, pas l'altitude de B.",
+          "50,85 m s'obtient en retranchant seulement la lecture arrière du repère.",
+        ],
+        3,
+      ),
+      Q(
+        "Qu'est-ce qu'un plan de récolement ?",
+        "Le plan de ce qui a réellement été construit",
+        [
+          "Le plan prévisionnel du projet",
+          "Le plan de signalisation du chantier",
+          "Le plan de prévention des risques",
+        ],
+        "Il est établi à la fin des travaux, avec la position réelle des ouvrages et des réseaux.",
+        [
+          "Le plan prévisionnel est établi avant les travaux.",
+          "La signalisation fait l'objet d'un plan spécifique.",
+          "Le plan de prévention concerne l'intervention d'entreprises extérieures.",
+        ],
+        1,
+      ),
+    ],
+  },
+  {
+    id: "am-voirie",
+    title: "Voirie : chaussées et accessibilité",
+    description:
+      "Couches de chaussée, enrobés, dégradations et remèdes, bordures, accessibilité et signalisation.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Quel est le rôle de la couche de liaison dans une chaussée très circulée ?",
+        "Assurer le lien entre la couche de roulement et la couche de base",
+        [
+          "Protéger le sol support de l'eau",
+          "Remplacer la couche de fondation",
+          "Servir d'adhérence aux pneus",
+        ],
+        "La couche de liaison est un enrobé intermédiaire ; l'adhérence est assurée par la couche de roulement.",
+        [
+          "C'est plutôt le rôle de la couche de forme.",
+          "Les deux couches ont des rôles distincts.",
+          "L'adhérence est le rôle de la couche de roulement.",
+        ],
+      ),
+      Q(
+        "Que signifie BBSG ?",
+        "Béton bitumineux semi-grenu",
+        [
+          "Béton de ballast spécial grenu",
+          "Bitume de base sans gravillons",
+          "Béton blanc pour sol glissant",
+        ],
+        "Le BBSG est un enrobé très courant en chaussée.",
+        [
+          "Ce n'est pas la signification du sigle.",
+          "Un enrobé contient des gravillons.",
+          "Ce n'est pas la signification du sigle.",
+        ],
+        1,
+      ),
+      Q(
+        "Quel revêtement économique, fait de bitume et de gravillons, convient aux voies peu circulées ?",
+        "L'enduit superficiel",
+        ["Le béton bitumineux mince", "La grave-ciment", "Le pavage"],
+        "Il est répandu en fine couche : on le choisit pour son faible coût sur les voies peu circulées.",
+        [
+          "Le BBM est un enrobé fabriqué en centrale, plus coûteux.",
+          "La grave-ciment est un matériau de structure.",
+          "Le pavage se pose sur un lit de sable ou de mortier.",
+        ],
+      ),
+      Q(
+        "En quoi consiste le rabotage (ou fraisage) d'une chaussée ?",
+        "Enlever l'ancien enrobé avant d'en poser un nouveau",
+        [
+          "Ajouter une couche de bitume sur l'ancien enrobé",
+          "Compacter l'enrobé neuf",
+          "Marquer les lignes au sol",
+        ],
+        "On rabote notamment pour traiter les ornières avant de renouveler la couche de roulement.",
+        [
+          "C'est l'inverse : on retire de la matière.",
+          "Le compactage a lieu après la mise en œuvre.",
+          "Le marquage se fait à la peinture ou à la résine.",
+        ],
+        2,
+      ),
+      Q(
+        "Un faïençage étendu apparaît sur une rue. Que révèle-t-il ?",
+        "La fatigue de la structure de la chaussée",
+        ["Un excès de bitume", "Une simple usure de la peinture", "Un problème de signalisation"],
+        "Un simple enrobé de surface ne suffit pas : il faut purger et reprendre la structure.",
+        [
+          "L'excès de bitume provoque du ressuage.",
+          "Le faïençage est un réseau de fissures en mailles, sans rapport avec la peinture.",
+          "C'est un désordre de la chaussée, pas de la signalisation.",
+        ],
+      ),
+      Q(
+        "Quel est le remède adapté à une ornière ?",
+        "Le rabotage puis un nouvel enrobé",
+        ["Le simple balayage", "Un traitement à la chaux", "L'ajout de gravillons seulement"],
+        "L'ornière est un creux longitudinal causé par le passage répété de poids lourds ou un enrobé trop mou.",
+        [
+          "Le balayage ne comble pas un creux.",
+          "La chaux traite les sols, pas les enrobés.",
+          "Le gravillonnage traite plutôt le ressuage.",
+        ],
+        1,
+      ),
+      Q(
+        "De quoi le ressuage est-il le signe ?",
+        "D'un bitume qui remonte en surface et la rend glissante",
+        ["D'une perte de gravillons", "D'un enfoncement localisé", "D'un trou dans la chaussée"],
+        "Il est dû à un excès de bitume ou à la chaleur ; on traite par gravillonnage ou renouvellement.",
+        ["C'est le plumage.", "C'est l'affaissement.", "C'est le nid-de-poule."],
+      ),
+      Q(
+        "Un affaissement localisé de chaussée a le plus souvent pour cause :",
+        "Un remblai mal compacté ou une fuite de réseau",
+        ["Un excès de gravillons en surface", "Un trop faible dévers", "L'usure des marquages"],
+        "Il faut rechercher la cause avant de reprendre la chaussée, sinon le désordre réapparaît.",
+        [
+          "Des gravillons en surface n'enfoncent pas la chaussée.",
+          "Un dévers faible gêne l'évacuation de l'eau mais ne crée pas d'affaissement local.",
+          "Les marquages n'ont aucun effet structurel.",
+        ],
+        2,
+      ),
+      Q(
+        "Quelle bordure de trottoir haute est la plus courante ?",
+        "La bordure T2",
+        ["La bordure A", "La bordure P", "Le caniveau CS1"],
+        "Les bordures T sont les bordures de trottoir hautes (T1, T2, T3) ; la T2 est la plus courante.",
+        [
+          "La bordure A est arrondie et franchissable.",
+          "La bordure P est une petite bordure d'allée.",
+          "Le caniveau recueille l'eau au pied de la bordure.",
+        ],
+      ),
+      Q(
+        "Qu'appelle-t-on fil d'eau ?",
+        "La ligne la plus basse, où coule l'eau",
+        [
+          "Le bord extérieur du trottoir",
+          "Le marquage d'un passage piéton",
+          "La pente maximale d'un talus",
+        ],
+        "Le fil d'eau se situe au pied de la bordure, dans le caniveau.",
+        [
+          "Le bord extérieur du trottoir est la bordure.",
+          "Le passage piéton est un zébra.",
+          "Un talus est une pente de terre.",
+        ],
+        1,
+      ),
+      Q(
+        "Quel dévers de chaussée est courant pour évacuer l'eau de pluie ?",
+        "De 2 à 2,5 %",
+        ["De 0 %", "De 10 %", "De 25 %"],
+        "Le dévers est la pente transversale. Sur un cheminement piéton, il ne doit pas dépasser 2 %.",
+        [
+          "Sans pente, l'eau stagne.",
+          "Un dévers de 10 % serait inconfortable et dangereux.",
+          "Une telle pente rendrait la chaussée impraticable.",
+        ],
+      ),
+      Q(
+        "Quelle est la largeur minimale d'une place de stationnement PMR ?",
+        "3,30 m",
+        ["2,00 m", "2,50 m", "5,00 m"],
+        "Elle doit aussi être reliée à un cheminement accessible.",
+        [
+          "Trop étroite pour sortir d'un fauteuil.",
+          "Largeur proche d'une place ordinaire.",
+          "C'est plutôt la longueur d'une place.",
+        ],
+        1,
+      ),
+      Q(
+        "Dans quel cas une pente de 8 % est-elle tolérée sur un cheminement accessible ?",
+        "Sur 2 m au plus, quand on ne peut pas faire autrement",
+        [
+          "Sur toute la longueur du trottoir",
+          "Seulement dans une commune de moins de 2 000 habitants",
+          "Jamais",
+        ],
+        "La règle est de 5 % maximum ; on tolère 8 % sur 2 m et 12 % sur 0,50 m.",
+        [
+          "La tolérance est strictement limitée en longueur.",
+          "La règle ne dépend pas de la taille de la commune.",
+          "Des tolérances existent, mais limitées.",
+        ],
+        2,
+      ),
+      Q(
+        "Que signifie un panneau de signalisation de type B ?",
+        "Une prescription (interdiction ou obligation)",
+        ["Un danger", "Une indication", "Une direction"],
+        "A : danger, AB : intersection, B : prescription, C : indication, D : direction.",
+        [
+          "Les panneaux de danger sont de type A.",
+          "Les panneaux d'indication sont de type C.",
+          "Les panneaux de direction sont de type D.",
+        ],
+        3,
+      ),
+      Q(
+        "Une rue de 120 m × 5,50 m reçoit 6 cm de BBSG (2,35 t/m³). Combien de camions de 25 t faut-il ?",
+        "4 camions",
+        ["3 camions", "5 camions", "94 camions"],
+        "Surface : 660 m². Volume : 39,6 m³. Masse : 93,06 t. 93,06 ÷ 25 = 3,72, arrondi à 4.",
+        [
+          "3 camions n'emporteraient que 75 t : on arrondit toujours au supérieur.",
+          "93 t se transportent en 4 camions de 25 t, pas 5.",
+          "94 correspond à la masse en tonnes, pas au nombre de camions.",
+        ],
+      ),
+      Q(
+        "Vous remplacez 85 m de bordures en éléments de 1 m, avec 3 % de casse. Combien d'éléments commander ?",
+        "88",
+        ["85", "87", "90"],
+        "85 × 1,03 = 87,55, arrondi au supérieur : 88.",
+        [
+          "Cela oublie la casse.",
+          "87,55 s'arrondit à 88 : une commande s'arrondit au supérieur.",
+          "Cela correspond à une casse d'environ 6 %.",
+        ],
+        1,
+      ),
+      Q(
+        "Quelle est la bonne succession pour réparer un nid-de-poule de façon durable ?",
+        "Balisage, découpe de bords francs, nettoyage, couche d'accrochage, enrobé, compactage",
+        [
+          "Enrobé à froid versé sans nettoyage, puis balisage",
+          "Compactage, puis découpe des bords, puis accrochage",
+          "Accrochage, puis balisage, puis enrobé sans compactage",
+        ],
+        "On sécurise d'abord, on prépare le support, on colle, on met en œuvre puis on compacte.",
+        [
+          "Le balisage doit précéder l'intervention, et un support sale empêche l'adhérence.",
+          "On ne peut pas compacter avant d'avoir mis l'enrobé.",
+          "Sans compactage, l'enrobé se désagrège.",
+        ],
+      ),
+    ],
+  },
+  {
+    id: "am-reseaux",
+    title: "Réseaux et assainissement",
+    description:
+      "Eaux usées et pluviales, ouvrages, entretien, couleurs des grillages et procédure DT-DICT.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Que désigne le sigle EV ?",
+        "Les eaux vannes, c'est-à-dire celles des WC",
+        ["Les eaux de voirie", "Les eaux de ville", "Les eaux de vidange des piscines"],
+        "EU : eaux usées. EV : eaux vannes. EP : eaux pluviales.",
+        [
+          "Ce n'est pas le sens du sigle.",
+          "Ce n'est pas le sens du sigle.",
+          "Ce n'est pas le sens du sigle.",
+        ],
+      ),
+      Q(
+        "Une gouttière est branchée sur le réseau d'eaux usées. Quelle en est la conséquence ?",
+        "Une surcharge de la station d'épuration et des risques de débordement",
+        [
+          "Aucune conséquence",
+          "Une amélioration de l'épuration",
+          "Une baisse de la pression d'eau potable",
+        ],
+        "Dans un réseau séparatif, l'eau de pluie doit rester dans le réseau pluvial : c'est un mauvais branchement.",
+        [
+          "L'eau de pluie supplémentaire gonfle les débits.",
+          "Elle dilue les effluents et nuit au rendement.",
+          "Le réseau d'eau potable est un autre réseau.",
+        ],
+        1,
+      ),
+      Q(
+        "Que signifie SPANC ?",
+        "Service public d'assainissement non collectif",
+        [
+          "Service de protection des agents non cotisants",
+          "Système de pompage des eaux non conformes",
+          "Station publique d'assainissement nouvelle conception",
+        ],
+        "Il contrôle les installations d'assainissement individuel (fosses, filtres).",
+        [
+          "Ce n'est pas la signification du sigle.",
+          "Ce n'est pas la signification du sigle.",
+          "Ce n'est pas la signification du sigle.",
+        ],
+      ),
+      Q(
+        "Où se situe la boîte de branchement ?",
+        "En limite de propriété, à la fin de la partie privée du branchement",
+        ["Au milieu de la chaussée", "À l'intérieur de la maison", "À la station d'épuration"],
+        "C'est un regard de contrôle qui sépare la partie privée de la partie publique.",
+        [
+          "Elle ne se place pas dans la voie circulée.",
+          "C'est un ouvrage extérieur, accessible depuis le domaine public.",
+          "La station d'épuration est le point d'arrivée du réseau.",
+        ],
+        2,
+      ),
+      Q(
+        "Où place-t-on un regard de visite sur un collecteur ?",
+        "À chaque changement de direction, de pente ou de diamètre",
+        [
+          "Uniquement à la station d'épuration",
+          "Uniquement aux carrefours",
+          "Tous les 500 m, sans autre condition",
+        ],
+        "Les regards donnent accès au collecteur ; on en place aussi à intervalles réguliers, de l'ordre de 50 à 80 m.",
+        [
+          "Il en faut tout au long du réseau.",
+          "Les changements de direction se trouvent aussi hors carrefours.",
+          "Un tel espacement rendrait l'entretien impossible.",
+        ],
+      ),
+      Q(
+        "Quelle classe de tampon pose-t-on sous une chaussée circulée ?",
+        "D400",
+        ["B125", "A15", "C250"],
+        "D400 supporte environ 40 tonnes : c'est la classe des chaussées circulées.",
+        [
+          "B125 convient aux trottoirs.",
+          "A15 est réservé aux zones piétonnes et cyclistes.",
+          "C250 s'utilise en bordure de trottoir, côté caniveau.",
+        ],
+        3,
+      ),
+      Q(
+        "Qu'est-ce que la cunette d'un regard ?",
+        "La rigole au fond du regard, qui guide l'écoulement",
+        ["Le couvercle en fonte", "L'échelle de descente", "Le tuyau de refoulement"],
+        "Le radier est le fond de l'ouvrage ; la cunette y guide l'eau.",
+        [
+          "Le couvercle est le tampon.",
+          "L'échelle ne fait pas partie du radier de l'ouvrage.",
+          "Le refoulement est une canalisation sous pression.",
+        ],
+      ),
+      Q(
+        "Que signifie qu'un écoulement est gravitaire ?",
+        "Il se fait par la pente, sans pompe",
+        [
+          "Il se fait sous pression",
+          "Il se fait uniquement vers le haut",
+          "Il se fait par aspiration",
+        ],
+        "À l'inverse, le refoulement est une canalisation sous pression, alimentée par un poste de relevage.",
+        [
+          "C'est le cas du refoulement.",
+          "L'eau ne remonte pas d'elle-même.",
+          "Un écoulement gravitaire n'utilise aucune aspiration.",
+        ],
+        1,
+      ),
+      Q(
+        "Qu'est-ce que le curage d'un réseau ?",
+        "Un nettoyage à haute pression, par hydrocureuse",
+        ["Le remplacement d'un collecteur", "Le contrôle par caméra", "Le test à la fumée"],
+        "Le curage élimine dépôts et obstructions avant qu'ils ne provoquent un débordement.",
+        [
+          "Le remplacement est un renouvellement.",
+          "C'est l'inspection télévisée (ITV).",
+          "Le test à la fumée repère les mauvais branchements.",
+        ],
+      ),
+      Q(
+        "À quoi sert l'inspection télévisée (ITV) ?",
+        "À voir l'état intérieur d'une canalisation avec une caméra",
+        [
+          "À mesurer le débit d'une rivière",
+          "À repérer les réseaux sous le trottoir",
+          "À nettoyer les regards",
+        ],
+        "On y repère racines, dépôts, fissures, déboîtements, contre-pentes et effondrements.",
+        [
+          "Elle n'a aucun rapport avec les cours d'eau.",
+          "Les réseaux enterrés se repèrent avec les plans et le marquage-piquetage.",
+          "Le nettoyage est le curage.",
+        ],
+        2,
+      ),
+      Q(
+        "Comment repère-t-on des mauvais branchements, par exemple des eaux usées raccordées au réseau pluvial ?",
+        "Par un test à la fumée",
+        ["Par un essai à la plaque", "Par un essai Proctor", "Par un contrôle au pénétromètre"],
+        "La fumée injectée dans le réseau ressort là où il y a un raccordement anormal.",
+        [
+          "Il mesure la portance d'un sol.",
+          "Il détermine l'humidité optimale de compactage.",
+          "Il contrôle le compactage d'un remblai.",
+        ],
+      ),
+      Q(
+        "Un agent sent une odeur d'œuf pourri en ouvrant un regard. De quel gaz s'agit-il probablement ?",
+        "L'hydrogène sulfuré (H2S), toxique",
+        [
+          "Le méthane, qui est inodore",
+          "Le dioxyde de carbone, qui est inodore",
+          "L'oxygène, qui est indispensable",
+        ],
+        "À forte dose, l'H2S paralyse l'odorat : l'absence d'odeur ne rassure pas. On ne descend pas, on ventile et on mesure l'atmosphère.",
+        [
+          "Le méthane est inodore et explosif.",
+          "Le CO2 est inodore et asphyxiant.",
+          "L'oxygène est inodore ; c'est son manque qui est dangereux.",
+        ],
+        1,
+      ),
+      Q(
+        "Que signifie CATEC ?",
+        "Certificat d'aptitude à travailler en espaces confinés",
+        [
+          "Contrôle annuel des tampons et égouts communaux",
+          "Certificat d'aptitude technique aux engins de chantier",
+          "Contrat d'assurance des travaux en espaces collectifs",
+        ],
+        "Il concerne l'intervention en espaces confinés d'eau et d'assainissement.",
+        [
+          "Ce n'est pas la signification du sigle.",
+          "Les engins relèvent du CACES.",
+          "Ce n'est pas la signification du sigle.",
+        ],
+      ),
+      Q(
+        "Quelle couleur de grillage avertisseur signale un réseau de télécommunications ?",
+        "Vert",
+        ["Rouge", "Bleu", "Jaune"],
+        "Vert : télécommunications et fibre.",
+        ["Rouge : électricité et éclairage public.", "Bleu : eau potable.", "Jaune : gaz."],
+        2,
+      ),
+      Q(
+        "Que précise la classe de précision A, B ou C d'un récépissé de DICT ?",
+        "La précision de la localisation du réseau",
+        [
+          "La profondeur de blindage à prévoir",
+          "La classe de résistance du tampon",
+          "Le diamètre de la canalisation",
+        ],
+        "En classe A, la localisation est précise. En B ou C, elle est moins sûre : il faut des investigations complémentaires et des précautions renforcées (travail à la main ou par aspiration).",
+        [
+          "Le blindage dépend de la profondeur et des parois, pas du récépissé.",
+          "Les classes de tampon sont D400, C250, B125…",
+          "Le diamètre figure sur les plans, pas dans la classe de précision.",
+        ],
+      ),
+      Q(
+        "En cas de fuite exigeant une intervention immédiate, que remplace l'ATU ?",
+        "La DT-DICT, avec information des exploitants",
+        ["L'arrêté de circulation du maire", "L'autorisation de conduite", "Le plan de prévention"],
+        "L'ATU est l'avis de travaux urgents : il permet d'intervenir sans attendre les délais de réponse des exploitants.",
+        [
+          "L'arrêté reste nécessaire pour la circulation.",
+          "L'autorisation de conduite est délivrée par l'employeur.",
+          "Le plan de prévention concerne les entreprises extérieures.",
+        ],
+        1,
+      ),
+      Q(
+        "Que signifie AIPR ?",
+        "Autorisation d'intervention à proximité des réseaux",
+        [
+          "Attestation d'inspection des pompes et réseaux",
+          "Agrément des ingénieurs de projets routiers",
+          "Avis d'intervention de proximité en régie",
+        ],
+        "Elle est obligatoire pour les agents qui interviennent à proximité de réseaux enterrés ou aériens.",
+        [
+          "Ce n'est pas la signification du sigle.",
+          "Ce n'est pas la signification du sigle.",
+          "Ce n'est pas la signification du sigle.",
+        ],
+        2,
+      ),
+      Q(
+        "Un branchement de 12 m doit avoir une pente d'au moins 1 %. La sortie de la maison est à 0,70 m de profondeur, terrain plat. Quelle profondeur minimale à l'arrivée au collecteur ?",
+        "0,82 m",
+        ["0,58 m", "0,70 m", "1,90 m"],
+        "Dénivelé : 0,01 × 12 = 0,12 m. Profondeur : 0,70 + 0,12 = 0,82 m.",
+        [
+          "On a soustrait au lieu d'additionner : le branchement descend vers le collecteur.",
+          "La profondeur ne peut pas rester identique : il faut rattraper la pente.",
+          "1,90 m vient de la confusion entre 1 % et 10 %.",
+        ],
+      ),
+    ],
+  },
+  {
+    id: "am-calculs",
+    title: "Calculs de chantier",
+    description:
+      "Conversions, surfaces, volumes, masses, pentes, échelles, pourcentages et devis : l'épreuve de problèmes en situation.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Convertissez 2,5 hectares en m².",
+        "25 000 m²",
+        ["250 m²", "2 500 m²", "250 000 m²"],
+        "1 hectare = 10 000 m² ; 2,5 × 10 000 = 25 000.",
+        [
+          "Cela suppose 1 ha = 100 m², la valeur d'un are.",
+          "Cela suppose 1 ha = 1 000 m².",
+          "Cela suppose 1 ha = 100 000 m².",
+        ],
+      ),
+      Q(
+        "Convertissez 350 litres en m³.",
+        "0,35 m³",
+        ["3,5 m³", "35 m³", "0,035 m³"],
+        "1 m³ = 1 000 litres : 350 ÷ 1 000 = 0,35.",
+        [
+          "Cela revient à diviser par 100.",
+          "Cela revient à diviser par 10.",
+          "Cela revient à diviser par 10 000.",
+        ],
+        1,
+      ),
+      Q(
+        "Convertissez 75 mm en mètres.",
+        "0,075 m",
+        ["0,75 m", "7,5 m", "0,0075 m"],
+        "1 m = 1 000 mm : 75 ÷ 1 000 = 0,075.",
+        [
+          "Cela revient à diviser par 100 : ce serait la conversion de centimètres.",
+          "Cela revient à diviser par 10.",
+          "Cela revient à diviser par 10 000.",
+        ],
+        2,
+      ),
+      Q(
+        "Quelle est la surface d'une parcelle en trapèze de bases 30 m et 20 m, et de hauteur 15 m ?",
+        "375 m²",
+        ["750 m²", "450 m²", "300 m²"],
+        "S = (grande base + petite base) × hauteur ÷ 2 = (30 + 20) × 15 ÷ 2 = 375.",
+        [
+          "On a oublié de diviser par 2.",
+          "450 = 30 × 15 : seule la grande base est utilisée.",
+          "300 = 20 × 15 : seule la petite base est utilisée.",
+        ],
+      ),
+      Q(
+        "Un massif de rond-point a un rayon de 6 m. Quelle est sa surface (π ≈ 3,14) ?",
+        "113,04 m²",
+        ["37,68 m²", "226,08 m²", "36 m²"],
+        "S = π × r² = 3,14 × 6² = 3,14 × 36 = 113,04.",
+        [
+          "37,68 = 2 × π × r : c'est le périmètre.",
+          "On a doublé le résultat par erreur.",
+          "36 est le carré du rayon, sans π.",
+        ],
+        1,
+      ),
+      Q(
+        "Ce massif de 113,04 m² reçoit 30 cm de terre végétale. Quel volume faut-il ?",
+        "33,91 m³",
+        ["339,12 m³", "3,39 m³", "113,04 m³"],
+        "V = surface × épaisseur = 113,04 × 0,30 = 33,912 m³.",
+        [
+          "Cela suppose 3 m d'épaisseur.",
+          "Cela suppose 3 cm d'épaisseur.",
+          "113,04 est la surface, pas le volume.",
+        ],
+        2,
+      ),
+      Q(
+        "Un devis s'élève à 2 467 € HT. Quel est le montant TTC (TVA 20 %) ?",
+        "2 960,40 €",
+        ["493,40 €", "2 960,00 €", "2 055,83 €"],
+        "TTC = HT × 1,20 = 2 467 × 1,20 = 2 960,40.",
+        [
+          "C'est le montant de la TVA seule.",
+          "On a arrondi le résultat trop tôt.",
+          "On a divisé par 1,20 : c'est le calcul pour passer du TTC au HT.",
+        ],
+      ),
+      Q(
+        "L'entreprise A propose 4 200 € HT, l'entreprise B 4 920 € TTC (TVA 20 %). Que peut-on dire ?",
+        "B est moins chère de 100 € HT",
+        [
+          "A est moins chère de 720 €",
+          "Les deux offres sont au même prix",
+          "A est moins chère de 100 € HT",
+        ],
+        "4 920 ÷ 1,20 = 4 100 € HT. On compare toujours dans la même unité, jamais un HT et un TTC.",
+        [
+          "720 € est l'écart entre un HT et un TTC : la comparaison est faussée.",
+          "4 920 € TTC correspondent à 4 100 € HT, pas à 4 200.",
+          "C'est l'inverse : B vaut 4 100 € HT.",
+        ],
+        3,
+      ),
+      Q(
+        "Un caniveau de 80 m présente un dénivelé de 1,20 m. Quelle est sa pente ?",
+        "1,5 %",
+        ["0,15 %", "15 %", "66,7 %"],
+        "Pente = dénivelé ÷ longueur = 1,20 ÷ 80 = 0,015, soit 1,5 %.",
+        [
+          "Erreur d'un facteur 10 dans le pourcentage.",
+          "Erreur d'un facteur 10 dans l'autre sens.",
+          "66,7 est 80 ÷ 1,20 : le quotient est inversé.",
+        ],
+      ),
+      Q(
+        "Une équipe pose 25 m de bordures par jour. Combien de jours faut-il pour 180 m ?",
+        "8 jours",
+        ["7 jours", "7,2 jours", "9 jours"],
+        "180 ÷ 25 = 7,2 : une durée de chantier s'arrondit au jour entier supérieur.",
+        [
+          "Arrondir à 7 laisserait des mètres non posés.",
+          "7,2 est le résultat brut : on compte en jours entiers.",
+          "8 jours suffisent déjà.",
+        ],
+        1,
+      ),
+      Q(
+        "Un camion fait une rotation en 40 minutes ; il faut 12 rotations. Une journée de 7 h de travail effectif suffit-elle ?",
+        "Non : 12 rotations durent 8 h",
+        [
+          "Oui : 12 rotations durent 6 h",
+          "Oui : 12 rotations durent 5 h 20",
+          "Non : 12 rotations durent 12 h",
+        ],
+        "12 × 40 min = 480 min = 8 h : il faut un second camion ou deux jours.",
+        [
+          "12 × 40 min ne donne pas 360 min.",
+          "320 min correspondent à 8 rotations, pas à 12.",
+          "On a confondu 12 rotations et 12 heures.",
+        ],
+      ),
+      Q(
+        "Le budget voirie de l'année est de 15 000 € ; 11 250 € sont déjà dépensés. Quel pourcentage reste-t-il ?",
+        "25 %",
+        ["75 %", "33 %", "3 750 %"],
+        "11 250 ÷ 15 000 = 75 % dépensés : il reste 25 %, soit 3 750 €.",
+        [
+          "75 % est la part déjà dépensée.",
+          "33 % = 3 750 ÷ 11 250 : mauvais dénominateur.",
+          "3 750 est le montant restant en euros, pas un pourcentage.",
+        ],
+        2,
+      ),
+      Q(
+        "Sur un plan au 1/200, quelle longueur trace-t-on pour un trottoir de 34 m ?",
+        "17 cm",
+        ["1,7 cm", "170 cm", "6 800 cm"],
+        "34 m = 3 400 cm ; 3 400 ÷ 200 = 17 cm.",
+        [
+          "Cela revient à diviser par 2 000.",
+          "Cela revient à diviser par 20.",
+          "On a multiplié au lieu de diviser.",
+        ],
+        1,
+      ),
+      Q(
+        "Un mur de 8 m × 2,50 m comporte une porte de 0,90 × 2,10 m. Il est monté en parpaings de 20 × 20 × 50 cm avec 5 % de casse. Combien en commander ?",
+        "191",
+        ["181", "200", "190"],
+        "Surface nette : 20 − 1,89 = 18,11 m² ; × 10 = 181,1 ; × 1,05 = 190,2, arrondi à 191.",
+        [
+          "181 oublie la casse.",
+          "200 correspond au mur sans porte (20 m² × 10), sans casse.",
+          "190 est arrondi à l'inférieur : une commande s'arrondit au supérieur.",
+        ],
+      ),
+      Q(
+        "Une semelle filante de 0,50 m × 0,30 m court sur 10 m. Le dosage est de 350 kg de ciment par m³ et les sacs pèsent 50 kg. Combien de sacs ?",
+        "11 sacs",
+        ["10 sacs", "525 sacs", "15 sacs"],
+        "Volume : 10 × 0,50 × 0,30 = 1,5 m³ ; ciment : 525 kg ; 525 ÷ 50 = 10,5, arrondi à 11.",
+        [
+          "10,5 s'arrondit au supérieur.",
+          "525 est la masse en kg, pas le nombre de sacs.",
+          "15 sacs correspondraient à 750 kg de ciment.",
+        ],
+        2,
+      ),
+      Q(
+        "Combien de rotations de camion de 8 m³ pour évacuer 12,8 m³ de déblais en place (foisonnement 1,25) ?",
+        "2 rotations",
+        ["1 rotation", "3 rotations", "4 rotations"],
+        "Volume foisonné : 12,8 × 1,25 = 16 m³ ; 16 ÷ 8 = 2.",
+        [
+          "12,8 m³ ne tiennent pas dans un seul camion de 8 m³.",
+          "16 ÷ 8 = 2 exactement : une troisième rotation est inutile.",
+          "Rien ne justifie autant de rotations.",
+        ],
+      ),
+      Q(
+        "Un collecteur de 80 m a un fil d'eau à 45,20 m en amont et à 44,96 m en aval. Quelle est sa pente ?",
+        "0,3 %",
+        ["3 %", "0,03 %", "0,24 %"],
+        "Dénivelé : 0,24 m ; 0,24 ÷ 80 = 0,003, soit 0,3 %.",
+        [
+          "Erreur d'un facteur 10.",
+          "Erreur d'un facteur 10 dans l'autre sens.",
+          "0,24 est le dénivelé en mètres, pas la pente en %.",
+        ],
+        3,
+      ),
+      Q(
+        "Quel volume d'eau contient une conduite de diamètre intérieur 0,20 m sur 50 m (π ≈ 3,14) ?",
+        "1,57 m³",
+        ["6,28 m³", "15,7 m³", "1 570 m³"],
+        "V = π × r² × longueur = 3,14 × 0,10² × 50 = 1,57 m³, soit 1 570 litres.",
+        [
+          "On a utilisé le diamètre à la place du rayon.",
+          "On a oublié d'élever le rayon au carré.",
+          "C'est le volume en litres, pas en m³.",
+        ],
+        1,
+      ),
+      Q(
+        "Sur un plan au 1/500, un tronçon de réseau mesure 8,4 cm. Quelle est sa longueur réelle ?",
+        "42 m",
+        ["4,2 m", "420 m", "16,8 m"],
+        "8,4 × 500 = 4 200 cm = 42 m.",
+        [
+          "Erreur d'un facteur 10.",
+          "Erreur d'un facteur 10 dans l'autre sens.",
+          "Cela correspond à l'échelle 1/200.",
+        ],
+        2,
+      ),
+      Q(
+        "Un calcul donne 12,2 rotations de camion (ou 190,2 parpaings). Que retient-on pour la commande ?",
+        "13 (ou 191), en arrondissant au supérieur",
+        [
+          "12 (ou 190), en arrondissant au plus proche",
+          "12 (ou 190), en arrondissant à l'inférieur",
+          "12,2 (ou 190,2), en gardant la décimale",
+        ],
+        "On ne peut ni faire 0,2 rotation ni commander 0,2 parpaing : on arrondit toujours au supérieur pour ne pas manquer.",
+        [
+          "Arrondir au plus proche laisserait un déficit.",
+          "Arrondir à l'inférieur laisserait du travail ou du matériel manquant.",
+          "Une commande se fait en unités entières.",
+        ],
+      ),
+    ],
+  },
+  {
+    id: "am-environnement",
+    title: "Environnement territorial et fonction publique",
+    description:
+      "Collectivités, budget, commande publique, statut et carrière : les notions de l'entretien avec le jury.",
+    level: "Approfondissement",
+    questions: [
+      Q(
+        "Quelle est la différence essentielle entre un élu et un agent territorial ?",
+        "L'élu décide, l'agent prépare et exécute les décisions",
+        [
+          "L'élu exécute, l'agent décide",
+          "Il n'y en a pas : les deux décident",
+          "L'agent est élu par les habitants",
+        ],
+        "Exemple : le conseil municipal vote le budget de voirie, le service technique réalise les travaux.",
+        [
+          "C'est l'inverse.",
+          "Les décisions politiques relèvent des élus.",
+          "Les agents sont recrutés, pas élus.",
+        ],
+      ),
+      Q(
+        "Qui dirige l'ensemble de l'administration d'une collectivité ?",
+        "Le directeur général des services (DGS)",
+        [
+          "Le directeur des services techniques (DST)",
+          "Le conseiller de prévention",
+          "Le trésorier",
+        ],
+        "Le DST dirige les services techniques, sous l'autorité du DGS.",
+        [
+          "Le DST ne dirige que les services techniques.",
+          "Le conseiller de prévention coordonne la prévention.",
+          "Le comptable public gère l'argent, pas l'administration.",
+        ],
+        1,
+      ),
+      Q(
+        "Pour combien de temps les conseillers municipaux sont-ils élus ?",
+        "6 ans",
+        ["4 ans", "5 ans", "3 ans"],
+        "Les élus municipaux, départementaux et régionaux le sont pour 6 ans.",
+        [
+          "Ce n'est pas la durée du mandat municipal.",
+          "C'est la durée du mandat des députés, pas des élus locaux.",
+          "Trop court pour un mandat local.",
+        ],
+        2,
+      ),
+      Q(
+        "Quelle collectivité a la charge des collèges ?",
+        "Le département",
+        ["La commune", "La région", "L'intercommunalité"],
+        "La commune gère les écoles primaires, le département les collèges, la région les lycées.",
+        [
+          "La commune a la charge des écoles primaires.",
+          "La région gère les lycées.",
+          "L'intercommunalité exerce les compétences transférées par les communes ou attribuées par la loi.",
+        ],
+      ),
+      Q(
+        "L'achat d'un camion benne relève :",
+        "De l'investissement",
+        ["Du fonctionnement", "Uniquement du budget annexe", "D'aucune section du budget"],
+        "Un camion est un bien durable. Le carburant, dépense courante, relève du fonctionnement.",
+        [
+          "Le fonctionnement concerne les dépenses courantes qui reviennent chaque année.",
+          "Le budget annexe suit un service précis, mais l'achat reste un investissement.",
+          "Toute dépense relève de l'une des deux sections.",
+        ],
+      ),
+      Q(
+        "Qui vote le budget d'une commune ?",
+        "Le conseil municipal",
+        ["Le maire seul", "Le préfet", "Le directeur général des services"],
+        "Le maire propose et exécute le budget ; l'assemblée délibérante le vote.",
+        [
+          "Le maire propose et exécute, mais l'assemblée vote.",
+          "Le préfet contrôle la légalité, il ne vote pas le budget.",
+          "Le DGS dirige l'administration, il ne vote pas.",
+        ],
+        1,
+      ),
+      Q(
+        "Comment est principalement financé le budget annexe de l'assainissement ?",
+        "Par la redevance payée par les usagers",
+        ["Par l'impôt sur le revenu", "Par des dons", "Par le budget de l'État uniquement"],
+        "Le service est financé localement, en grande partie par ses usagers.",
+        [
+          "L'impôt sur le revenu revient à l'État.",
+          "Les dons ne financent pas un service public de cette ampleur.",
+          "Ce service est financé localement, par ses usagers.",
+        ],
+      ),
+      Q(
+        "Quels sont les principes de la commande publique ?",
+        "Liberté d'accès, égalité de traitement des candidats et transparence des procédures",
+        [
+          "Rapidité, discrétion et gré à gré",
+          "Préférence locale, ancienneté et négociation",
+          "Gratuité, anonymat et tirage au sort",
+        ],
+        "Ces principes encadrent les achats pour garantir un bon usage de l'argent public.",
+        [
+          "La discrétion et le gré à gré s'opposent à la transparence.",
+          "La préférence locale heurte l'égalité de traitement.",
+          "Ces notions n'ont rien à voir avec la commande publique.",
+        ],
+        2,
+      ),
+      Q(
+        "Qu'est-ce qu'un marché à bons de commande ?",
+        "Un marché dont les prix sont fixés à l'avance et dans lequel on commande au fur et à mesure des besoins",
+        [
+          "Un marché passé uniquement par téléphone",
+          "Un achat sans aucune règle de concurrence",
+          "Un marché où l'on commande tout le matériel en une seule fois",
+        ],
+        "Il est courant pour les fournitures de chantier.",
+        [
+          "Le mode de communication n'est pas ce qui définit ce marché.",
+          "Il reste soumis aux principes de la commande publique.",
+          "Au contraire : on commande par étapes.",
+        ],
+      ),
+      Q(
+        "À quelle catégorie appartient le cadre d'emplois des agents de maîtrise ?",
+        "À la catégorie C",
+        ["À la catégorie A", "À la catégorie B", "À la catégorie D"],
+        "C : exécution et encadrement de proximité. A : conception et direction. B : application et encadrement intermédiaire.",
+        [
+          "La catégorie A correspond à la conception et à la direction.",
+          "La catégorie B correspond à l'application et à l'encadrement intermédiaire.",
+          "Il n'existe plus de catégorie D dans la fonction publique.",
+        ],
+      ),
+      Q(
+        "Qu'est-ce qui détermine la rémunération au sein d'un grade ?",
+        "L'échelon",
+        ["Le cadre d'emplois seul", "Le concours passé", "La commune de recrutement seule"],
+        "Le grade donne vocation à occuper certains emplois ; l'échelon est le niveau dans le grade.",
+        [
+          "Plusieurs grades composent un cadre d'emplois.",
+          "Le concours donne accès au grade, pas à la rémunération.",
+          "La rémunération dépend du grade et de l'échelon.",
+        ],
+        1,
+      ),
+      Q(
+        "Quel est le rôle du CNFPT ?",
+        "La formation des agents territoriaux",
+        [
+          "L'organisation de tous les concours",
+          "Le jugement des sanctions disciplinaires",
+          "Le vote du budget des communes",
+        ],
+        "Il propose la formation d'intégration et les formations de professionnalisation.",
+        [
+          "Les concours sont très souvent organisés par les centres de gestion.",
+          "Le conseil de discipline juge les sanctions les plus lourdes.",
+          "Le budget est voté par l'assemblée délibérante.",
+        ],
+      ),
+      Q(
+        "Que fait un centre de gestion (CDG) ?",
+        "Il organise de nombreux concours et gère certaines questions de carrière pour les collectivités affiliées",
+        [
+          "Il construit les voiries communales",
+          "Il vote les budgets des communes",
+          "Il dirige la police municipale",
+        ],
+        "Les centres de gestion accompagnent les collectivités affiliées sur la gestion du personnel.",
+        [
+          "La voirie communale relève de la commune.",
+          "Le budget est voté par l'assemblée délibérante de chaque collectivité.",
+          "La police municipale relève du maire.",
+        ],
+        3,
+      ),
+      Q(
+        "Dans quel cas la CAP siège-t-elle en conseil de discipline ?",
+        "Pour les sanctions les plus lourdes",
+        ["Pour un simple avertissement", "Pour le vote du budget", "Pour les congés annuels"],
+        "Les sanctions du 1er groupe (avertissement, blâme, exclusion jusqu'à 3 jours) sont prononcées sans conseil de discipline.",
+        [
+          "L'avertissement est une sanction du 1er groupe, prononcée sans conseil de discipline.",
+          "Le budget est voté par l'assemblée délibérante.",
+          "Les congés relèvent de l'organisation du service.",
+        ],
+      ),
+      Q(
+        "Que se passe-t-il après la réussite à un concours de la fonction publique territoriale ?",
+        "Inscription sur une liste d'aptitude, puis recrutement par une collectivité",
+        [
+          "Titularisation immédiate et automatique",
+          "Affectation d'office dans la collectivité de son choix",
+          "Attribution automatique du grade supérieur",
+        ],
+        "Réussir le concours ne garantit pas un poste : il faut être recruté, puis effectuer un stage avant la titularisation.",
+        [
+          "Le stage précède la titularisation.",
+          "Le lauréat doit être recruté par une collectivité.",
+          "Le concours donne accès au grade visé.",
+        ],
+      ),
+      Q(
+        "Que programme le PAVE ?",
+        "Les travaux de mise en accessibilité de la voirie et des espaces publics",
+        [
+          "Le plan de ravalement des façades",
+          "Le plan de prévention des accidents de la voie",
+          "Le programme annuel de viabilité hivernale",
+        ],
+        "Le plan de mise en accessibilité de la voirie et des espaces publics ordonne les travaux de la commune.",
+        [
+          "Il ne concerne pas les façades.",
+          "Il traite de l'accessibilité, pas de la prévention des accidents.",
+          "La viabilité hivernale est un autre dispositif (salage, déneigement).",
+        ],
+        1,
+      ),
+      Q(
+        "Que signifie « zéro pesticide » pour l'entretien des espaces publics ?",
+        "Les collectivités n'emploient plus de produits phytosanitaires chimiques sur la plupart des espaces publics",
+        [
+          "Les herbes sont interdites sur les trottoirs",
+          "Seuls les produits importés sont autorisés",
+          "Les produits sont autorisés en cas de forte chaleur",
+        ],
+        "Les méthodes d'entretien changent : désherbage mécanique, thermique ou manuel, plantes couvre-sol, tolérance de l'herbe spontanée.",
+        [
+          "Le principe concerne l'usage de produits chimiques, pas la présence d'herbes.",
+          "L'origine d'un produit chimique ne change rien à la règle.",
+          "La chaleur ne constitue pas une dérogation.",
+        ],
+        2,
+      ),
+    ],
+  },
+];
