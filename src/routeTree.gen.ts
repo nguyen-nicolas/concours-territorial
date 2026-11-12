@@ -17,9 +17,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EnAttenteRouteImport } from './routes/en-attente'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as SoutenirRouteImport } from './routes/soutenir'
+import { Route as ValiderRouteImport } from './routes/valider'
 import { Route as AuthenticatedMonEspaceRouteImport } from './routes/_authenticated/mon-espace'
 import { Route as ConcoursIndexRouteImport } from './routes/concours.index'
 import { Route as ConcoursConcoursIdRouteImport } from './routes/concours.$concoursId'
+import { Route as CoursAgentMaitriseIndexRouteImport } from './routes/cours-agent-maitrise.index'
+import { Route as CoursAgentMaitriseCoursIdRouteImport } from './routes/cours-agent-maitrise.$coursId'
 import { Route as CultureIndexRouteImport } from './routes/culture.index'
 import { Route as CultureDossierIdRouteImport } from './routes/culture.$dossierId'
 import { Route as EpreuvesBlanchesIndexRouteImport } from './routes/epreuves-blanches.index'
@@ -76,6 +79,11 @@ const SoutenirRoute = SoutenirRouteImport.update({
   path: '/soutenir',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ValiderRoute = ValiderRouteImport.update({
+  id: '/valider',
+  path: '/valider',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedMonEspaceRoute = AuthenticatedMonEspaceRouteImport.update({
   id: '/mon-espace',
   path: '/mon-espace',
@@ -91,6 +99,17 @@ const ConcoursConcoursIdRoute = ConcoursConcoursIdRouteImport.update({
   path: '/concours/$concoursId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursAgentMaitriseIndexRoute = CoursAgentMaitriseIndexRouteImport.update({
+  id: '/cours-agent-maitrise/',
+  path: '/cours-agent-maitrise/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursAgentMaitriseCoursIdRoute =
+  CoursAgentMaitriseCoursIdRouteImport.update({
+    id: '/cours-agent-maitrise/$coursId',
+    path: '/cours-agent-maitrise/$coursId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CultureIndexRoute = CultureIndexRouteImport.update({
   id: '/culture/',
   path: '/culture/',
@@ -182,8 +201,10 @@ export interface FileRoutesByFullPath {
   '/en-attente': typeof EnAttenteRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
+  '/valider': typeof ValiderRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/cours-agent-maitrise/$coursId': typeof CoursAgentMaitriseCoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
   '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
@@ -191,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/cours-agent-maitrise/': typeof CoursAgentMaitriseIndexRoute
   '/culture/': typeof CultureIndexRoute
   '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
   '/francais/': typeof FrancaisIndexRoute
@@ -210,8 +232,10 @@ export interface FileRoutesByTo {
   '/en-attente': typeof EnAttenteRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
+  '/valider': typeof ValiderRoute
   '/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/cours-agent-maitrise/$coursId': typeof CoursAgentMaitriseCoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
   '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
@@ -219,6 +243,7 @@ export interface FileRoutesByTo {
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours': typeof ConcoursIndexRoute
+  '/cours-agent-maitrise': typeof CoursAgentMaitriseIndexRoute
   '/culture': typeof CultureIndexRoute
   '/epreuves-blanches': typeof EpreuvesBlanchesIndexRoute
   '/francais': typeof FrancaisIndexRoute
@@ -240,8 +265,10 @@ export interface FileRoutesById {
   '/en-attente': typeof EnAttenteRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/soutenir': typeof SoutenirRoute
+  '/valider': typeof ValiderRoute
   '/_authenticated/mon-espace': typeof AuthenticatedMonEspaceRoute
   '/concours/$concoursId': typeof ConcoursConcoursIdRoute
+  '/cours-agent-maitrise/$coursId': typeof CoursAgentMaitriseCoursIdRoute
   '/culture/$dossierId': typeof CultureDossierIdRoute
   '/epreuves-blanches/$epreuveId': typeof EpreuvesBlanchesEpreuveIdRoute
   '/memo/$ficheId': typeof MemoFicheIdRoute
@@ -249,6 +276,7 @@ export interface FileRoutesById {
   '/quiz/$themeId': typeof QuizThemeIdRoute
   '/savoir-repondre/$ficheId': typeof SavoirRepondreFicheIdRoute
   '/concours/': typeof ConcoursIndexRoute
+  '/cours-agent-maitrise/': typeof CoursAgentMaitriseIndexRoute
   '/culture/': typeof CultureIndexRoute
   '/epreuves-blanches/': typeof EpreuvesBlanchesIndexRoute
   '/francais/': typeof FrancaisIndexRoute
@@ -270,8 +298,10 @@ export interface FileRouteTypes {
     | '/en-attente'
     | '/mentions-legales'
     | '/soutenir'
+    | '/valider'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/cours-agent-maitrise/$coursId'
     | '/culture/$dossierId'
     | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
@@ -279,6 +309,7 @@ export interface FileRouteTypes {
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
+    | '/cours-agent-maitrise/'
     | '/culture/'
     | '/epreuves-blanches/'
     | '/francais/'
@@ -298,8 +329,10 @@ export interface FileRouteTypes {
     | '/en-attente'
     | '/mentions-legales'
     | '/soutenir'
+    | '/valider'
     | '/mon-espace'
     | '/concours/$concoursId'
+    | '/cours-agent-maitrise/$coursId'
     | '/culture/$dossierId'
     | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
@@ -307,6 +340,7 @@ export interface FileRouteTypes {
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours'
+    | '/cours-agent-maitrise'
     | '/culture'
     | '/epreuves-blanches'
     | '/francais'
@@ -327,8 +361,10 @@ export interface FileRouteTypes {
     | '/en-attente'
     | '/mentions-legales'
     | '/soutenir'
+    | '/valider'
     | '/_authenticated/mon-espace'
     | '/concours/$concoursId'
+    | '/cours-agent-maitrise/$coursId'
     | '/culture/$dossierId'
     | '/epreuves-blanches/$epreuveId'
     | '/memo/$ficheId'
@@ -336,6 +372,7 @@ export interface FileRouteTypes {
     | '/quiz/$themeId'
     | '/savoir-repondre/$ficheId'
     | '/concours/'
+    | '/cours-agent-maitrise/'
     | '/culture/'
     | '/epreuves-blanches/'
     | '/francais/'
@@ -357,7 +394,9 @@ export interface RootRouteChildren {
   EnAttenteRoute: typeof EnAttenteRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   SoutenirRoute: typeof SoutenirRoute
+  ValiderRoute: typeof ValiderRoute
   ConcoursConcoursIdRoute: typeof ConcoursConcoursIdRoute
+  CoursAgentMaitriseCoursIdRoute: typeof CoursAgentMaitriseCoursIdRoute
   CultureDossierIdRoute: typeof CultureDossierIdRoute
   EpreuvesBlanchesEpreuveIdRoute: typeof EpreuvesBlanchesEpreuveIdRoute
   MemoFicheIdRoute: typeof MemoFicheIdRoute
@@ -365,6 +404,7 @@ export interface RootRouteChildren {
   QuizThemeIdRoute: typeof QuizThemeIdRoute
   SavoirRepondreFicheIdRoute: typeof SavoirRepondreFicheIdRoute
   ConcoursIndexRoute: typeof ConcoursIndexRoute
+  CoursAgentMaitriseIndexRoute: typeof CoursAgentMaitriseIndexRoute
   CultureIndexRoute: typeof CultureIndexRoute
   EpreuvesBlanchesIndexRoute: typeof EpreuvesBlanchesIndexRoute
   FrancaisIndexRoute: typeof FrancaisIndexRoute
@@ -435,6 +475,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoutenirRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/valider': {
+      id: '/valider'
+      path: '/valider'
+      fullPath: '/valider'
+      preLoaderRoute: typeof ValiderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/mon-espace': {
       id: '/_authenticated/mon-espace'
       path: '/mon-espace'
@@ -454,6 +501,20 @@ declare module '@tanstack/react-router' {
       path: '/concours/$concoursId'
       fullPath: '/concours/$concoursId'
       preLoaderRoute: typeof ConcoursConcoursIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cours-agent-maitrise/': {
+      id: '/cours-agent-maitrise/'
+      path: '/cours-agent-maitrise'
+      fullPath: '/cours-agent-maitrise/'
+      preLoaderRoute: typeof CoursAgentMaitriseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cours-agent-maitrise/$coursId': {
+      id: '/cours-agent-maitrise/$coursId'
+      path: '/cours-agent-maitrise/$coursId'
+      fullPath: '/cours-agent-maitrise/$coursId'
+      preLoaderRoute: typeof CoursAgentMaitriseCoursIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/culture/': {
@@ -591,7 +652,9 @@ const rootRouteChildren: RootRouteChildren = {
   EnAttenteRoute: EnAttenteRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   SoutenirRoute: SoutenirRoute,
+  ValiderRoute: ValiderRoute,
   ConcoursConcoursIdRoute: ConcoursConcoursIdRoute,
+  CoursAgentMaitriseCoursIdRoute: CoursAgentMaitriseCoursIdRoute,
   CultureDossierIdRoute: CultureDossierIdRoute,
   EpreuvesBlanchesEpreuveIdRoute: EpreuvesBlanchesEpreuveIdRoute,
   MemoFicheIdRoute: MemoFicheIdRoute,
@@ -599,6 +662,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuizThemeIdRoute: QuizThemeIdRoute,
   SavoirRepondreFicheIdRoute: SavoirRepondreFicheIdRoute,
   ConcoursIndexRoute: ConcoursIndexRoute,
+  CoursAgentMaitriseIndexRoute: CoursAgentMaitriseIndexRoute,
   CultureIndexRoute: CultureIndexRoute,
   EpreuvesBlanchesIndexRoute: EpreuvesBlanchesIndexRoute,
   FrancaisIndexRoute: FrancaisIndexRoute,
